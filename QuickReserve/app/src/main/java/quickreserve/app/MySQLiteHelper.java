@@ -528,14 +528,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Workspace workspace = null;
         try {
             Cursor cursor =
-                    db.query("workspaces", // a. table
-                            WORKSPACE_COLUMNS, // b. column names
-                            " name = ?", // c. selections
-                            new String[]{workspaceName}, // d. selections args
-                            null, // e. group by
-                            null, // f. having
-                            null, // g. order by
-                            null); // h. limit
+                    db.query("workspaces",
+                            WORKSPACE_COLUMNS,
+                            " name = ?",
+                            new String[]{workspaceName},
+                            null,
+                            null,
+                            null,
+                            null);
 
 
             if (cursor != null && cursor.getCount() > 0) {
@@ -622,17 +622,25 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
-    public List<Workspace> getOpenWorkspaces(int date)
+    public List<Workspace> getOpenWorkspaces(int date, int startTime, int endTime)
     {
         List<Workspace> workspaces = new LinkedList<Workspace>();
         List<Workspace> allWorkspaces = getAllWorkspaces();
         List<String> takenWorkspaces = new LinkedList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         String dateStr = String.valueOf(date);
+        String startTimeStr = String.valueOf(startTime);
+        String endTimeStr = String.valueOf(endTime);
         String workspace = null;
 
         try {
-            Cursor cursor = db.query("reservations", new String[]{"workspace_id"}, "date = ?", new String[]{dateStr}, null, null, null);
+            Cursor cursor = db.query("reservations",
+                    new String[]{"workspace_id"},
+                    "date = ? AND start_time < ? AND end_time > ?",
+                    new String[]{dateStr, endTimeStr, startTimeStr},
+                    null,
+                    null,
+                    null);
             if (cursor.moveToFirst()) {
                 do {
                     workspace = cursor.getString(0);
@@ -651,27 +659,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
-    public List<Workspace> getOpenWorkspaces()
-    {
-        Calendar c = Calendar.getInstance();
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int month = c.get(Calendar.MONTH)+1;
-        int year = c.get(Calendar.YEAR);
-        int date = (year*10000)+(month*100)+day;
-        return getOpenWorkspaces(date);
-    }
-
-    public List<Workspace> getMasterWorkspacesList(int date, int sector)
+    public List<Workspace> getMasterWorkspacesList(int date, int startTime, int endTime, int sector)
     {
         List<Workspace> allWorkspaces = getAllWorkspaces(sector);
         List<String> takenWorkspaces = new LinkedList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         String dateStr = String.valueOf(date);
-        String sectorStr = String.valueOf(sector);
+        String startTimeStr = String.valueOf(startTime);
+        String endTimeStr = String.valueOf(endTime);
         String workspace;
 
         try {
-            Cursor cursor = db.query("reservations", new String[]{"workspace_id"}, "date = ?", new String[]{dateStr}, null, null, null);
+            Cursor cursor = db.query("reservations",
+                    new String[]{"workspace_id"},
+                    "date = ? AND start_time < ? AND end_time > ?",
+                    new String[]{dateStr, endTimeStr, startTimeStr},
+                    null,
+                    null,
+                    null);
             if (cursor.moveToFirst()) {
                 do {
                     workspace = cursor.getString(0);
@@ -692,16 +697,24 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return allWorkspaces;
     }
 
-    public List<Workspace> getMasterWorkspacesList(int date)
+    public List<Workspace> getMasterWorkspacesList(int date, int startTime, int endTime)
     {
         List<Workspace> allWorkspaces = getAllWorkspaces();
         List<String> takenWorkspaces = new LinkedList<String>();
         SQLiteDatabase db = this.getReadableDatabase();
         String dateStr = String.valueOf(date);
+        String startTimeStr = String.valueOf(startTime);
+        String endTimeStr = String.valueOf(endTime);
         String workspace;
 
         try {
-            Cursor cursor = db.query("reservations", new String[]{"workspace_id"}, "date = ?", new String[]{dateStr}, null, null, null);
+            Cursor cursor = db.query("reservations",
+                    new String[]{"workspace_id"},
+                    "date = ? AND start_time < ? AND end_time > ?",
+                    new String[]{dateStr, endTimeStr, startTimeStr},
+                    null,
+                    null,
+                    null);
             if (cursor.moveToFirst()) {
                 do {
                     workspace = cursor.getString(0);
@@ -720,92 +733,5 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             return null;
         }
         return allWorkspaces;
-    }
-
-    public List<Workspace> getMasterWorkspacesList()
-    {
-        Calendar c = Calendar.getInstance();
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        int month = c.get(Calendar.MONTH)+1;
-        int year = c.get(Calendar.YEAR);
-        int date = (year*10000)+(month*100)+day;
-        return getMasterWorkspacesList(date);
-    }
-
-    //WorkspaceType functions
-
-    public boolean addWorkspaceType(WorkspaceType workspaceType)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            ContentValues values = new ContentValues();
-            values.put("name", workspaceType.getName());
-            values.put("max_reservation_length", workspaceType.getMaxReservationLength());
-            values.put("capacity", workspaceType.getCapacity());
-            db.insert("workspaceTypes", null, values);
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    public WorkspaceType getWorkspaceType(int id)
-    {
-        SQLiteDatabase db = this.getReadableDatabase();
-        WorkspaceType workspaceType = null;
-        String idStr = String.valueOf(id);
-        try {
-            Cursor cursor =
-                    db.query("workspaceTypes", // a. table
-                            WORKSPACE_TYPE_COLUMNS, // b. column names
-                            "id = ?", // c. selections
-                            new String[]{idStr}, // d. selections args
-                            null, // e. group by
-                            null, // f. having
-                            null, // g. order by
-                            null); // h. limit
-            if (cursor.getCount()>0)
-            {
-                cursor.moveToFirst();
-                workspaceType = new WorkspaceType();
-                workspaceType.setID(Integer.parseInt(cursor.getString(0)));
-                workspaceType.setName(cursor.getString(1));
-                workspaceType.setMaxReservationLength(Integer.parseInt(cursor.getString(2)));
-                workspaceType.setCapacity(Integer.parseInt(cursor.getString(3)));
-            }
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return workspaceType;
-    }
-
-    public List<WorkspaceType> getAllWorkspaceTypes()
-    {
-        SQLiteDatabase db = this.getReadableDatabase();
-        List<WorkspaceType> workspaceTypes = new LinkedList<WorkspaceType>();
-        String query = "SELECT * FROM workspaceTypes";
-        WorkspaceType workspaceType = null;
-        try {
-            Cursor cursor = db.rawQuery(query, null);
-            if (cursor.moveToFirst() && cursor.getCount() > 0)
-            {
-                do {
-                    workspaceType = new WorkspaceType();
-                    workspaceType.setID(Integer.parseInt(cursor.getString(0)));
-                    workspaceType.setName(cursor.getString(1));
-                    workspaceType.setMaxReservationLength(Integer.parseInt(cursor.getString(2)));
-                    workspaceType.setCapacity(Integer.parseInt(cursor.getString(3)));
-                    workspaceTypes.add(workspaceType);
-                } while (cursor.moveToNext());
-            }
-            else
-                return null;
-        } catch (SQLiteException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return workspaceTypes;
     }
 }
