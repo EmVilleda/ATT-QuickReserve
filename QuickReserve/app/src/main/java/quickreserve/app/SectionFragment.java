@@ -159,7 +159,7 @@ public class SectionFragment extends Fragment {
                         else if(result == 1)
                             Toast.makeText(getActivity(), "Reservation already exists!", Toast.LENGTH_SHORT).show();
                         else if(result == 2)
-                            Toast.makeText(getActivity(),"Reservation successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
                         else
                             Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
                     }

@@ -17,7 +17,7 @@ public class MyReservationActivity extends ActionBarActivity {
     List<Reservation> reservationList;
     MySQLiteHelper reservationManager = new MySQLiteHelper(this);
     //att_uid will be passed in the intent to this activity and should replace this one
-    String att_uid = "at892q";
+    String att_uid = "ca8681";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MyReservationActivity extends ActionBarActivity {
  *Gets the most current reservations and assigns them to the array adapter
  */
     public void updateList(){
-        reservationList = reservationManager.getAllReservations();
+        reservationList = reservationManager.getUserReservations(reservationManager.getUser(att_uid));
         ListView reservationView = (ListView) findViewById(R.id.myReservationListView);
         if(reservationList!= null){
             MyReservationAdapter adapter = new MyReservationAdapter(this, R.layout.my_reservation_row_layout, reservationList);
