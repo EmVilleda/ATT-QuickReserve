@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="SeatNameTextView">
+        <item name="android:textSize">26dp</item>
+    </style>
+
+    <style name="TimeTextView">
+        <item name="android:textSize">13dp</item>
+    </style>
+    <style name="ReservationTextView">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name ="MyButton">
+        <item name="android:background">@drawable/my_button</item>
+    </style>
+
+    <style name="MyListView">
+        <item name = "android:choiceMode">singleChoice</item>
+        <item name = "android:divider">@android:color/holo_orange_dark</item>
+        <item name = "android:dividerHeight">1dp</item>
+        <item name = "android:background">#fff</item>
+    </style>
+
+</resources>

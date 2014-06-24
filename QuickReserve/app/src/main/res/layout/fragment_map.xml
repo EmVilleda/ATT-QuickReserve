@@ -1,0 +1,76 @@
+<LinearLayout
+    android:id="@+id/container"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:visibility="visible"
+    android:background="@drawable/floormobile"
+    android:alpha="1.0">
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/one"
+            android:id="@+id/button1"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:alpha="0.4"
+            android:textSize="100dp"
+            android:background="@android:color/holo_blue_light" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/two"
+            android:id="@+id/button2"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="100dp"
+            android:background="@android:color/holo_blue_light"
+            android:alpha="0.4"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="visible"
+        android:id="@+id/linearlayout">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/three"
+            android:id="@+id/button3"
+            android:layout_weight="1"
+            android:textSize="100dp"
+            android:background="@android:color/holo_blue_light"
+            android:alpha="0.4"
+            android:singleLine="false" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/four"
+            android:id="@+id/button4"
+            android:layout_weight="1"
+            android:textSize="100dp"
+            android:background="@android:color/holo_blue_light"
+            android:alpha="0.4"
+            android:singleLine="false" />
+    </LinearLayout>
+
+
+</LinearLayout>
