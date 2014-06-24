@@ -39,7 +39,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
         setContentView(R.layout.activity_login);
         final Context context = this;
 
-        context.deleteDatabase("QuickReserveDB");
+        //context.deleteDatabase("QuickReserveDB");
 
         mLoginView = (RelativeLayout)findViewById(R.id.loginView);
         mTempFrame = (FrameLayout)findViewById(R.id.tempFrame);
@@ -82,7 +82,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if(!prefs.getBoolean("firstTime", false)) {
         // run your one time code
-            mySQLiteHelper.clearDatabase();
+            mySQLiteHelper.firstRun();
             Log.v("first time", "running first time");
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("firstTime", true);

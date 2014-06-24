@@ -79,9 +79,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_RESERVATION_TABLE);
         db.execSQL(CREATE_WORKSPACE_TABLE);
         db.execSQL(CREATE_WORKSPACE_TYPE_TABLE);
-        populateUsers(db);
-        populateWorkspaces(db);
-        populateWorkspaceTypes(db);
     }
 
     @Override
@@ -92,6 +89,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS workspaces");
         db.execSQL("DROP TABLE IF EXISTS workspaceTypes");
         this.onCreate(db);
+    }
+
+    public void firstRun()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        populateUsers(db);
+        populateWorkspaces(db);
+        populateWorkspaceTypes(db);
     }
 
     public boolean clearDatabase()
@@ -325,9 +330,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     //Reservation functions
 
-    public boolean addReservation(Reservation reservation)
+    public int addReservation(Reservation reservation)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+        String workspaceName = reservation.getWorkspaceID();
+        String date = String.valueOf(reservation.getDate());
+        String startTime = String.valueOf(reservation.getStartTime());
+        String endTime = String.valueOf(reservation.getEndTime());
+
+        try {
+            Cursor cursor = db.query("reservations",
+                    RESERVATION_COLUMNS,
+                    "workspace_id = ? AND date = ? AND start_time < ? AND end_time > ?",
+                    new String[] { workspaceName, date, endTime, startTime},
+                    null,
+                    null,
+                    null);
+
+            if(cursor != null && cursor.getCount() > 0)
+                return 1;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            return 0;
+        }
 
         try {
             ContentValues values = new ContentValues();
@@ -341,10 +367,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         } catch (SQLiteException e) {
             e.printStackTrace();
             db.close();
-            return false;
+            return 0;
         }
         db.close();
-        return true;
+        return 2;
     }
 
     public Reservation getReservation(int id)
@@ -575,7 +601,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                             new String[] {sectorStr},
                             null,
                             null,
-                            "name ASC");
+                            null);
             if (cursor.moveToFirst() && cursor.getCount() > 0) {
                 do {
                     workspace = new Workspace();

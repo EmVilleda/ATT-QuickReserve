@@ -154,7 +154,14 @@ public class SectionFragment extends Fragment {
                     public void onClick(View view) {
                         ReservationController controller = new ReservationController(getActivity());
                         int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString() ,tempID, 700, 1700, tempDate_int);
-                        Toast.makeText(getActivity(),"Reservation successful", Toast.LENGTH_SHORT).show();
+                        if(result == 0)
+                            Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
+                        else if(result == 1)
+                            Toast.makeText(getActivity(), "Reservation already exists!", Toast.LENGTH_SHORT).show();
+                        else if(result == 2)
+                            Toast.makeText(getActivity(),"Reservation successful", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
                     }
                 });
 

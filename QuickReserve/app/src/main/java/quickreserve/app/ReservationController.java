@@ -30,20 +30,16 @@ public class ReservationController{
  		 */
  		public int createReservation(String workspace_name, String att_uid, int start_time, int end_time, int date){
  			
-
+            /*
  			boolean isAvailable = isReservationAvailable(workspace_name, start_time, end_time, date);
  				if (isAvailable == false){
  					return 1;
  				}
-
+            */
             Reservation reservation = new Reservation(workspace_name, att_uid, start_time, end_time, date);
 
- 			boolean hasBeenCreated = reservationManager.addReservation(reservation);
- 			if(hasBeenCreated == true){
- 				return 2;
- 			}
-
- 			return 0;
+ 			int hasBeenCreated = reservationManager.addReservation(reservation);
+ 			return hasBeenCreated;
  		}
 
 
