@@ -20,25 +20,29 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/one"
+            android:text="@string/a"
             android:id="@+id/button1"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:alpha="0.4"
+            android:alpha="0.5"
             android:textSize="100dp"
-            android:background="@android:color/holo_blue_light" />
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:singleLine="false"
+            android:textAlignment="center" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/two"
+            android:text="@string/b"
             android:id="@+id/button2"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@android:color/holo_blue_light"
-            android:alpha="0.4"
-            android:textColor="@android:color/black" />
+            android:background="@color/blue"
+            android:alpha="0.5"
+            android:textColor="@color/white"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,24 +56,29 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/three"
+            android:text="@string/c"
             android:id="@+id/button3"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@android:color/holo_blue_light"
-            android:alpha="0.4"
-            android:singleLine="false" />
+            android:background="@color/blue"
+            android:alpha="0.5"
+            android:singleLine="false"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:focusableInTouchMode="true"
+            android:textAlignment="gravity" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/four"
+            android:text="@string/d"
             android:id="@+id/button4"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@android:color/holo_blue_light"
-            android:alpha="0.4"
-            android:singleLine="false" />
+            android:background="@color/blue"
+            android:alpha="0.5"
+            android:singleLine="false"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 

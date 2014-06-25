@@ -40,22 +40,28 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <Button style = "@style/MyButton"
             android:id="@+id/viewReservationEditButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit Reservation"
-            android:layout_weight="1"/>
+            android:text="@string/editReservation"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="@color/white" />
 
         <Button style = "@style/MyButton"
             android:id="@+id/viewReservationDeleteButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Delete Reservation"
-            android:layout_weight="1"/>
+            android:text="@string/deleteReservation"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:clickable="true" />
     </LinearLayout>
 
 

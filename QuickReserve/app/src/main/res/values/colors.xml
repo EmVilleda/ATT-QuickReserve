@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#fff</color>
-    <color name="orange">@android:color/holo_orange_dark</color>
+    <color name="gray">#666</color>
+    <color name="orange">#ff7200</color>
+    <color name="orange_highlight">#fcb314</color>
+    <color name="blue">#067ab4</color>
+    <color name="blue_highlight">#3aa5dc</color>
 </resources>
