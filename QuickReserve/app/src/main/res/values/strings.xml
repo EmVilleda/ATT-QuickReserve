@@ -31,6 +31,7 @@
     <string name="four">4</string>
     <string name="selectDate">Select Date</string>
     <string name="Reserve">Reserve</string>
+    <string name="noReservations">No reservation found</string>
 
     <string-array name="options_list">
         <item>My Reservations</item>

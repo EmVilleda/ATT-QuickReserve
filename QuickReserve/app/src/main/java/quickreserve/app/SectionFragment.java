@@ -36,6 +36,7 @@ public class SectionFragment extends Fragment {
     private String tempID;
     private int tempDate_int;
     private int flag;
+    private boolean firstClick;
 
     public ImageView getmSectionImage() {
         return mSectionImage;
@@ -61,12 +62,11 @@ public class SectionFragment extends Fragment {
         mCalendarView = (CalendarView)mInflatedView.findViewById(R.id.calendarView);
         mSelectionLayout = (LinearLayout)mInflatedView.findViewById(R.id.selectionLayout);
         mySQLiteHelper = new MySQLiteHelper(getActivity());
+        firstClick = true;
        // mCalendarView.setMinDate(Calendar.getInstance().getTimeInMillis());
 
         Intent intent = getActivity().getIntent();
         tempID = intent.getStringExtra("ID");
-
-
 
         if(flag == 2)
         {
@@ -85,16 +85,8 @@ public class SectionFragment extends Fragment {
                 mCalendarView.setVisibility(View.VISIBLE);
                 mSelectionLayout.setVisibility(View.GONE);
                 mSectionImage.setVisibility(View.GONE);
+                //firstClick = true;
 
-
-            }
-        });
-        mCalendarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                Log.e("test","on click");
 
             }
         });
@@ -111,11 +103,16 @@ public class SectionFragment extends Fragment {
                 Log.e("test","temp: " + tempDate);
 
 
-                if(!tempDate.equals(mSelectDateButton.getText()) && !mSelectDateButton.getText().toString().equals("Select Date"))
+                if(firstClick || (!tempDate.equals(mSelectDateButton.getText()) && !mSelectDateButton.getText().toString().equals("Select Date")))
                 {
                     mSectionImage.setVisibility(View.VISIBLE);
                     mCalendarView.setVisibility(View.GONE);
                     mSelectionLayout.setVisibility(View.VISIBLE);
+                    if(firstClick)
+                    {
+                        firstClick = false;
+
+                    }
                 }
 
                 mSelectDateButton.setText(tempDate);
@@ -127,7 +124,7 @@ public class SectionFragment extends Fragment {
                 try
                 {
                     Log.e("test","flag:  " + flag);
-                    List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, flag);
+                    List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, 800, 1700, flag);
                     ArrayList<String> workspaceNames = new ArrayList<String>();
                     int size = workspaces.size();
                     for (int i = 0; i < size; i++) {
@@ -157,7 +154,7 @@ public class SectionFragment extends Fragment {
                         if(result == 0)
                             Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
                         else if(result == 1)
-                            Toast.makeText(getActivity(), "Reservation already exists!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
                         else if(result == 2)
                             Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
                         else

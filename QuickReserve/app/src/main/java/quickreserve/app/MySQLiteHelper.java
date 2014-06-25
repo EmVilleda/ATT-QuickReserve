@@ -341,8 +341,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         try {
             Cursor cursor = db.query("reservations",
                     RESERVATION_COLUMNS,
-                    "workspace_id = ? AND date = ? AND start_time < ? AND end_time > ?",
-                    new String[] { workspaceName, date, endTime, startTime},
+                    "date = ? AND start_time < ? AND end_time > ?",
+                    new String[] { date, endTime, startTime},
                     null,
                     null,
                     null);
@@ -437,7 +437,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return reservations;
     }
 
-    public List<Reservation> getUserReservations(User user)
+    public List<Reservation> getUserReservations(String att_uid)
     {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -446,7 +446,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         int date = (year*10000)+(month*100)+day;
         String dateStr = String.valueOf(date);
         List<Reservation> userReservations = new LinkedList<Reservation>();
-        String attUid = user.getAttUid();
         SQLiteDatabase db = this.getReadableDatabase();
 
         try {
@@ -454,7 +453,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     db.query("reservations", // a. table
                             RESERVATION_COLUMNS, // b. column names
                             " att_uid = ? AND date >= ?", // c. selections
-                            new String[]{attUid, dateStr}, // d. selections args
+                            new String[]{att_uid, dateStr}, // d. selections args
                             null, // e. group by
                             null, // f. having
                             "date ASC", // g. order by

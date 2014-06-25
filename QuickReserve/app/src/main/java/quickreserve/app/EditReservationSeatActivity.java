@@ -44,7 +44,7 @@ public class EditReservationSeatActivity extends Activity {
         }
 
         int date = reservation.getDate();
-        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date);
+        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date, 800, 1700);
         //should possibly make a workspace list adapter instead
         ArrayList<String> workspaceNames = new ArrayList<String>();
 

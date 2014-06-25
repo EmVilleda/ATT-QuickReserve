@@ -3,11 +3,13 @@ package quickreserve.app;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,28 +20,60 @@ public class MyReservationActivity extends ActionBarActivity {
     MySQLiteHelper reservationManager = new MySQLiteHelper(this);
     //att_uid will be passed in the intent to this activity and should replace this one
     String att_uid = "ca8681";
+    MyReservationAdapter adapter;
+    private TextView noReservations;
+    private ListView reservationListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reservation);
+
+        reservationListView = (ListView) findViewById(R.id.myReservationListView);
+        noReservations = (TextView) findViewById(R.id.noReservations);
+
+
         updateList();
+        Log.e("test", "onCreate");
+
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         updateList();
+        Log.e("test", "onResume");
+
     }
 
-/*
- *Gets the most current reservations and assigns them to the array adapter
- */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        updateList();
+        Log.e("test", "onPause");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        updateList();
+        Log.e("test", "onDestroy");
+
+    }
+
+    /*
+         *Gets the most current reservations and assigns them to the array adapter
+         */
     public void updateList(){
-        reservationList = reservationManager.getUserReservations(reservationManager.getUser(att_uid));
+        noReservations.setVisibility(View.GONE);
+        reservationListView.setVisibility(View.VISIBLE);
+        reservationList = reservationManager.getUserReservations(att_uid);
         ListView reservationView = (ListView) findViewById(R.id.myReservationListView);
         if(reservationList!= null){
-            MyReservationAdapter adapter = new MyReservationAdapter(this, R.layout.my_reservation_row_layout, reservationList);
+            adapter = new MyReservationAdapter(this, R.layout.my_reservation_row_layout, reservationList);
+            Log.e("test" , reservationList.toString());
             reservationView.setAdapter(adapter);
             reservationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -50,6 +84,11 @@ public class MyReservationActivity extends ActionBarActivity {
                     startActivity(intent);
                 }
             });
+        }
+        else {
+            noReservations.setVisibility(View.VISIBLE);
+            reservationListView.setVisibility(View.GONE);
+            Toast.makeText(this, "No Reservations.", Toast.LENGTH_SHORT).show();
         }
 
     }
