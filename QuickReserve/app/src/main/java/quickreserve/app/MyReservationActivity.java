@@ -19,7 +19,7 @@ public class MyReservationActivity extends ActionBarActivity {
     List<Reservation> reservationList;
     MySQLiteHelper reservationManager = new MySQLiteHelper(this);
     //att_uid will be passed in the intent to this activity and should replace this one
-    String att_uid = "ca8681";
+    private String att_uid;
     MyReservationAdapter adapter;
     private TextView noReservations;
     private ListView reservationListView;
@@ -31,7 +31,7 @@ public class MyReservationActivity extends ActionBarActivity {
 
         reservationListView = (ListView) findViewById(R.id.myReservationListView);
         noReservations = (TextView) findViewById(R.id.noReservations);
-
+        att_uid = getIntent().getStringExtra("ID");
 
         updateList();
         Log.e("test", "onCreate");

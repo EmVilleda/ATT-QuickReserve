@@ -19,6 +19,7 @@ public class MapActivity extends FragmentActivity
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private static Toast toast;
+    private String ID;
 
     public static Toast getToast() {
         return toast;
@@ -28,6 +29,8 @@ public class MapActivity extends FragmentActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        ID = getIntent().getStringExtra("ID");
 
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -63,6 +66,7 @@ public class MapActivity extends FragmentActivity
                     , Toast.LENGTH_SHORT).show();
             mDrawerLayout.closeDrawer(mDrawerList);
             Intent i = new Intent(MapActivity.this, MyReservationActivity.class);
+            i.putExtra("ID", ID);
             startActivity(i);
 
 

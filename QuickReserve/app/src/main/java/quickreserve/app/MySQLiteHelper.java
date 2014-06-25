@@ -333,7 +333,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public int addReservation(Reservation reservation)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String workspaceName = reservation.getWorkspaceID();
+        String att_uid = reservation.getAttUid();
         String date = String.valueOf(reservation.getDate());
         String startTime = String.valueOf(reservation.getStartTime());
         String endTime = String.valueOf(reservation.getEndTime());
@@ -341,8 +341,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         try {
             Cursor cursor = db.query("reservations",
                     RESERVATION_COLUMNS,
-                    "date = ? AND start_time < ? AND end_time > ?",
-                    new String[] { date, endTime, startTime},
+                    "att_uid = ? AND date = ? AND start_time < ? AND end_time > ?",
+                    new String[] { att_uid, date, endTime, startTime},
                     null,
                     null,
                     null);
