@@ -43,13 +43,13 @@ public class ViewReservationActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_reservation);
+    protected void onResume(){
+        super.onResume();
+        updateInfo();
+    }
 
+    protected void updateInfo(){
         Intent intent = getIntent();
         final int ID = intent.getIntExtra("ID", -1);
         if (ID == -1) {
@@ -63,8 +63,6 @@ public class ViewReservationActivity extends ActionBarActivity {
         if(reservation== null){
             Toast.makeText(this, "Reservation null.", Toast.LENGTH_SHORT).show();
         }
-
-        //finds workspace
 
         Workspace workspace = reservationManager.getWorkspace(reservation.getWorkspaceID());
         if (workspace == null){
@@ -84,6 +82,25 @@ public class ViewReservationActivity extends ActionBarActivity {
         timeView.setText("Reservation Time: " + TimeParser.parseTime(reservation.getStartTime(), reservation.getEndTime()));
         phoneView.setText("Phone Number: " + workspace.getPhoneNumber());
         printerView.setText("Printer View: " + workspace.getPrinterNumber());
+    }
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_reservation);
+
+        Intent intent = getIntent();
+        final int ID = intent.getIntExtra("ID", -1);
+        if (ID == -1) {
+
+            finish();
+        }
+
+        //finds reservation
+        final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
+        updateInfo();
 
         final Button editButton = (Button) findViewById(R.id.viewReservationEditButton);
         final Button deleteButton = (Button) findViewById(R.id.viewReservationDeleteButton);
