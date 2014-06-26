@@ -65,14 +65,8 @@ public class ReservationController{
      *2 - Reservation created successfully
      * 3 - unknown error deleting
      */
-    public int editReservationSeat(int id, String workspace_name){
-        Reservation reservation = reservationManager.getReservation(id);
-        if(reservationManager.deleteReservation(id))
-        {
-            reservation.setWorkspaceID(workspace_name);
-            return reservationManager.addReservation(reservation);
-        }
-        return 3;
+    public boolean editReservationSeat(int id, String workspace_name, int date, int start_time, int end_time){
+        return reservationManager.editReservation(id, workspace_name, date, start_time, end_time);
     }
 
 

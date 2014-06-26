@@ -83,17 +83,14 @@ public class EditReservationSeatActivity extends Activity {
                 try {
                     int checkedPosition = seatList.getCheckedItemPosition();
                     ReservationController controller = new ReservationController(context);
-                    int result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName());
+                    boolean result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
                     //Toast.makeText(EditReservationSeatActivity.this, checkedPosition + " " + selectedWorkspace.getName(), Toast.LENGTH_SHORT).show();
-                    if (result == 0) {
-                        Toast.makeText(EditReservationSeatActivity.this, "Unknown adding error", Toast.LENGTH_SHORT).show();
-                    } else if (result == 1) {
-                        Toast.makeText(EditReservationSeatActivity.this, "Scheduling conflict", Toast.LENGTH_SHORT).show();
-                    } else if (result == 2) {
-                        Toast.makeText(EditReservationSeatActivity.this, "Seat Edited successfully", Toast.LENGTH_SHORT).show();
+                    if (result == true) {
+                        Toast.makeText(EditReservationSeatActivity.this, "Succesfully edited", Toast.LENGTH_SHORT).show();
                         finish();
-                    } else {
-                        Toast.makeText(EditReservationSeatActivity.this, "Unkown deleting error", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(EditReservationSeatActivity.this, "Unkowns error", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception E) {
                     Toast.makeText(EditReservationSeatActivity.this, "Please select a seat", Toast.LENGTH_SHORT).show();
