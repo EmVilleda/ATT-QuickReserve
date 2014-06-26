@@ -9,26 +9,26 @@ import android.content.Context;
 
 public class ReservationController{
 
- 		private MySQLiteHelper reservationManager;
+    private MySQLiteHelper reservationManager;
 
 
- 		//Links the SQLHelper to the controller
- 		public ReservationController(Context context){
- 			reservationManager =  new MySQLiteHelper(context);
- 		}
+    //Links the SQLHelper to the controller
+    public ReservationController(Context context){
+        reservationManager =  new MySQLiteHelper(context);
+    }
 
 
 
- 		/*
- 		 *Sends data for manager to create a Reservation
- 		 *the start_time and end_time sent should be arbitrary and ignored in the manager class for first iteration
- 		 *later iterations the manager should be checking time availability before allowing creation, we will only focus on date for now
- 		 *expected int responses:(GUI should respond differently to each)
- 		 *0 - unknown error (most likely with creating reservation in database)
- 		 *1 - time is unavailable
- 		 *2 - Reservation created successfully
- 		 */
- 		public int createReservation(String workspace_name, String att_uid, int start_time, int end_time, int date){
+    /*
+     *Sends data for manager to create a Reservation
+     *the start_time and end_time sent should be arbitrary and ignored in the manager class for first iteration
+     *later iterations the manager should be checking time availability before allowing creation, we will only focus on date for now
+     *expected int responses:(GUI should respond differently to each)
+     *0 - unknown error (most likely with creating reservation in database)
+     *1 - time is unavailable
+     *2 - Reservation created successfully
+     */
+    public int createReservation(String workspace_name, String att_uid, int start_time, int end_time, int date){
  			
             /*
  			boolean isAvailable = isReservationAvailable(workspace_name, start_time, end_time, date);
@@ -36,11 +36,11 @@ public class ReservationController{
  					return 1;
  				}
             */
-            Reservation reservation = new Reservation(workspace_name, att_uid, start_time, end_time, date);
+        Reservation reservation = new Reservation(workspace_name, att_uid, start_time, end_time, date);
 
- 			int hasBeenCreated = reservationManager.addReservation(reservation);
- 			return hasBeenCreated;
- 		}
+        int hasBeenCreated = reservationManager.addReservation(reservation);
+        return hasBeenCreated;
+    }
 
 
  		/*
@@ -51,10 +51,29 @@ public class ReservationController{
  		 */
 
 
- 		public boolean deleteReservation(int id){
- 			boolean hasBeenDeleted = reservationManager.deleteReservation(id);
- 			return hasBeenDeleted;
- 		}
+    public boolean deleteReservation(int id){
+        boolean hasBeenDeleted = reservationManager.deleteReservation(id);
+        return hasBeenDeleted;
+    }
+
+
+    /*Because we're doing delete and add as separate functions, if there is an error adding the new one the old is deleted anyways
+    *should eventually write an sql class to edit
+     *Expected int responses:(GUI should respond differently to each)
+     *0 - unknown error adding (most likely with creating reservation in database)
+     *1 - time is unavailable
+     *2 - Reservation created successfully
+     * 3 - unknown error deleting
+     */
+    public int editReservationSeat(int id, String workspace_name){
+        Reservation reservation = reservationManager.getReservation(id);
+        if(reservationManager.deleteReservation(id))
+        {
+            reservation.setWorkspaceID(workspace_name);
+            return reservationManager.addReservation(reservation);
+        }
+        return 3;
+    }
 
 
  		/*
@@ -65,7 +84,7 @@ public class ReservationController{
  		 *1: time is unavailable
  		 *2: Reservation edited successfully
  		 */
-        /*worry about this later
+        /*
  		public int editReservation(int id, String workspace_name, int start_time, int end_time, int date){
  			Reservation r = reservationManager.getReservation(id);
 
@@ -85,14 +104,12 @@ public class ReservationController{
  			}
  			return 0;
 
-    Q
+    	}*/
 
- 		}
- 		*/
     //returns true or false depending on if the workspace is available at the passed in time
-     public boolean isReservationAvailable(String workspace_name, int start_time, int end_time, int date){
+    public boolean isReservationAvailable(String workspace_name, int start_time, int end_time, int date){
         return true;
-     }
+    }
 
 
- }
+}

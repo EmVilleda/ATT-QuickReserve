@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,7 @@ public class ViewReservationActivity extends ActionBarActivity {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,33 +58,17 @@ public class ViewReservationActivity extends ActionBarActivity {
         }
 
         //finds reservation
-        //bad code practice should only be temporary until more sql helper functions are made
         final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
-        Reservation reservation = new Reservation();
-        boolean isFound = false;
-        for(Reservation r: reservationManager.getAllReservations()){
-            if(r.getID()==ID){
-                reservation = r;
-                isFound = true;
-            }
-        }
-        if(isFound==false){
-            finish();
+        Reservation reservation = reservationManager.getReservation(ID);
+        if(reservation== null){
+            Toast.makeText(this, "Reservation null.", Toast.LENGTH_SHORT).show();
         }
 
         //finds workspace
-        //bad code practice should only be temporary until more sql helper functions are made
 
-        Workspace workspace = new Workspace();
-        isFound = false;
-        for(Workspace w: reservationManager.getAllWorkspaces()){
-            if(w.getName().equals(reservation.getWorkspaceID())){
-                workspace = w;
-                isFound = true;
-            }
-        }
-        if(isFound==false){
-            finish();
+        Workspace workspace = reservationManager.getWorkspace(reservation.getWorkspaceID());
+        if (workspace == null){
+            Toast.makeText(this, "Workspace null.", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -92,9 +78,6 @@ public class ViewReservationActivity extends ActionBarActivity {
         TextView timeView = (TextView) findViewById(R.id.viewReservationTime);
         TextView phoneView = (TextView) findViewById(R.id.viewReservationPhone);
         TextView printerView = (TextView) findViewById(R.id.viewReservationPrinter);
-
-
-
 
         seatView.setText("Seat Number: " + workspace.getName() + " " + workspace.getSector());
         dateView.setText("Reservation Date: " + TimeParser.parseDate(reservation.getDate()));
