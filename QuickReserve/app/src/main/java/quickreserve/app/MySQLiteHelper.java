@@ -191,6 +191,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 values.put("phone_number", columns[2].trim());
                 values.put("printer_number", columns[3].trim());
                 values.put("type", Integer.parseInt(columns[4].trim()));
+                values.put("is_booked", 0);
                 values.put("photo_path", columns[5].trim());
                 db.insert("workspaces", null, values);
             }
