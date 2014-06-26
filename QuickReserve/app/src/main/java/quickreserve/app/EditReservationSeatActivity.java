@@ -40,7 +40,9 @@ public class EditReservationSeatActivity extends Activity {
         Reservation reservation = reservationManager.getReservation(ID);
 
         int date = reservation.getDate();
-        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date, 800, 1700);
+        int start_time = reservation.getStartTime();
+        int end_time = reservation.getEndTime();
+        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date, start_time, end_time);
         //should possibly make a workspace list adapter instead
         ArrayList<String> workspaceNames = new ArrayList<String>();
 
@@ -54,7 +56,7 @@ public class EditReservationSeatActivity extends Activity {
         final TextView dateText = (TextView) findViewById(R.id.editReservationSeatText);
         int selectedItem = -1;
 
-        dateText.setText("Available workspaces for " + TimeParser.parseDate(date) + " during the time slot " + TimeParser.parseTime(700, 1700));
+        dateText.setText("Available workspaces for " + TimeParser.parseDate(date) + " during the time slot " + TimeParser.parseTime(start_time, end_time));
 
         //to use in listener
         final List<Workspace> workspaces = availableWorkspaces;
