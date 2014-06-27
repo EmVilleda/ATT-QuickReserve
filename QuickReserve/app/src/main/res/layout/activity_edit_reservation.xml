@@ -1,16 +1,166 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="quickreserve.app.EditReservationActivity">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="20dp">
 
-    <TextView
-        android:text="@string/hello_world"
+    <TextView style= "@style/ReservationTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Select New Reservation Time"
+        android:id="@+id/textView2" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1.75"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:id="@+id/editReservationDateButton"
+            style="@style/MyButton"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:id="@+id/editReservationDateText"
+            android:hint="@string/selectedDate"
+            android:background="@drawable/border"
+            android:padding="5dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5">
+        </View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1.75"
+            android:layout_height="wrap_content"
+            android:text="@string/startTime"
+            android:id="@+id/editReservationStartButton"
+            style="@style/MyButton"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:id="@+id/editReservationStartTimeText"
+            android:hint="@string/selectedStartTime"
+            android:background="@drawable/border"
+            android:padding="5dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5">
+        </View>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1.75"
+            android:layout_height="wrap_content"
+            android:text="@string/endTime"
+            android:id="@+id/editReservationEndButton"
+            style="@style/MyButton"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25">
+        </View>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:id="@+id/editReservationEndTimeText"
+            android:hint="@string/selectedEndTime"
+            android:background="@drawable/border"
+            android:padding="5dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5">
+        </View>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/selectSeat"
+        android:id="@+id/editReservationSubmitButton"
+        android:background="@drawable/my_button"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+    </View>
+
+</LinearLayout>

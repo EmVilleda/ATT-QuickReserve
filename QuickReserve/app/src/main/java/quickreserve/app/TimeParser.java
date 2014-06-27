@@ -16,10 +16,20 @@ public class TimeParser {
     public TimeParser(){
     }
 
-    public static String parseDate(int date){;
+    public static String parseDate(int date){
         String stringDate = Integer.toString(date);
         String newDate = monthArray[Integer.parseInt(stringDate.substring(4,6)) - 1];
         return newDate + " " + stringDate.substring(6) + ", " + stringDate.substring(0,4);
+    }
+
+    public static String parseDateFormat(int date){
+        String stringDate = Integer.toString(date);
+        return stringDate.substring(4,6) +"/" + stringDate.substring(6) + "/" + stringDate.substring(0,4);
+    }
+
+    public static int parseDate(String date){
+        date = date.replace("/", "");
+        return Integer.parseInt(date);
     }
 
     public static String parseTime(int startTime, int endTime){
@@ -38,5 +48,19 @@ public class TimeParser {
         }
 
         return newTime;
+    }
+
+    public static String parseTime(int time){
+        if(time<1000){
+            return Integer.toString(time).substring(0,1)+ ":" + Integer.toString(time).substring(1);
+        }
+        else{
+            return Integer.toString(time).substring(0,2) + ":" + Integer.toString(time).substring(2);
+        }
+    }
+
+    public static int parseTime(String time){
+        time = time.replace(":", "");
+        return Integer.parseInt(time);
     }
 }

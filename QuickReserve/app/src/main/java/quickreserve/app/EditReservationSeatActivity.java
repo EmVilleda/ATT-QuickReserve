@@ -36,12 +36,20 @@ public class EditReservationSeatActivity extends Activity {
             finish();
         }
 
+        final boolean timeChange = intent.getBooleanExtra("timeChanged", false);
         final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
-        Reservation reservation = reservationManager.getReservation(ID);
+        final Reservation reservation = reservationManager.getReservation(ID);
 
         int date = reservation.getDate();
         int start_time = reservation.getStartTime();
         int end_time = reservation.getEndTime();
+
+        if (timeChange){
+            start_time = intent.getIntExtra("start_time", 0);
+            end_time = intent.getIntExtra("end_time", 0);
+            date = intent.getIntExtra("date", 0);
+        }
+
         List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date, start_time, end_time);
         //should possibly make a workspace list adapter instead
         ArrayList<String> workspaceNames = new ArrayList<String>();
@@ -78,6 +86,9 @@ public class EditReservationSeatActivity extends Activity {
         });
 
         seatList.setAdapter(seatListAdapter);
+        final int new_date = date;
+        final int new_start_time = start_time;
+        final int new_end_time = end_time;
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,14 +96,25 @@ public class EditReservationSeatActivity extends Activity {
                 try {
                     int checkedPosition = seatList.getCheckedItemPosition();
                     ReservationController controller = new ReservationController(context);
-                    boolean result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
+                    boolean result = false;
+                    if (timeChange) {
+                        result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), new_date, new_start_time, new_end_time);
+                    } else{
+                        result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
+                    }
                     //Toast.makeText(EditReservationSeatActivity.this, checkedPosition + " " + selectedWorkspace.getName(), Toast.LENGTH_SHORT).show();
                     if (result == true) {
                         Toast.makeText(EditReservationSeatActivity.this, "Succesfully edited", Toast.LENGTH_SHORT).show();
+                        if(timeChange){
+                            Intent intent = new Intent();
+                            setResult(Activity.RESULT_OK, intent);
+                            intent.putExtra("edited", true);
+                            finish();
+                        }
                         finish();
                     }
                     else {
-                        Toast.makeText(EditReservationSeatActivity.this, "Unkowns error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditReservationSeatActivity.this, "Unknowns error", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception E) {
                     Toast.makeText(EditReservationSeatActivity.this, "Please select a seat", Toast.LENGTH_SHORT).show();
