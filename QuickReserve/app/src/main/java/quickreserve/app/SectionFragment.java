@@ -26,17 +26,19 @@ import java.util.List;
 public class SectionFragment extends Fragment {
 
     private View mInflatedView;
-    private Button mSelectDateButton;
     private Button mReserveButton;
     private Spinner mSeatSpinner;
-    private CalendarView mCalendarView;
     private LinearLayout mSelectionLayout;
-    private String tempDate;
     private MySQLiteHelper mySQLiteHelper;
     private String tempID;
     private int tempDate_int;
     private int flag;
     private boolean firstClick;
+    private int hour_start;
+    private int min_start;
+    private int hour_end;
+    private int min_end;
+
 
     public ImageView getmSectionImage() {
         return mSectionImage;
@@ -56,17 +58,17 @@ public class SectionFragment extends Fragment {
 
         mInflatedView = inflater.inflate(R.layout.fragment_section, container, false);
         mSectionImage = (ImageView) mInflatedView.findViewById(R.id.sectionImage);
-        mSelectDateButton = (Button)mInflatedView.findViewById(R.id.dateButton);
         mSeatSpinner = (Spinner)mInflatedView.findViewById(R.id.seatSpinner);
         mReserveButton = (Button)mInflatedView.findViewById(R.id.reserveButton);
-        mCalendarView = (CalendarView)mInflatedView.findViewById(R.id.calendarView);
         mSelectionLayout = (LinearLayout)mInflatedView.findViewById(R.id.selectionLayout);
         mySQLiteHelper = new MySQLiteHelper(getActivity());
-        firstClick = true;
-       // mCalendarView.setMinDate(Calendar.getInstance().getTimeInMillis());
 
         Intent intent = getActivity().getIntent();
         tempID = intent.getStringExtra("ID");
+        hour_start = intent.getIntExtra("hour_start", -1);
+        min_start = intent.getIntExtra("min_start", -1);
+        hour_end = intent.getIntExtra("hour_end", -1);
+        min_end = intent.getIntExtra("min_end", -1);
 
         if(flag == 2)
         {
@@ -78,20 +80,9 @@ public class SectionFragment extends Fragment {
             mSectionImage.setImageResource(R.drawable.section_c);
         }
 
-        mSelectDateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mCalendarView.setVisibility(View.VISIBLE);
-                mSelectionLayout.setVisibility(View.GONE);
-                mSectionImage.setVisibility(View.GONE);
-                //firstClick = true;
 
 
-            }
-        });
-
-
+/*
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayofmonth) {
@@ -161,16 +152,8 @@ public class SectionFragment extends Fragment {
                             Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-
-
-
-
-
             }
-        });
+        });*/
 
         return mInflatedView;
 

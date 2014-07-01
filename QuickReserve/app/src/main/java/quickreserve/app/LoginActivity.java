@@ -68,7 +68,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
                 }
                 else
                 {
-                    Intent intent = new Intent(context, MapActivity.class);
+                    Intent intent = new Intent(context, DateTimeActivity.class);
                     intent.putExtra("ID", tempID);
                     startActivity(intent);
 

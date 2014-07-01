@@ -17,6 +17,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="quickreserve.app.DateTimeActivity"
+            android:label="@string/title_activity_my_reservation"
+            android:parentActivityName=".LoginActivity">
+        </activity>
+        <activity
             android:name="quickreserve.app.MyReservationActivity"
             android:label="@string/title_activity_my_reservation"
             android:parentActivityName=".MapActivity">
@@ -39,7 +44,8 @@
         </activity>
         <activity
             android:name="quickreserve.app.MapActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map"
+            android:parentActivityName=".DateTimeActivity">
         </activity>
     </application>
 

@@ -21,16 +21,9 @@
         android:id="@+id/selectionLayout"
         android:background="@android:color/white"
         android:baselineAligned="false"
-        android:visibility="visible">
-
-        <Button style="@style/MyButton"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:id="@+id/dateButton"
-            android:text="@string/selectDate"
-            android:layout_weight="0"
-            android:clickable="false"
-            android:textColor="@color/white" />
+        android:visibility="visible"
+        android:divider="@color/orange_highlight"
+        android:dividerPadding="1dp">
 
         <Spinner
             android:layout_width="wrap_content"
@@ -53,10 +46,6 @@
 
     </LinearLayout>
 
-    <CalendarView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/calendarView"
-        android:visibility="gone" />
+
 
 </LinearLayout>

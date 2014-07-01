@@ -1,0 +1,169 @@
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/calendarView"
+        android:visibility="gone"
+        android:showWeekNumber="false"
+        android:selectedWeekBackgroundColor="@color/orange_highlight"
+        android:focusable="true"
+        android:clickable="true"
+        android:weekNumberColor="@color/blue"
+        android:weekSeparatorLineColor="@color/blue" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="20dp"
+        android:id="@+id/choiceLayout"
+        android:focusable="false"
+        android:focusableInTouchMode="false">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/selectedDate"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/dateButton"
+            android:hint="@string/selectedDate"
+            android:background="@drawable/border"
+            android:layout_alignTop="@+id/dateButton"
+            android:padding="5dp"
+            android:clickable="false"
+            android:editable="false"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/selectedStartTime"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/startTimeButton"
+            android:hint="@string/selectedStartTime"
+            android:layout_alignTop="@+id/startTimeButton"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:clickable="false"
+            android:editable="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:id="@+id/dateButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/startTimeButton"
+            android:layout_alignEnd="@+id/startTimeButton"
+            style="@style/MyButton"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/startTime"
+            android:id="@+id/startTimeButton"
+            android:layout_below="@+id/dateButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/endTimeButton"
+            android:layout_alignEnd="@+id/endTimeButton"
+            style="@style/MyButton"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/endTime"
+            android:id="@+id/endTimeButton"
+            android:layout_below="@+id/startTimeButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            style="@style/MyButton"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/selectedEndTime"
+            android:layout_alignBottom="@+id/endTimeButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/selectedEndTime"
+            android:layout_alignTop="@+id/endTimeButton"
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:clickable="false"
+            android:editable="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quickReserve"
+            android:id="@+id/quickReserveButton"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/my_button"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pickaSeat"
+            android:id="@+id/pickSeatButton"
+            android:background="@drawable/my_button"
+            android:textColor="@color/white"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/orTextView"
+            android:layout_alignLeft="@+id/orTextView"
+            android:layout_alignStart="@+id/orTextView"
+            android:layout_alignRight="@+id/orTextView"
+            android:layout_alignEnd="@+id/orTextView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/or"
+            android:id="@+id/orTextView"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/blue_highlight"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_below="@+id/quickReserveButton"
+            android:layout_alignRight="@+id/quickReserveButton"
+            android:layout_alignEnd="@+id/quickReserveButton"
+            android:layout_alignLeft="@+id/quickReserveButton"
+            android:layout_alignStart="@+id/quickReserveButton" />
+
+    </RelativeLayout>
+
+
+    </FrameLayout>
+
+
+
