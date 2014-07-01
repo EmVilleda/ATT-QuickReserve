@@ -19,6 +19,7 @@ public class MapActivity extends FragmentActivity
     private ListView mDrawerList;
     private static Toast toast;
     private String att_uid;
+    private int date_selected;
 
     public static Toast getToast() {
         return toast;
@@ -30,6 +31,8 @@ public class MapActivity extends FragmentActivity
         setContentView(R.layout.activity_map);
 
         att_uid = getIntent().getStringExtra("att_uid");
+        date_selected = getIntent().getIntExtra("date_selected", -1);
+        //Toast.makeText(this, att_uid + " " + date_selected, Toast.LENGTH_SHORT).show();
 
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -47,7 +50,7 @@ public class MapActivity extends FragmentActivity
 
         getSupportFragmentManager().beginTransaction().add(R.id.container, firstFragment).commit();
 
-        toast = Toast.makeText(getApplicationContext(), "Please choose a section", Toast.LENGTH_LONG);
+        toast = Toast.makeText(getApplicationContext(), "Please choose a section", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0,0);
 
         toast.show();

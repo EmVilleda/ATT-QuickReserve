@@ -68,11 +68,18 @@ public class SectionFragment extends Fragment {
         mySQLiteHelper = new MySQLiteHelper(getActivity());
 
         Intent intent = getActivity().getIntent();
-        tempID = intent.getStringExtra("ID");
+        tempID = intent.getStringExtra("att_uid");
+        tempDate_int = intent.getIntExtra("date_selected", -1);
+        final int newDate = tempDate_int;
         hour_start = intent.getIntExtra("hour_start", -1);
         min_start = intent.getIntExtra("min_start", -1);
         hour_end = intent.getIntExtra("hour_end", -1);
         min_end = intent.getIntExtra("min_end", -1);
+
+
+
+        final int start_time = (hour_start * 100) + min_start;
+        final int end_time = (hour_end * 100) + min_end;
 
 
         if(flag == 2)
@@ -89,55 +96,26 @@ public class SectionFragment extends Fragment {
 
 
 
-/*
-        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayofmonth) {
-
-                tempDate = (month + 1)  + "/" + dayofmonth;
-
-                Log.e("test","date changed");
-                Log.e("test","button: " + mSelectDateButton.getText());
-                Log.e("test","temp: " + tempDate);
 
 
-                if(firstClick || (!tempDate.equals(mSelectDateButton.getText()) && !mSelectDateButton.getText().toString().equals("Select Date")))
-                {
-                    mSectionImage.setVisibility(View.VISIBLE);
-                    mCalendarView.setVisibility(View.GONE);
-                    mSelectionLayout.setVisibility(View.VISIBLE);
-                    if(firstClick)
-                    {
-                        firstClick = false;
-
-                    }
-                }
-
-                mSelectDateButton.setText(tempDate);
-
-                tempDate_int = (year * 10000 + (month+1) * 100 + dayofmonth);
-                Log.e("test","asd: " + tempDate_int);
-
-
-
-
-                mReserveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ReservationController controller = new ReservationController(getActivity());
-                        int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString() ,tempID, 700, 1700, tempDate_int);
-                        if(result == 0)
-                            Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
-                        else if(result == 1)
-                            Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
-                        else if(result == 2)
-                            Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
-                        else
-                            Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mReserveButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ReservationController controller = new ReservationController(getActivity());
+            Toast.makeText(getActivity(), tempID + " " + newDate, Toast.LENGTH_SHORT).show();
+            int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString(),tempID, start_time, end_time, newDate);
+            if(result == 0)
+                Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
+            else if(result == 1)
+                Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
+            else if(result == 2){
+                Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
-        });*/
+            else
+                Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
+        }
+    });
 
         return mInflatedView;
 

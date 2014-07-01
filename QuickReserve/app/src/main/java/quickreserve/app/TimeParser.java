@@ -16,6 +16,18 @@ public class TimeParser {
     public TimeParser(){
     }
 
+    public static String parseDate(int year, int month, int day){
+        String newDate = "";
+        if(month < 10){
+            newDate = newDate + "0";
+        }
+        newDate = newDate + month + "/";
+        if(day<10){
+            newDate = newDate + "0";
+        }
+        return (newDate + day + "/" + year);
+    }
+
     public static String parseDate(int date){
         String stringDate = Integer.toString(date);
         String newDate = monthArray[Integer.parseInt(stringDate.substring(4,6)) - 1];
@@ -29,7 +41,11 @@ public class TimeParser {
 
     public static int parseDate(String date){
         date = date.replace("/", "");
-        return Integer.parseInt(date);
+        String month = date.substring(0,2);
+        String day = date.substring(2,4);
+        String year = date.substring(4);
+
+        return Integer.parseInt("" + year + month + day);
     }
 
     public static String parseTime(int startTime, int endTime){

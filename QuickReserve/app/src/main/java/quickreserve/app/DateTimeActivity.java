@@ -16,6 +16,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -49,6 +50,7 @@ public class DateTimeActivity extends Activity {
         setContentView(R.layout.activity_date_time);
 
         att_uid = getIntent().getStringExtra("att_uid");
+        Toast.makeText(this, att_uid + " ", Toast.LENGTH_SHORT).show();
         mDateButton = (Button) findViewById(R.id.dateButton);
         mStartTimeButton = (Button) findViewById(R.id.startTimeButton);
         mEndTimeButton = (Button) findViewById(R.id.endTimeButton);
@@ -61,7 +63,8 @@ public class DateTimeActivity extends Activity {
         mCalendarView = (CalendarView) findViewById(R.id.calendarView);
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        mSelectedDate.setText((calendar.get(Calendar.MONTH) + 1)+ "/" + calendar.get(Calendar.DAY_OF_MONTH));
+
+        mSelectedDate.setText(TimeParser.parseDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
         timeButtonflag = -1;
 
         mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +79,7 @@ public class DateTimeActivity extends Activity {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {
 
-                tempDate = (month + 1)  + "/" + dayOfMonth;
+                tempDate = (month + 1)  + "/" + dayOfMonth + "/" + year;
 
                 Log.e("test", "onDateChanged");
                 Log.e("test","button: " + mSelectedDate.getText());
@@ -89,7 +92,7 @@ public class DateTimeActivity extends Activity {
                     mCalendarView.setVisibility(View.GONE);
                     mChoiceLayout.setVisibility(View.VISIBLE);
                 }
-                mSelectedDate.setText(tempDate);
+                mSelectedDate.setText(TimeParser.parseDate(year, month + 1, dayOfMonth));
                 day_selected = dayOfMonth;
                 month_selected = month;
                 year_selected = year;
@@ -127,6 +130,7 @@ public class DateTimeActivity extends Activity {
                 intent.putExtra("min_end", min_end);
                 Log.e("test", att_uid);
                 intent.putExtra("att_uid", att_uid);
+                intent.putExtra("date_selected", TimeParser.parseDate(mSelectedDate.getText().toString()));
                 intent.putExtra("day_selected", day_selected);
                 intent.putExtra("month_selected", month_selected);
                 intent.putExtra("year_selected", year_selected);

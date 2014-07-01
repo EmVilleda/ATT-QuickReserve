@@ -62,6 +62,7 @@ public class ViewReservationActivity extends ActionBarActivity {
         Reservation reservation = reservationManager.getReservation(ID);
         if(reservation== null){
             Toast.makeText(this, "Reservation null.", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         Workspace workspace = reservationManager.getWorkspace(reservation.getWorkspaceID());
