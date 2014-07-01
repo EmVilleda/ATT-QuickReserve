@@ -123,18 +123,24 @@ public class DateTimeActivity extends Activity {
         mPickSeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                intent.putExtra("hour_start", hour_start);
-                intent.putExtra("min_start", min_start);
-                intent.putExtra("hour_end", hour_end);
-                intent.putExtra("min_end", min_end);
-                Log.e("test", att_uid);
-                intent.putExtra("att_uid", att_uid);
-                intent.putExtra("date_selected", TimeParser.parseDate(mSelectedDate.getText().toString()));
-                intent.putExtra("day_selected", day_selected);
-                intent.putExtra("month_selected", month_selected);
-                intent.putExtra("year_selected", year_selected);
-                startActivity(intent);
+                int start_time = hour_start*100 + min_start;
+                int end_time = hour_end * 100 + min_end;
+                if(start_time >= end_time){
+                    Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                    intent.putExtra("start_time", start_time);
+                    intent.putExtra("end_time", end_time);
+                    Log.e("test", att_uid);
+                    intent.putExtra("att_uid", att_uid);
+                    intent.putExtra("date_selected", TimeParser.parseDate(mSelectedDate.getText().toString()));
+                    intent.putExtra("day_selected", day_selected);
+                    intent.putExtra("month_selected", month_selected);
+                    intent.putExtra("year_selected", year_selected);
+                    startActivity(intent);
+                }
+
 
             }
         });

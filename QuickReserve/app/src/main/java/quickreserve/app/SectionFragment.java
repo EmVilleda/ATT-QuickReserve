@@ -34,10 +34,8 @@ public class SectionFragment extends Fragment {
     private int tempDate_int;
     private int flag;
     private boolean firstClick;
-    private int hour_start;
-    private int min_start;
-    private int hour_end;
-    private int min_end;
+    private int start_time;
+    private int end_time;
     private int day_selected;
     private int month_selected;
     private int year_selected;
@@ -71,15 +69,11 @@ public class SectionFragment extends Fragment {
         tempID = intent.getStringExtra("att_uid");
         tempDate_int = intent.getIntExtra("date_selected", -1);
         final int newDate = tempDate_int;
-        hour_start = intent.getIntExtra("hour_start", -1);
-        min_start = intent.getIntExtra("min_start", -1);
-        hour_end = intent.getIntExtra("hour_end", -1);
-        min_end = intent.getIntExtra("min_end", -1);
+        start_time = intent.getIntExtra("start_time", -1);
+        end_time = intent.getIntExtra("end_time", -1);
 
-
-
-        final int start_time = (hour_start * 100) + min_start;
-        final int end_time = (hour_end * 100) + min_end;
+        final int newStartTime = start_time;
+        final int newEndTime = end_time;
 
 
         if(flag == 2)
@@ -102,8 +96,8 @@ public class SectionFragment extends Fragment {
         @Override
         public void onClick(View view) {
             ReservationController controller = new ReservationController(getActivity());
-            Toast.makeText(getActivity(), tempID + " " + newDate, Toast.LENGTH_SHORT).show();
-            int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString(),tempID, start_time, end_time, newDate);
+            Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
+            int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString(),tempID, newStartTime, newEndTime, newDate);
             if(result == 0)
                 Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
             else if(result == 1)
@@ -127,8 +121,8 @@ public class SectionFragment extends Fragment {
         {
             tempDate_int = year_selected * 10000 + (month_selected+1) * 100 + day_selected;
             Log.e("test","flag:  " + flag);
-            List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, hour_start*100 + min_start
-                    , hour_end *100 + min_end, flag);
+            List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, start_time
+                    , end_time, flag);
             ArrayList<String> workspaceNames = new ArrayList<String>();
             int size = workspaces.size();
             for (int i = 0; i < size; i++) {
