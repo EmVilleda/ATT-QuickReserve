@@ -135,9 +135,6 @@ public class DateTimeActivity extends Activity {
                     Log.e("test", att_uid);
                     intent.putExtra("att_uid", att_uid);
                     intent.putExtra("date_selected", TimeParser.parseDate(mSelectedDate.getText().toString()));
-                    intent.putExtra("day_selected", day_selected);
-                    intent.putExtra("month_selected", month_selected);
-                    intent.putExtra("year_selected", year_selected);
                     startActivity(intent);
                 }
 

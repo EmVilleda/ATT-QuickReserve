@@ -96,7 +96,7 @@ public class SectionFragment extends Fragment {
         @Override
         public void onClick(View view) {
             ReservationController controller = new ReservationController(getActivity());
-            Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
             int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString(),tempID, newStartTime, newEndTime, newDate);
             if(result == 0)
                 Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();

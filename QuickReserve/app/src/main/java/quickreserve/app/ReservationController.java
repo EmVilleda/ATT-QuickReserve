@@ -6,6 +6,7 @@
 package quickreserve.app;
 
 import android.content.Context;
+import android.widget.TimePicker;
 
 public class ReservationController{
 
@@ -104,6 +105,4 @@ public class ReservationController{
     public boolean isReservationAvailable(String workspace_name, int start_time, int end_time, int date){
         return true;
     }
-
-
 }
