@@ -28,7 +28,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
     private EditText mPassword_field;
     private Button mLoginButton;
     private MySQLiteHelper mySQLiteHelper;
-    private String tempID;
+    private String att_uid;
 
     private Animation slideUp;
 
@@ -59,9 +59,9 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
             public void onClick(View view) {
 
 
-                tempID = mUserID_field.getText().toString();
+                att_uid = mUserID_field.getText().toString();
 
-                if(mySQLiteHelper.getUser(tempID) == null)
+                if(mySQLiteHelper.getUser(att_uid) == null)
                 {
                     Toast.makeText(getApplicationContext(), "User not found in DB", Toast.LENGTH_SHORT).show();
 
@@ -69,7 +69,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
                 else
                 {
                     Intent intent = new Intent(context, DateTimeActivity.class);
-                    intent.putExtra("ID", tempID);
+                    intent.putExtra("att_uid", att_uid);
                     startActivity(intent);
 
                 }

@@ -31,7 +31,8 @@ public class MyReservationActivity extends ActionBarActivity {
 
         reservationListView = (ListView) findViewById(R.id.myReservationListView);
         noReservations = (TextView) findViewById(R.id.noReservations);
-        att_uid = getIntent().getStringExtra("ID");
+        att_uid = getIntent().getStringExtra("att_uid");
+        Log.e("test", att_uid);
 
         updateList();
         Log.e("test", "onCreate");
@@ -69,6 +70,8 @@ public class MyReservationActivity extends ActionBarActivity {
     public void updateList(){
         noReservations.setVisibility(View.GONE);
         reservationListView.setVisibility(View.VISIBLE);
+        Log.e("test", att_uid);
+
         reservationList = reservationManager.getUserReservations(att_uid);
         ListView reservationView = (ListView) findViewById(R.id.myReservationListView);
         if(reservationList!= null){

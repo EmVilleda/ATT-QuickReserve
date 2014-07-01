@@ -38,6 +38,10 @@ public class SectionFragment extends Fragment {
     private int min_start;
     private int hour_end;
     private int min_end;
+    private int day_selected;
+    private int month_selected;
+    private int year_selected;
+
 
 
     public ImageView getmSectionImage() {
@@ -70,6 +74,7 @@ public class SectionFragment extends Fragment {
         hour_end = intent.getIntExtra("hour_end", -1);
         min_end = intent.getIntExtra("min_end", -1);
 
+
         if(flag == 2)
         {
             mSectionImage.setImageResource(R.drawable.section_b);
@@ -79,6 +84,8 @@ public class SectionFragment extends Fragment {
         {
             mSectionImage.setImageResource(R.drawable.section_c);
         }
+
+        populateSpinner();
 
 
 
@@ -112,30 +119,7 @@ public class SectionFragment extends Fragment {
                 Log.e("test","asd: " + tempDate_int);
 
 
-                try
-                {
-                    Log.e("test","flag:  " + flag);
-                    List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, 800, 1700, flag);
-                    ArrayList<String> workspaceNames = new ArrayList<String>();
-                    int size = workspaces.size();
-                    for (int i = 0; i < size; i++) {
-                        if (workspaces.get(i).getIsBooked() == 0)
-                            workspaceNames.add(workspaces.get(i).getName());
-                    }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                            android.R.layout.simple_spinner_item, workspaceNames);
-                    // Specify the layout to use when the list of choices appears
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    // Apply the adapter to the spinner
-                    mSeatSpinner.setAdapter(adapter);
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                    Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
-
-                }
 
                 mReserveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -160,6 +144,34 @@ public class SectionFragment extends Fragment {
 
     }
 
+    private void populateSpinner() {
+        try
+        {
+            tempDate_int = year_selected * 10000 + (month_selected+1) * 100 + day_selected;
+            Log.e("test","flag:  " + flag);
+            List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, hour_start*100 + min_start
+                    , hour_end *100 + min_end, flag);
+            ArrayList<String> workspaceNames = new ArrayList<String>();
+            int size = workspaces.size();
+            for (int i = 0; i < size; i++) {
+                if (workspaces.get(i).getIsBooked() == 0)
+                    workspaceNames.add(workspaces.get(i).getName());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_spinner_item, workspaceNames);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            mSeatSpinner.setAdapter(adapter);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "FAIL", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
     public int getFlag() {
         return flag;
     }
@@ -167,7 +179,5 @@ public class SectionFragment extends Fragment {
     public void setFlag(int flag) {
         this.flag = flag;
     }
-
-
 
 }

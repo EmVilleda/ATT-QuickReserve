@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -19,7 +18,7 @@ public class MapActivity extends FragmentActivity
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private static Toast toast;
-    private String ID;
+    private String att_uid;
 
     public static Toast getToast() {
         return toast;
@@ -30,7 +29,7 @@ public class MapActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        ID = getIntent().getStringExtra("ID");
+        att_uid = getIntent().getStringExtra("att_uid");
 
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -60,18 +59,23 @@ public class MapActivity extends FragmentActivity
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-
             toast = new Toast(getApplicationContext());
             toast.makeText(getApplicationContext(), mOptionsList[position].toString()
                     , Toast.LENGTH_SHORT).show();
-            mDrawerLayout.closeDrawer(mDrawerList);
-            Intent i = new Intent(MapActivity.this, MyReservationActivity.class);
-            i.putExtra("ID", ID);
-            startActivity(i);
-
+            mDrawerLayout.closeDrawers();
+            mDrawerLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(MapActivity.this, MyReservationActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    startActivity(i);
+                }
+            }, 300);
 
         }
     }
+
+
 
 
     @Override

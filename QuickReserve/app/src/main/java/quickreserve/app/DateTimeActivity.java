@@ -16,10 +16,8 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class DateTimeActivity extends Activity {
 
@@ -40,14 +38,17 @@ public class DateTimeActivity extends Activity {
     private static int min_start;
     private static int hour_end;
     private static int min_end;
-    private int tempID;
+    private static int day_selected;
+    private static int month_selected;
+    private static int year_selected;
+    private String att_uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_time);
 
-        tempID = getIntent().getIntExtra("tempID", -1);
+        att_uid = getIntent().getStringExtra("att_uid");
         mDateButton = (Button) findViewById(R.id.dateButton);
         mStartTimeButton = (Button) findViewById(R.id.startTimeButton);
         mEndTimeButton = (Button) findViewById(R.id.endTimeButton);
@@ -89,6 +90,9 @@ public class DateTimeActivity extends Activity {
                     mChoiceLayout.setVisibility(View.VISIBLE);
                 }
                 mSelectedDate.setText(tempDate);
+                day_selected = dayOfMonth;
+                month_selected = month;
+                year_selected = year;
             }
         });
 
@@ -121,14 +125,18 @@ public class DateTimeActivity extends Activity {
                 intent.putExtra("min_start", min_start);
                 intent.putExtra("hour_end", hour_end);
                 intent.putExtra("min_end", min_end);
-                intent.putExtra("tempID", tempID);
+                Log.e("test", att_uid);
+                intent.putExtra("att_uid", att_uid);
+                intent.putExtra("day_selected", day_selected);
+                intent.putExtra("month_selected", month_selected);
+                intent.putExtra("year_selected", year_selected);
                 startActivity(intent);
 
             }
         });
     }
 
-    public static int getTimeButtonflag() {
+    public static int getTimeButtonFlag() {
         return timeButtonflag;
     }
 
@@ -200,13 +208,13 @@ public class DateTimeActivity extends Activity {
                 sb.append("AM");
 
 
-            if(getTimeButtonflag() == 1)
+            if(getTimeButtonFlag() == 1)
             {
                 mSelectedStartTime.setText(sb.toString());
                 hour_start = hourOfDay;
                 min_start = minute;
             }
-            else if(getTimeButtonflag() == 2)
+            else if(getTimeButtonFlag() == 2)
             {
                 mSelectedEndTime.setText(sb.toString());
                 hour_end = hourOfDay;
