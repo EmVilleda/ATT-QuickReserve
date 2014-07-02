@@ -50,52 +50,7 @@ public class TimeParser {
     }
 
     public static String parseTime(int startTime, int endTime){
-        String newTime ="";
-        if(startTime<1000 && startTime >= 100){
-            newTime = Integer.toString(startTime).substring(0,1)+ ":" + Integer.toString(startTime).substring(1) +" AM";
-        }
-        else{
-            if(startTime < 1200) {
-                newTime = Integer.toString(startTime).substring(0, 2) + ":" + Integer.toString(startTime).substring(2) + " AM";
-            }
-            else {
-                int pmTime = startTime % 1200;
-
-                if (pmTime < 1000) {
-                    newTime = Integer.toString(pmTime).substring(0, 1) + ":" + Integer.toString(pmTime).substring(1) + " PM";
-                } else {
-                    newTime = Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
-                }
-            }
-        }
-        if(endTime<1000 && startTime >=100){
-            newTime = newTime + " - " + Integer.toString(endTime).substring(0,1)+ ":" + Integer.toString(endTime).substring(1) + " AM";
-        }
-        else{
-            if(endTime < 1200) {
-                newTime = newTime + " - " + Integer.toString(endTime).substring(0, 2) + ":" + Integer.toString(endTime).substring(2) + " AM";
-            }
-            else if (endTime >= 1300){
-                int pmTime = endTime % 1200;
-
-                if (pmTime < 1000) {
-                    newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 1) + ":" + Integer.toString(pmTime).substring(1) + " PM";
-                } else {
-                    newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
-                }
-            }
-            else{
-                int pmTime = endTime;
-                String ampm = " PM";
-                if (pmTime<100){
-                    pmTime= pmTime + 1200;
-                    ampm = " AM";
-                }
-                newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + ampm;
-            }
-        }
-
-        return newTime;
+        return parseTime(startTime) + " - " + parseTime(endTime);
     }
 
     public static String parseTime(int time){
