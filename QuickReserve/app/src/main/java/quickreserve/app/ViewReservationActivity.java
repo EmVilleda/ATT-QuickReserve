@@ -82,7 +82,7 @@ public class ViewReservationActivity extends ActionBarActivity {
         dateView.setText("Reservation Date: " + TimeParser.parseDate(reservation.getDate()));
         timeView.setText("Reservation Time: " + TimeParser.parseTime(reservation.getStartTime(), reservation.getEndTime()));
         phoneView.setText("Phone Number: " + workspace.getPhoneNumber());
-        printerView.setText("Printer View: " + workspace.getPrinterNumber());
+        printerView.setText("Printer Number: " + workspace.getPrinterNumber());
     }
 
 
