@@ -51,7 +51,7 @@ public class TimeParser {
 
     public static String parseTime(int startTime, int endTime){
         String newTime ="";
-        if(startTime<1000){
+        if(startTime<1000 && startTime >= 100){
             newTime = Integer.toString(startTime).substring(0,1)+ ":" + Integer.toString(startTime).substring(1) +" AM";
         }
         else{
@@ -68,14 +68,14 @@ public class TimeParser {
                 }
             }
         }
-        if(endTime<1000){
+        if(endTime<1000 && startTime >=100){
             newTime = newTime + " - " + Integer.toString(endTime).substring(0,1)+ ":" + Integer.toString(endTime).substring(1) + " AM";
         }
         else{
             if(endTime < 1200) {
                 newTime = newTime + " - " + Integer.toString(endTime).substring(0, 2) + ":" + Integer.toString(endTime).substring(2) + " AM";
             }
-            else if (endTime >= 1300 && endTime < 2400){
+            else if (endTime >= 1300){
                 int pmTime = endTime % 1200;
 
                 if (pmTime < 1000) {
@@ -87,8 +87,8 @@ public class TimeParser {
             else{
                 int pmTime = endTime;
                 String ampm = " PM";
-                if (pmTime>=2400){
-                    pmTime= pmTime - 1200;
+                if (pmTime<100){
+                    pmTime= pmTime + 1200;
                     ampm = " AM";
                 }
                 newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + ampm;
@@ -99,20 +99,30 @@ public class TimeParser {
     }
 
     public static String parseTime(int time){
-        if(time<1000){
+        if(time<1000&& time >= 100){
             return Integer.toString(time).substring(0,1)+ ":" + Integer.toString(time).substring(1) +" AM";
         }
-        else{
-            if(time < 1200) {
+        else {
+            if (time < 1200) {
                 return Integer.toString(time).substring(0, 2) + ":" + Integer.toString(time).substring(2) + " AM";
             }
-            int pmTime = time % 1200;
+            else if (time >= 1300) {
+                int pmTime = time % 1200;
 
-            if(pmTime < 1000){
-                return Integer.toString(pmTime).substring(0,1)+ ":" + Integer.toString(pmTime).substring(1) +" PM";
+                if (pmTime < 1000) {
+                    return Integer.toString(pmTime).substring(0, 1) + ":" + Integer.toString(pmTime).substring(1) + " PM";
+                } else {
+                    return Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
+                }
             }
-            else{
-                return Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
+            else {
+                int pmTime = time;
+                String ampm = " PM";
+                if (pmTime < 100) {
+                    pmTime = pmTime + 1200;
+                    ampm = " AM";
+                }
+                return Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + ampm;
             }
         }
     }
@@ -121,9 +131,9 @@ public class TimeParser {
         StringBuilder sb = new StringBuilder();
         if(hourOfDay%12 < 10)
         {
-            if(hourOfDay == 12)
+            if(hourOfDay == 12 || hourOfDay == 0)
             {
-                sb.append(hourOfDay).append(":");
+                sb.append(12).append(":");
             }
             else
                 sb.append("0").append(hourOfDay%12).append(":");
@@ -154,6 +164,9 @@ public class TimeParser {
         time = time.replace(" ", "");
         if (time.substring(time.length() - 2).equals("PM")) {
             time = time.replace("PM", "");
+            if(time.substring(0,2).equals("12")){
+                return Integer.parseInt(time);
+            }
             return Integer.parseInt(time) + 1200;
         }
         else {
