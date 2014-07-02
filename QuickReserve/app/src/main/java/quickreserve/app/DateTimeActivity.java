@@ -81,6 +81,14 @@ public class DateTimeActivity extends Activity {
             }
         });
 
+        mCalendarView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCalendarView.setVisibility(View.GONE);
+                mChoiceLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {

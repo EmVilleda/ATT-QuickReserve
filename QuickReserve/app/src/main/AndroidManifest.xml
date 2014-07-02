@@ -18,13 +18,11 @@
         </activity>
         <activity
             android:name="quickreserve.app.DateTimeActivity"
-            android:label="@string/title_activity_my_reservation"
-            android:parentActivityName=".LoginActivity">
+            android:label="@string/title_activity_my_reservation">
         </activity>
         <activity
             android:name="quickreserve.app.MyReservationActivity"
-            android:label="@string/title_activity_my_reservation"
-            android:parentActivityName=".MapActivity">
+            android:label="@string/title_activity_my_reservation">
         </activity>
         <activity
             android:name="quickreserve.app.ViewReservationActivity"
@@ -44,8 +42,7 @@
         </activity>
         <activity
             android:name="quickreserve.app.MapActivity"
-            android:label="@string/title_activity_map"
-            android:parentActivityName=".DateTimeActivity">
+            android:label="@string/title_activity_map">
         </activity>
     </application>
 

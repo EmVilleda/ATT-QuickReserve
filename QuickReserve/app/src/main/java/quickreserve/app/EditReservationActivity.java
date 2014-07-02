@@ -8,11 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class EditReservationActivity extends Activity {
+
+    TextView dateSelected;
+    TextView startTimeSelected;
+    TextView endTimeSelected;
+    CalendarView calendarView;
 
 
     @Override
@@ -35,9 +41,9 @@ public class EditReservationActivity extends Activity {
         int start_time = reservation.getStartTime();
         int end_time = reservation.getEndTime();
 
-        final TextView dateSelected = (TextView) findViewById(R.id.editReservationDateText);
-        final TextView startTimeSelected = (TextView) findViewById(R.id.editReservationStartTimeText);
-        final TextView endTimeSelected = (TextView) findViewById(R.id.editReservationEndTimeText);
+        dateSelected = (TextView) findViewById(R.id.editReservationDateText);
+        startTimeSelected = (TextView) findViewById(R.id.editReservationStartTimeText);
+        endTimeSelected = (TextView) findViewById(R.id.editReservationEndTimeText);
 
         dateSelected.setText(TimeParser.parseDateFormat(date));
         startTimeSelected.setText(TimeParser.parseTime(start_time));
