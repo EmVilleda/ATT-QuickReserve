@@ -87,7 +87,6 @@ public class DateTimeActivity extends Activity {
 
                 int date = (year * 10000) + ((month+1)*100) + dayOfMonth;
                 tempDate = TimeParser.parseDateFormat(date);
-                Toast.makeText(DateTimeActivity.this, "" + tempDate, Toast.LENGTH_SHORT).show();
 
                 Log.e("test", "onDateChanged");
                 Log.e("test","button: " + mSelectedDate.getText());
