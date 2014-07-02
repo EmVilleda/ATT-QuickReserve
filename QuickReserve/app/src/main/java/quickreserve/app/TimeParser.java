@@ -51,16 +51,38 @@ public class TimeParser {
     public static String parseTime(int startTime, int endTime){
         String newTime ="";
         if(startTime<1000){
-            newTime = Integer.toString(startTime).substring(0,1)+ ":" + Integer.toString(startTime).substring(1);
+            newTime = Integer.toString(startTime).substring(0,1)+ ":" + Integer.toString(startTime).substring(1) +" AM";
         }
         else{
-            newTime = Integer.toString(startTime).substring(0,2) + ":" + Integer.toString(startTime).substring(2);
+            if(startTime < 1200) {
+                newTime = Integer.toString(startTime).substring(0, 2) + ":" + Integer.toString(startTime).substring(2) + " AM";
+            }
+            else {
+                int pmTime = startTime % 1200;
+
+                if (pmTime < 1000) {
+                    newTime = Integer.toString(pmTime).substring(0, 1) + ":" + Integer.toString(pmTime).substring(1) + " PM";
+                } else {
+                    newTime = Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
+                }
+            }
         }
         if(endTime<1000){
             newTime = newTime + " - " + Integer.toString(endTime).substring(0,1)+ ":" + Integer.toString(endTime).substring(1);
         }
         else{
-            newTime = newTime + " - " + Integer.toString(endTime).substring(0,2) + ":" + Integer.toString(endTime).substring(2);
+            if(endTime < 1200) {
+                newTime = newTime + " - " + Integer.toString(endTime).substring(0, 2) + ":" + Integer.toString(endTime).substring(2) + " AM";
+            }
+            else {
+                int pmTime = endTime % 1200;
+
+                if (pmTime < 1000) {
+                    newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 1) + ":" + Integer.toString(pmTime).substring(1) + " PM";
+                } else {
+                    newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
+                }
+            }
         }
 
         return newTime;
@@ -68,15 +90,33 @@ public class TimeParser {
 
     public static String parseTime(int time){
         if(time<1000){
-            return Integer.toString(time).substring(0,1)+ ":" + Integer.toString(time).substring(1);
+            return Integer.toString(time).substring(0,1)+ ":" + Integer.toString(time).substring(1) +" AM";
         }
         else{
-            return Integer.toString(time).substring(0,2) + ":" + Integer.toString(time).substring(2);
+            if(time < 1200) {
+                return Integer.toString(time).substring(0, 2) + ":" + Integer.toString(time).substring(2) + " AM";
+            }
+            int pmTime = time % 1200;
+
+            if(pmTime < 1000){
+                return Integer.toString(pmTime).substring(0,1)+ ":" + Integer.toString(pmTime).substring(1) +" PM";
+            }
+            else{
+                return Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
+            }
         }
     }
 
     public static int parseTime(String time){
         time = time.replace(":", "");
-        return Integer.parseInt(time);
+        time = time.replace(" ", "");
+        if (time.substring(time.length() - 2).equals("PM")) {
+            time = time.replace("PM", "");
+            return Integer.parseInt(time) + 1200;
+        }
+        else {
+            time = time.replace("AM", "");
+            return Integer.parseInt(time);
+        }
     }
 }
