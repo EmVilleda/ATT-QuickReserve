@@ -2,6 +2,7 @@ package quickreserve.app;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.widget.TimePicker;
 
 import java.sql.Time;
 import java.util.Arrays;
@@ -68,13 +69,13 @@ public class TimeParser {
             }
         }
         if(endTime<1000){
-            newTime = newTime + " - " + Integer.toString(endTime).substring(0,1)+ ":" + Integer.toString(endTime).substring(1);
+            newTime = newTime + " - " + Integer.toString(endTime).substring(0,1)+ ":" + Integer.toString(endTime).substring(1) + " AM";
         }
         else{
             if(endTime < 1200) {
                 newTime = newTime + " - " + Integer.toString(endTime).substring(0, 2) + ":" + Integer.toString(endTime).substring(2) + " AM";
             }
-            else {
+            else if (endTime >= 1300 && endTime < 2400){
                 int pmTime = endTime % 1200;
 
                 if (pmTime < 1000) {
@@ -82,6 +83,15 @@ public class TimeParser {
                 } else {
                     newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
                 }
+            }
+            else{
+                int pmTime = endTime;
+                String ampm = " PM";
+                if (pmTime>=2400){
+                    pmTime= pmTime - 1200;
+                    ampm = " AM";
+                }
+                newTime = newTime + " - " + Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + ampm;
             }
         }
 
@@ -105,6 +115,38 @@ public class TimeParser {
                 return Integer.toString(pmTime).substring(0, 2) + ":" + Integer.toString(pmTime).substring(2) + " PM";
             }
         }
+    }
+
+    public static String parseCalendarTime(int hourOfDay, int minute){
+        StringBuilder sb = new StringBuilder();
+        if(hourOfDay%12 < 10)
+        {
+            if(hourOfDay == 12)
+            {
+                sb.append(hourOfDay).append(":");
+            }
+            else
+                sb.append("0").append(hourOfDay%12).append(":");
+
+        }
+        else
+            sb.append(hourOfDay%12).append(":");
+
+        if(minute < 10)
+        {
+            sb.append("0").append(minute + " ");
+        }
+        else
+            sb.append(minute + " ");
+
+        if (hourOfDay%24 >= 12 )
+        {
+            sb.append("PM");
+
+        }
+        else
+            sb.append("AM");
+        return sb.toString();
     }
 
     public static int parseTime(String time){

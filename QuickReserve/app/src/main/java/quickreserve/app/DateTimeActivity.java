@@ -63,6 +63,12 @@ public class DateTimeActivity extends Activity {
         mCalendarView = (CalendarView) findViewById(R.id.calendarView);
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+        hour_start = calendar.get(Calendar.HOUR_OF_DAY);
+        min_start = calendar.get(Calendar.MINUTE);
+        hour_end = calendar.get(Calendar.HOUR_OF_DAY) + 1;
+        min_end = calendar.get(Calendar.MINUTE);
+        mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
+        mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
 
         mSelectedDate.setText(TimeParser.parseDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
         timeButtonflag = -1;
@@ -173,8 +179,15 @@ public class DateTimeActivity extends Activity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            int time = 0;
+            if(getTimeButtonFlag() == 1){
+                time = TimeParser.parseTime(mSelectedStartTime.getText().toString());
+            }
+            else{
+                time = TimeParser.parseTime(mSelectedEndTime.getText().toString());
+            }
+            int hour = time / 100;
+            int minute = time % 100;
 
 
 
@@ -185,45 +198,17 @@ public class DateTimeActivity extends Activity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
-            StringBuilder sb = new StringBuilder();
-            if(hourOfDay%12 < 10)
-            {
-                if(hourOfDay == 12)
-                {
-                    sb.append(hourOfDay).append(":");
-                }
-                else
-                    sb.append("0").append(hourOfDay%12).append(":");
-
-            }
-            else
-                sb.append(hourOfDay%12).append(":");
-
-            if(minute < 10)
-            {
-                sb.append("0").append(minute + " ");
-            }
-            else
-                sb.append(minute + " ");
-
-            if (hourOfDay%24 >= 12 )
-            {
-                sb.append("PM");
-
-            }
-            else
-                sb.append("AM");
-
+            String time = TimeParser.parseCalendarTime(hourOfDay, minute);
 
             if(getTimeButtonFlag() == 1)
             {
-                mSelectedStartTime.setText(sb.toString());
+                mSelectedStartTime.setText(time);
                 hour_start = hourOfDay;
                 min_start = minute;
             }
             else if(getTimeButtonFlag() == 2)
             {
-                mSelectedEndTime.setText(sb.toString());
+                mSelectedEndTime.setText(time);
                 hour_end = hourOfDay;
                 min_end = minute;
             }

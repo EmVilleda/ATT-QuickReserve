@@ -71,6 +71,7 @@ public class SectionFragment extends Fragment {
         final int newDate = tempDate_int;
         start_time = intent.getIntExtra("start_time", -1);
         end_time = intent.getIntExtra("end_time", -1);
+        Toast.makeText(getActivity(), start_time + " " + end_time, Toast.LENGTH_SHORT).show();
 
         final int newStartTime = start_time;
         final int newEndTime = end_time;
