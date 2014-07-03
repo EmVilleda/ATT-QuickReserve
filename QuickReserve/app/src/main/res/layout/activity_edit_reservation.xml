@@ -17,6 +17,7 @@
         android:weekSeparatorLineColor="@color/blue" />
 
     <LinearLayout
+        android:id="@+id/editReservationView"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:background="#fff"

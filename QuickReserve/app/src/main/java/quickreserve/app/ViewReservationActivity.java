@@ -162,7 +162,7 @@ public class ViewReservationActivity extends ActionBarActivity {
                         else if(i==1){
                             Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationSeatActivity.class);
                             newIntent.putExtra("ID", ID);
-                            newIntent.putExtra("timeChanged", false);
+                            newIntent.putExtra("origin", "view");
                             startActivity(newIntent);
                         }
                         else{
