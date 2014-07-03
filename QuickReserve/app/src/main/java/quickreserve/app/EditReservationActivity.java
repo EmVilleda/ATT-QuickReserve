@@ -141,7 +141,7 @@ public class EditReservationActivity extends Activity {
                 int newStartTime = TimeParser.parseTime(startTimeSelected.getText().toString());
                 int newEndTime = TimeParser.parseTime(endTimeSelected.getText().toString());
                 if (newEndTime <= newStartTime){
-                    Toast.makeText(EditReservationActivity.this, "End time must be later than start time " + newEndTime+ " " + newStartTime, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditReservationActivity.this, "End time must be later than start time", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(EditReservationActivity.this, "" + newDate, Toast.LENGTH_SHORT).show();

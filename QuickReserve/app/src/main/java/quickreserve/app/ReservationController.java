@@ -58,15 +58,12 @@ public class ReservationController{
     }
 
 
-    /*Because we're doing delete and add as separate functions, if there is an error adding the new one the old is deleted anyways
-    *should eventually write an sql class to edit
-     *Expected int responses:(GUI should respond differently to each)
-     *0 - unknown error adding (most likely with creating reservation in database)
-     *1 - time is unavailable
-     *2 - Reservation created successfully
-     * 3 - unknown error deleting
+    /*
+     *Expected responses
+     *false - unknown error adding (most likely with creating reservation in database)
+     *true -  Reservation created successfully
      */
-    public boolean editReservationSeat(int id, String workspace_name, int date, int start_time, int end_time){
+    public boolean editReservation(int id, String workspace_name, int date, int start_time, int end_time){
         return reservationManager.editReservation(id, workspace_name, date, start_time, end_time);
     }
 

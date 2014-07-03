@@ -105,9 +105,9 @@ public class EditReservationSeatActivity extends Activity {
                     ReservationController controller = new ReservationController(context);
                     boolean result = false;
                     if (origin.equals("edit")) {
-                        result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), date, start_time, end_time);
+                        result = controller.editReservation(ID, workspaces.get(checkedPosition).getName(), date, start_time, end_time);
                     } else{
-                        result = controller.editReservationSeat(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
+                        result = controller.editReservation(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
                     }
                     //Toast.makeText(EditReservationSeatActivity.this, checkedPosition + " " + selectedWorkspace.getName(), Toast.LENGTH_SHORT).show();
                     if (result == true) {
