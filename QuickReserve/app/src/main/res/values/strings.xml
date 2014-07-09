@@ -10,6 +10,7 @@
     <string name="title_activity_edit_reservation_time">Edit Time</string>
     <string name="title_activity_edit_reservation_seat">Edit Seat</string>
     <string name="title_activity_edit_reservation">Edit Reservation</string>
+    <string name="title_activity_selectDateTime">Select date and time</string>
     <string name="attlogo">AT&amp;T Logo</string>
     <string name="Password">Password</string>
     <string name="ATTUID">ATTUID</string>
@@ -30,6 +31,7 @@
     <string name="selectDate">Select Date</string>
     <string name="Reserve">Reserve</string>
     <string name="selectSeat">Select a Seat</string>
+    <string name="select_a_section">Select a section</string>
 
     <string-array name="options_list">
         <item>My Reservations</item>
@@ -38,6 +40,7 @@
         <item>Help</item>
     </string-array>
 
+    <string name="options">Options</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
     <string name="noReservations">No reservations found</string>
@@ -65,5 +68,6 @@
     <string name="quickReserve">Quick Reserve</string>
     <string name="pickaSeat">Pick a seat</string>
     <string name="or">OR</string>
+    <string name="title_activity_test">testActivity</string>
 
 </resources>

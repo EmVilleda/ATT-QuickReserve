@@ -28,8 +28,9 @@ public class MapActivity extends FragmentActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_map);
-
+        getActionBar().setTitle(getString(R.string.select_a_section));
         att_uid = getIntent().getStringExtra("att_uid");
         date_selected = getIntent().getIntExtra("date_selected", -1);
         //Toast.makeText(this, att_uid + " " + date_selected, Toast.LENGTH_SHORT).show();
@@ -45,15 +46,13 @@ public class MapActivity extends FragmentActivity
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-
         InitFragment firstFragment = new InitFragment();
-
         getSupportFragmentManager().beginTransaction().add(R.id.container, firstFragment).commit();
 
-        toast = Toast.makeText(getApplicationContext(), "Please choose a section", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0,0);
+        //toast = Toast.makeText(getApplicationContext(), "Please choose a section", Toast.LENGTH_SHORT);
+        //toast.setGravity(Gravity.CENTER, 0,0);
 
-        toast.show();
+        //toast.show();
 
     }
 
@@ -84,13 +83,19 @@ public class MapActivity extends FragmentActivity
     @Override
     protected void onPause() {
         super.onPause();
-        toast.cancel();
+        if(toast != null)
+        {
+            toast.cancel();
+        }
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        toast.cancel();
+        if(toast != null)
+        {
+            toast.cancel();
+        }
     }
 }

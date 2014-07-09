@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="quickreserve.app.testActivity">
+
+    <TextView
+        android:id="@+id/asd"
+        android:text="@string/hello_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <quickreserve.app.TouchImageView
+        android:id="@+id/img"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+        android:src="@drawable/section_a"
+        android:layout_below="@+id/asd"/>
+
+</RelativeLayout>

@@ -5,22 +5,30 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class DateTimeActivity extends Activity {
+public class DateTimeActivity extends Activity implements Animation.AnimationListener {
 
     private Button mDateButton;
     private Button mStartTimeButton;
@@ -43,10 +51,18 @@ public class DateTimeActivity extends Activity {
     private static int month_selected;
     private static int year_selected;
     private String att_uid;
+    private String[] mOptionsList;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Animation slideUp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_date_time);
 
         att_uid = getIntent().getStringExtra("att_uid");
@@ -69,6 +85,10 @@ public class DateTimeActivity extends Activity {
         min_end = calendar.get(Calendar.MINUTE);
         mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
         mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
+        slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+        slideUp.setAnimationListener(this);
+
+
 
         mSelectedDate.setText(TimeParser.parseDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
         timeButtonflag = -1;
@@ -76,16 +96,12 @@ public class DateTimeActivity extends Activity {
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCalendarView.setVisibility(View.VISIBLE);
-                mChoiceLayout.setVisibility(View.GONE);
-            }
-        });
+                slideUp.setDuration(600);
 
-        mCalendarView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCalendarView.setVisibility(View.GONE);
-                mChoiceLayout.setVisibility(View.VISIBLE);
+                //mCalendarView.setVisibility(View.VISIBLE);
+                //mChoiceLayout.setVisibility(View.GONE);
+                mCalendarView.setAnimation(slideUp);
+                mCalendarView.startAnimation(slideUp);
             }
         });
 
@@ -104,6 +120,7 @@ public class DateTimeActivity extends Activity {
                                     && !mSelectedDate.getText().toString().equals("")))
 
                 {
+                    mCalendarView.clearAnimation();
                     mCalendarView.setVisibility(View.GONE);
                     mChoiceLayout.setVisibility(View.VISIBLE);
                 }
@@ -156,6 +173,90 @@ public class DateTimeActivity extends Activity {
 
             }
         });
+
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mOptionsList));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ){
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(getString(R.string.title_activity_selectDateTime));
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(getString(R.string.options));
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+        mCalendarView.setVisibility(View.VISIBLE);
+        mChoiceLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        //mChoiceLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
+    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+            MapActivity.getToast().makeText(getApplicationContext(), mOptionsList[position].toString()
+                    , Toast.LENGTH_SHORT).show();
+            mDrawerLayout.closeDrawers();
+            mDrawerLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent i = new Intent(getApplicationContext(), MyReservationActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    startActivity(i);
+                }
+            }, 300);
+
+        }
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public static int getTimeButtonFlag() {
@@ -174,6 +275,10 @@ public class DateTimeActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -222,6 +327,20 @@ public class DateTimeActivity extends Activity {
                 min_end = minute;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(mCalendarView.getVisibility() == View.VISIBLE)
+        {
+            mCalendarView.setVisibility(View.GONE);
+            mChoiceLayout.setVisibility(View.VISIBLE);
+        }
+        else
+            super.onBackPressed();
+
+
     }
 }
 

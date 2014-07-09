@@ -42,11 +42,11 @@ public class SectionFragment extends Fragment {
 
 
 
-    public ImageView getmSectionImage() {
+    public TouchImageView getmSectionImage() {
         return mSectionImage;
     }
 
-    private ImageView mSectionImage;
+    private TouchImageView mSectionImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,9 @@ public class SectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().getActionBar().setTitle(getString(R.string.selectSeat));
         mInflatedView = inflater.inflate(R.layout.fragment_section, container, false);
-        mSectionImage = (ImageView) mInflatedView.findViewById(R.id.sectionImage);
+        mSectionImage = (TouchImageView) mInflatedView.findViewById(R.id.sectionImage);
         mSeatSpinner = (Spinner)mInflatedView.findViewById(R.id.seatSpinner);
         mReserveButton = (Button)mInflatedView.findViewById(R.id.reserveButton);
         mSelectionLayout = (LinearLayout)mInflatedView.findViewById(R.id.selectionLayout);

@@ -23,10 +23,7 @@ public class InitFragment extends Fragment {
     //private FragmentManager fragmentManager;
 
     private ImageView mSectionImage;
-
-
     private View mInflatedView;
-
     private Animator mCurrentAnimator;
 
     // The system "short" animation time duration, in milliseconds. This
@@ -51,8 +48,6 @@ public class InitFragment extends Fragment {
         mButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MapActivity.getToast().cancel();
-
 
                 if (toast != null)
                 {
@@ -68,12 +63,12 @@ public class InitFragment extends Fragment {
                 sectionFragment.setFlag(1);
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
+                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 
                 // Commit the transaction
                 transaction.commit();
-
 
             }
         });
@@ -81,14 +76,11 @@ public class InitFragment extends Fragment {
         mButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MapActivity.getToast().cancel();
+                //MapActivity.getToast().cancel();
                 if (toast != null)
                 {
                     toast.cancel();
                 }
-                toast = Toast.makeText(getActivity(), "NE clicked", Toast.LENGTH_SHORT);
-                toast.show();
-                Log.v("dev_init", "showing NE toast");
 
                 SectionFragment sectionFragment = new SectionFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -96,13 +88,12 @@ public class InitFragment extends Fragment {
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
+                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 
                 // Commit the transaction
                 transaction.commit();
-
-
             }
         });
 
@@ -110,13 +101,6 @@ public class InitFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                MapActivity.getToast().cancel();
-                if (toast != null)
-                {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(getActivity(), "SW clicked", Toast.LENGTH_SHORT);
-                toast.show();
                 Log.v("dev_init", "showing SW toast");
                 //zoomImageFromThumb(mButton3, R.drawable.part3);
 
@@ -126,13 +110,12 @@ public class InitFragment extends Fragment {
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
+                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 
                 // Commit the transaction
                 transaction.commit();
-
-
 
             }
         });
@@ -141,7 +124,7 @@ public class InitFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                MapActivity.getToast().cancel();
+                //MapActivity.getToast().cancel();
                 if (toast != null)
                 {
                     toast.cancel();
@@ -149,17 +132,11 @@ public class InitFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "No reservable seats in selected section", Toast.LENGTH_SHORT);
                 toast.show();
                 Log.v("dev_init", "showing SE toast");
-
-
-
-
             }
         });
 
         // Inflate the layout for this fragment
         return mInflatedView;
-
-
     }
 
     @Override
@@ -172,8 +149,6 @@ public class InitFragment extends Fragment {
         // Retrieve and cache the system's default "short" animation time.
         mShortAnimationDuration = getResources().getInteger(
                 android.R.integer.config_shortAnimTime);
-
-
     }
 
     @Override

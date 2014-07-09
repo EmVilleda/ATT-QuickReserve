@@ -65,7 +65,6 @@
             android:singleLine="false"
             android:textColor="@color/white"
             android:layout_gravity="center"
-            android:focusableInTouchMode="true"
             android:textAlignment="gravity" />
 
         <Button

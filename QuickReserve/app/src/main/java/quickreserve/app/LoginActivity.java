@@ -36,6 +36,9 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
+
         setContentView(R.layout.activity_login);
         final Context context = this;
 
@@ -48,7 +51,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
         mLoginButton = (Button)findViewById(R.id.loginButton);
         mySQLiteHelper = new MySQLiteHelper(this);
 
-        slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up);
+        slideUp = AnimationUtils.loadAnimation(context, R.anim.slide_up_login_info);
         slideUp.setAnimationListener(this);
 
         mLoginView.setVisibility(View.VISIBLE);

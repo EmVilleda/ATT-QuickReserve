@@ -22,4 +22,6 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'it.sephiroth.android.library.imagezoom:imagezoom:+'
+    compile 'com.qozix:TileView:1.0.11'
 }
