@@ -35,6 +35,7 @@ public class InitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().getActionBar().setTitle(getString(R.string.select_a_section));
         mInflatedView = inflater.inflate(R.layout.fragment_map, container, false);
 
         mButton1 = (Button) mInflatedView.findViewById(R.id.button1);

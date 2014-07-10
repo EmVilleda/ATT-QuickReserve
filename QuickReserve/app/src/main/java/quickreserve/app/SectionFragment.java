@@ -51,6 +51,8 @@ public class SectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().getActionBar().setTitle(getString(R.string.selectSeat));
+
 
     }
 
@@ -89,9 +91,6 @@ public class SectionFragment extends Fragment {
         }
 
         populateSpinner();
-
-
-
 
 
         mReserveButton.setOnClickListener(new View.OnClickListener() {
@@ -153,5 +152,7 @@ public class SectionFragment extends Fragment {
     public void setFlag(int flag) {
         this.flag = flag;
     }
+
+
 
 }

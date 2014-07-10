@@ -30,10 +30,11 @@
     <string name="d">D</string>
     <string name="selectDate">Select Date</string>
     <string name="Reserve">Reserve</string>
-    <string name="selectSeat">Select a Seat</string>
+    <string name="selectSeat">Select a seat</string>
     <string name="select_a_section">Select a section</string>
 
     <string-array name="options_list">
+        <item>Add Reservation</item>
         <item>My Reservations</item>
         <item>Logout</item>
         <item>About</item>
@@ -47,16 +48,7 @@
     <string name="editReservation">Edit Reservation</string>
     <string name="deleteReservation">Delete Reservation</string>
 
-    <string-array name="test_seats">
-        <item>A1</item>
-        <item>A2</item>
-        <item>A3</item>
-        <item>A4</item>
-        <item>B1</item>
-        <item>B2</item>
-        <item>B3</item>
-        <item>B4</item>
-    </string-array>
+
 
     <string name="title_activity_date_time">DateTimeActivity</string>
     <string name="date">Date</string>

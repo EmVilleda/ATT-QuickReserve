@@ -1,9 +1,11 @@
 package quickreserve.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -55,7 +57,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Animation slideUp;
+    private Animation fadeIn;
 
 
     @Override
@@ -64,7 +66,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_date_time);
-
+        getActionBar().setTitle(getString(R.string.selectSeat));
         att_uid = getIntent().getStringExtra("att_uid");
         Toast.makeText(this, att_uid + " ", Toast.LENGTH_SHORT).show();
         mDateButton = (Button) findViewById(R.id.dateButton);
@@ -85,8 +87,8 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         min_end = calendar.get(Calendar.MINUTE);
         mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
         mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
-        slideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
-        slideUp.setAnimationListener(this);
+        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+        fadeIn.setAnimationListener(this);
 
 
 
@@ -96,12 +98,12 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                slideUp.setDuration(600);
+                fadeIn.setDuration(600);
 
                 //mCalendarView.setVisibility(View.VISIBLE);
                 //mChoiceLayout.setVisibility(View.GONE);
-                mCalendarView.setAnimation(slideUp);
-                mCalendarView.startAnimation(slideUp);
+                mCalendarView.setAnimation(fadeIn);
+                mCalendarView.startAnimation(fadeIn);
             }
         });
 
@@ -233,13 +235,60 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
             MapActivity.getToast().makeText(getApplicationContext(), mOptionsList[position].toString()
                     , Toast.LENGTH_SHORT).show();
+            final int pos = position;
             mDrawerLayout.closeDrawers();
             mDrawerLayout.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(getApplicationContext(), MyReservationActivity.class);
-                    i.putExtra("att_uid", att_uid);
-                    startActivity(i);
+                    String option = mOptionsList[pos].toString();
+
+                    if(option.equals("Add Reservation"))
+                    {
+                        Intent i = new Intent(getApplicationContext(), DateTimeActivity.class);
+                        i.putExtra("att_uid", att_uid);
+                        startActivity(i);
+                    }
+                    else if(option.equals("My Reservations"))
+                    {
+                        Intent i = new Intent(getApplicationContext(), MyReservationActivity.class);
+                        i.putExtra("att_uid", att_uid);
+                        startActivity(i);
+
+                    }
+                    else if(option.equals("Logout"))
+                    {
+
+                        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(DateTimeActivity.this);
+                        logoutDialog.setTitle("Do you want to log out?");
+                        logoutDialog.setCancelable(false);
+                        logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                DateTimeActivity.this.finish();
+
+                            }
+
+                        });
+                        logoutDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+
+                        });
+
+                        AlertDialog finishedDialog = logoutDialog.create();
+                        finishedDialog.show();
+
+                    }
+                    else if(option.equals("About"))
+                    {
+
+                    }
+                    else if(option.equals("Help"))
+                    {
+
+                    }
+
                 }
             }, 300);
 
@@ -280,9 +329,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         }
 
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -302,8 +349,6 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
             int hour = time / 100;
             int minute = time % 100;
-
-
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -338,7 +383,32 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             mChoiceLayout.setVisibility(View.VISIBLE);
         }
         else
-            super.onBackPressed();
+        {
+            AlertDialog.Builder logoutDialog = new AlertDialog.Builder(DateTimeActivity.this);
+            logoutDialog.setTitle("Do you want to log out?");
+            logoutDialog.setCancelable(false);
+            logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    DateTimeActivity.this.finish();
+
+                }
+
+            });
+            logoutDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+
+            });
+
+            AlertDialog finishedDialog = logoutDialog.create();
+            finishedDialog.show();
+            //super.onBackPressed();
+
+        }
+
+
 
 
     }

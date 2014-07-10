@@ -69,16 +69,22 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
                     Toast.makeText(getApplicationContext(), "User not found in DB", Toast.LENGTH_SHORT).show();
 
                 }
+
                 else
                 {
-                    Intent intent = new Intent(context, DateTimeActivity.class);
-                    intent.putExtra("att_uid", att_uid);
-                    startActivity(intent);
-
+                    if(mySQLiteHelper.getUserReservations(att_uid) == null)
+                    {
+                        Intent intent = new Intent(context, DateTimeActivity.class);
+                        intent.putExtra("att_uid", att_uid);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        Intent intent = new Intent(context, MyReservationActivity.class);
+                        intent.putExtra("att_uid", att_uid);
+                        startActivity(intent);
+                    }
                 }
-
-
-
             }
         });
 
@@ -108,9 +114,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
