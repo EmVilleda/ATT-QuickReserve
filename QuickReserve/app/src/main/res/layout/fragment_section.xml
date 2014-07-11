@@ -1,51 +1,56 @@
-<LinearLayout
+<RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical">
-
-    <quickreserve.app.TouchImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:id="@+id/sectionImage"
-        android:scaleType="fitXY"
-        android:src="@drawable/section_a"
-        />
+    android:orientation="vertical"
+    android:padding="2dp">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/reserveButton"
         android:id="@+id/selectionLayout"
-        android:background="@android:color/white"
-        android:baselineAligned="false"
         android:visibility="visible"
         android:divider="@color/orange_highlight"
-        android:dividerPadding="1dp">
+        android:dividerPadding="1dp"
+        android:paddingBottom="5dp">
 
-        <Spinner
-            android:layout_width="wrap_content"
+        <ListView
+            style = "@style/MyListView"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:spinnerMode="dropdown"
-            android:id="@+id/seatSpinner"
-            android:padding="5dp">
-            </Spinner>
+            android:layout_weight="2"
+            android:id="@+id/availableSeatList"
+            android:padding="5dp"
+            android:layout_above="@+id/reserveButton">
+        </ListView>
 
-        <Button style="@style/MyButton"
-            android:layout_width="100dp"
+        <quickreserve.app.TouchImageView
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/reserveButton"
-            android:layout_weight="0"
-            android:text="@string/Reserve"
-            android:clickable="false"
-            android:textColor="@color/white" />
+            android:layout_weight="5"
+            android:id="@+id/sectionImage"
+            android:scaleType="fitXY"
+            android:src="@drawable/section_a"
+            />
 
 
     </LinearLayout>
 
 
 
-</LinearLayout>
+    <Button style="@style/MyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reserveButton"
+        android:text="@string/Reserve"
+        android:clickable="false"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+
+</RelativeLayout>

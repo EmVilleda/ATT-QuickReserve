@@ -2,24 +2,23 @@ package quickreserve.app;
 
 
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -27,7 +26,7 @@ public class SectionFragment extends Fragment {
 
     private View mInflatedView;
     private Button mReserveButton;
-    private Spinner mSeatSpinner;
+    private ListView mAvailableSeatList;
     private LinearLayout mSelectionLayout;
     private MySQLiteHelper mySQLiteHelper;
     private String tempID;
@@ -39,6 +38,7 @@ public class SectionFragment extends Fragment {
     private int day_selected;
     private int month_selected;
     private int year_selected;
+    private String selectedSeat;
 
 
 
@@ -63,7 +63,7 @@ public class SectionFragment extends Fragment {
         getActivity().getActionBar().setTitle(getString(R.string.selectSeat));
         mInflatedView = inflater.inflate(R.layout.fragment_section, container, false);
         mSectionImage = (TouchImageView) mInflatedView.findViewById(R.id.sectionImage);
-        mSeatSpinner = (Spinner)mInflatedView.findViewById(R.id.seatSpinner);
+        mAvailableSeatList = (ListView)mInflatedView.findViewById(R.id.availableSeatList);
         mReserveButton = (Button)mInflatedView.findViewById(R.id.reserveButton);
         mSelectionLayout = (LinearLayout)mInflatedView.findViewById(R.id.selectionLayout);
         mySQLiteHelper = new MySQLiteHelper(getActivity());
@@ -80,6 +80,8 @@ public class SectionFragment extends Fragment {
         final int newEndTime = end_time;
 
 
+
+
         if(flag == 2)
         {
             mSectionImage.setImageResource(R.drawable.section_b);
@@ -93,24 +95,42 @@ public class SectionFragment extends Fragment {
         populateSpinner();
 
 
-        mReserveButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            ReservationController controller = new ReservationController(getActivity());
-            //Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
-            int result = controller.createReservation(mSeatSpinner.getSelectedItem().toString(),tempID, newStartTime, newEndTime, newDate);
-            if(result == 0)
-                Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
-            else if(result == 1)
-                Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
-            else if(result == 2){
-                Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
-                getActivity().finish();
+        mAvailableSeatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Log.e("test", "" + mAvailableSeatList.getAdapter().getItem(position).toString());
+                selectedSeat = mAvailableSeatList.getAdapter().getItem(position).toString();
             }
-            else
-                Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
-        }
-    });
+        });
+
+        mReserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReservationController controller = new ReservationController(getActivity());
+                //Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
+
+                if(selectedSeat != null)
+                {
+                    int result = controller.createReservation(selectedSeat, tempID, newStartTime, newEndTime, newDate);
+                    if (result == 0)
+                        Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
+                    else if (result == 1)
+                        Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
+                    else if (result == 2) {
+                        Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    } else
+                        Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(), "Please select a seat", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+        });
 
         return mInflatedView;
 
@@ -131,11 +151,11 @@ public class SectionFragment extends Fragment {
                     workspaceNames.add(workspaces.get(i).getName());
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_spinner_item, workspaceNames);
+                    android.R.layout.simple_list_item_single_choice, workspaceNames);
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             // Apply the adapter to the spinner
-            mSeatSpinner.setAdapter(adapter);
+            mAvailableSeatList.setAdapter(adapter);
         }
         catch (Exception e)
         {

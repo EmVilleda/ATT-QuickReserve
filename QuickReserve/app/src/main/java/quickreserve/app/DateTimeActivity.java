@@ -85,6 +85,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         min_start = calendar.get(Calendar.MINUTE);
         hour_end = calendar.get(Calendar.HOUR_OF_DAY) + 1;
         min_end = calendar.get(Calendar.MINUTE);
+        //min date must be earlier than the current time
+        mCalendarView.setMinDate(calendar.getTimeInMillis()-100);
+        //14 days of milliseconds
+        mCalendarView.setMaxDate(calendar.getTimeInMillis() + 1209600000);
         mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
         mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
         fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);

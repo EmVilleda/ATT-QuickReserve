@@ -69,6 +69,10 @@ public class EditReservationActivity extends Activity {
         c.set(Calendar.DAY_OF_MONTH, (date % 100));
         c.getTimeInMillis();
         calendarView.setDate(c.getTimeInMillis());
+        //min date must be earlier than the current time
+        calendarView.setMinDate(System.currentTimeMillis()-100);
+        //14 days of milliseconds
+        calendarView.setMaxDate(System.currentTimeMillis() + 1209600000);
 
 
         Button calendarButton = (Button) findViewById(R.id.editReservationDateButton);
