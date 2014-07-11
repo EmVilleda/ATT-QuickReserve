@@ -15,7 +15,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".DateTimeActivity"
@@ -49,7 +48,14 @@
         <activity
             android:name=".testActivity"
             android:label="@string/title_activity_test" >
-
+        </activity>
+        <activity
+            android:name=".FavoriteSeatActivity"
+            android:label="@string/title_activity_favorite_seat" >
+        </activity>
+        <activity
+            android:name=".FavoriteSeatSelectActivity"
+            android:label="@string/title_activity_favorite_seat_select" >
         </activity>
     </application>
 

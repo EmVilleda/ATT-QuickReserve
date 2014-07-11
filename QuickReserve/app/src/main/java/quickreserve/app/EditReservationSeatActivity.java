@@ -27,6 +27,7 @@ public class EditReservationSeatActivity extends Activity {
     protected int end_time;
     protected int date;
     protected String origin;
+    protected int currentSector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,28 +70,36 @@ public class EditReservationSeatActivity extends Activity {
         }
 
         final ListView seatList = (ListView) findViewById(R.id.editReservationSeatList);
-        final ImageView seatImage = (ImageView) findViewById(R.id.editReservationSeatImage);
+        final TouchImageView sectorImage = (TouchImageView) findViewById(R.id.editReservationSeatImage);
         Button submitButton = (Button) findViewById(R.id.editReservationSeatButton);
         final TextView dateText = (TextView) findViewById(R.id.editReservationSeatText);
         int selectedItem = -1;
+        currentSector = 1;
+        sectorImage.setImageResource(R.drawable.section_a);
 
         dateText.setText("Available workspaces for " + TimeParser.parseDate(date) + " during the time slot " + TimeParser.parseTime(start_time, end_time));
 
         //to use in listener
         final List<Workspace> workspaces = availableWorkspaces;
-        ListAdapter seatListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, workspaceNames);
+        ListAdapter seatListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, workspaceNames);
         seatList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         seatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 int sector = workspaces.get(position).getSector();
                 seatList.setItemChecked(position, true);
-                if (sector == 1) {
-                    seatImage.setImageResource(R.drawable.section_a);
-                } else if (sector == 2) {
-                    seatImage.setImageResource(R.drawable.section_b);
-                } else {
-                    seatImage.setImageResource(R.drawable.section_c);
+                if (sector == 1 && currentSector!=1) {
+                    sectorImage.setImageResource(R.drawable.section_a);
+                    currentSector = 1;
+                    sectorImage.resetZoom();
+                } else if (sector == 2 && currentSector!=2) {
+                    sectorImage.setImageResource(R.drawable.section_b);
+                    currentSector = 2;
+                    sectorImage.resetZoom();
+                } else if(sector == 3 && currentSector!=3){
+                    sectorImage.setImageResource(R.drawable.section_c);
+                    currentSector = 3;
+                    sectorImage.resetZoom();
                 }
             }
         });

@@ -70,7 +70,7 @@ public class EditReservationActivity extends Activity {
         c.getTimeInMillis();
         calendarView.setDate(c.getTimeInMillis());
         //min date must be earlier than the current time
-        calendarView.setMinDate(System.currentTimeMillis()-100);
+        calendarView.setMinDate(System.currentTimeMillis()-3000);
         //14 days of milliseconds
         calendarView.setMaxDate(System.currentTimeMillis() + 1209600000);
 

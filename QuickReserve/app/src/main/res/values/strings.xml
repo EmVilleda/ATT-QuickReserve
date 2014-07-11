@@ -32,6 +32,10 @@
     <string name="Reserve">Reserve</string>
     <string name="selectSeat">Select a seat</string>
     <string name="select_a_section">Select a section</string>
+    <string name="favoriteSeat1">Seat 1</string>
+    <string name="favoriteSeat2">Seat 2</string>
+    <string name="favoriteSeat3">Seat 3</string>
+    <string name="saveSeats">Save selected seats</string>
 
     <string-array name="options_list">
         <item>Add Reservation</item>
@@ -47,9 +51,6 @@
     <string name="noReservations">No reservations found</string>
     <string name="editReservation">Edit Reservation</string>
     <string name="deleteReservation">Delete Reservation</string>
-
-
-
     <string name="title_activity_date_time">DateTimeActivity</string>
     <string name="date">Date</string>
     <string name="startTime">Start Time</string>
@@ -61,5 +62,7 @@
     <string name="pickaSeat">Pick a seat</string>
     <string name="or">OR</string>
     <string name="title_activity_test">testActivity</string>
+    <string name="title_activity_favorite_seat">Favorite Seats</string>
+    <string name="title_activity_favorite_seat_select">Select Seat</string>
 
 </resources>

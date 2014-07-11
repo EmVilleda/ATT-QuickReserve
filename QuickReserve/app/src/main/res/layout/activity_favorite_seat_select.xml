@@ -10,16 +10,6 @@
     tools:context="quickreserve.app.EditReservationSeatActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="top"
-        android:text="Available Seats for \nTemporary Time"
-        android:textAppearance="@style/TimeTextView"
-        android:layout_weight="1.5"
-        android:id="@+id/editReservationSeatText" />
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -34,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:drawSelectorOnTop="false"
-            android:id="@+id/editReservationSeatList" />
+            android:id="@+id/favoriteSeatSelectList" />
 
 
         <LinearLayout
@@ -49,7 +39,7 @@
                 android:layout_weight="8"
                 android:layout_gravity="center"
                 android:scaleType="fitXY"
-                android:id="@+id/editReservationSeatImage" />
+                android:id="@+id/favoriteSeatSelectImage" />
         </LinearLayout>
 
     </LinearLayout>
@@ -59,9 +49,5 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:text="Select seat"
-        android:id="@+id/editReservationSeatButton" />
-
-
-
-
+        android:id="@+id/favoriteSeatSelectSubmitButton" />
 </LinearLayout>
