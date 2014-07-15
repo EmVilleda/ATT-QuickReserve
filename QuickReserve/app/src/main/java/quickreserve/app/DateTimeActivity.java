@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.format.DateFormat;
@@ -29,6 +32,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class DateTimeActivity extends Activity implements Animation.AnimationListener {
 
@@ -58,12 +62,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private Animation fadeIn;
+    private Context context;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = this;
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_date_time);
         getActionBar().setTitle(getString(R.string.selectSeat));
@@ -166,6 +171,9 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 if(start_time >= end_time){
                     Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
                 }
+                else if (!isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time)){
+                    Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
+                }
                 else{
                     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     intent.putExtra("start_time", start_time);
@@ -176,6 +184,24 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                     startActivity(intent);
                 }
 
+
+            }
+        });
+
+        mQuickReserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int start_time = hour_start*100 + min_start;
+                int end_time = hour_end * 100 + min_end;
+                if(start_time >= end_time){
+                    Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
+                }
+                else if (!(isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time))){
+                    Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    quickReserve(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time);
+                }
 
             }
         });
@@ -215,6 +241,88 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+    }
+
+
+    //Checks if user already has a reservation overlapping this time
+    public boolean isUserTimeAvailable(int date, int start_time, int end_time){
+        MySQLiteHelper manager = new MySQLiteHelper(DateTimeActivity.this);
+        List<Reservation> currentReservations = manager.getUserReservations(att_uid);
+        if(currentReservations==null || currentReservations.size()==0){
+            return true;
+        }
+        else{
+            for (Reservation r: currentReservations){
+                if(r.getDate() == date){
+                    if(r.getStartTime() >= start_time && r.getStartTime() < end_time){
+                        return false;
+                    }
+                    else if(r.getEndTime() > start_time && r.getEndTime() <= end_time){
+                        return false;
+                    }
+                    else if(r.getStartTime() <= start_time && r.getEndTime() >= end_time){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    //If possible reserves a seat at given time, prioritizes favorite seats,
+    //but picks the first open seat if none of the favorites are available
+    public void quickReserve(int date, int start_time, int end_time){
+        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(DateTimeActivity.this);
+        String seat1= p.getString("seat1", "");
+        String seat2= p.getString("seat2", "");
+        String seat3= p.getString("seat3", "");
+        boolean seat1F = false;
+        boolean seat2F = false;
+        boolean seat3F = false;
+        MySQLiteHelper manager = new MySQLiteHelper(context);
+        Toast.makeText(DateTimeActivity.this, seat1 + " " + seat2 + " " + seat3, Toast.LENGTH_SHORT).show();
+
+        List<Workspace> openWorkspaces = manager.getOpenWorkspaces(date, start_time, end_time);
+        if(openWorkspaces.size()==0){
+            Toast.makeText(DateTimeActivity.this, "No seats are available for this time", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        for(Workspace w: openWorkspaces){
+            if(w.getName().equals(seat1)){
+                seat1F = true;
+            }
+            if(w.getName().equals(seat2)){
+                seat2F = true;
+            }
+            if(w.getName().equals(seat3)){
+                seat3F = true;
+            }
+        }
+        String seatName = "";
+        if(seat1F){
+            seatName = seat1;
+        }
+        else if(seat2F){
+            seatName = seat2;
+        }
+        else if(seat3F) {
+            seatName = seat3;
+        }
+        else{
+            seatName = openWorkspaces.get(0).getName();
+        }
+        ReservationController controller = new ReservationController(context);
+
+        int result = controller.createReservation(seatName, att_uid, start_time, end_time, date);
+        if(result == 0 || result == 1){
+            Toast.makeText(DateTimeActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
+        }
+        if(result == 2){
+            Toast.makeText(DateTimeActivity.this, "Seat " + seatName + " has been reserved", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(DateTimeActivity.this, MyReservationActivity.class);
+            i.putExtra("att_uid", att_uid);
+            startActivity(i);
+        }
     }
 
     @Override

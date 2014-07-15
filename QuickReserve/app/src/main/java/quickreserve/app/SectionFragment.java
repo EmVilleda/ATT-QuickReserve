@@ -140,14 +140,13 @@ public class SectionFragment extends Fragment {
     private void populateSpinner() {
         try
         {
-            tempDate_int = year_selected * 10000 + (month_selected+1) * 100 + day_selected;
             Log.e("test","flag:  " + flag);
-            List<Workspace> workspaces = mySQLiteHelper.getMasterWorkspacesList(tempDate_int, start_time
-                    , end_time, flag);
+            List<Workspace> workspaces = mySQLiteHelper.getOpenWorkspaces(tempDate_int, start_time
+                    , end_time);
             ArrayList<String> workspaceNames = new ArrayList<String>();
             int size = workspaces.size();
             for (int i = 0; i < size; i++) {
-                if (workspaces.get(i).getIsBooked() == 0)
+                if (workspaces.get(i).getSector() == flag)
                     workspaceNames.add(workspaces.get(i).getName());
             }
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
