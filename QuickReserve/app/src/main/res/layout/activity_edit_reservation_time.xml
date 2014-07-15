@@ -49,9 +49,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/date"
                 android:id="@+id/editReservationTimeDateButton"
-                style="@style/MyButton"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                style="@style/MyButton"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 

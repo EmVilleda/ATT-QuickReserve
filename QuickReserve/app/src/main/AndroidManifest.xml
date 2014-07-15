@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="quickreserve.app" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/quickreserve_icon"
@@ -56,6 +61,15 @@
         <activity
             android:name=".FavoriteSeatSelectActivity"
             android:label="@string/title_activity_favorite_seat_select" >
+        </activity>
+        <activity
+            android:name=".QRScannerActivity"
+            android:label="Scan QR Code" >
+        </activity>
+        <activity
+            android:name=".QRResultActivity"
+            android:label="Scan Result"
+            android:parentActivityName=".QRScannerActivity">
         </activity>
     </application>
 

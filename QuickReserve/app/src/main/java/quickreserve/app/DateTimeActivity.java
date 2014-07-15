@@ -437,11 +437,17 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        int id = item.getItemId();
+        if (id == R.id.QRIcon) {
+            Intent intent = new Intent(this, QRScannerActivity.class);
+            intent.putExtra("att_uid", att_uid);
+            startActivity(intent);
+            return true;
+        }
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-        int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }

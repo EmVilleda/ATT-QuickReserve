@@ -484,6 +484,31 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return userReservations;
     }
 
+    public boolean isWorkspaceReserved(String workspaceName, int day, int month, int year)
+    {
+        int date = (year*10000)+(month*100)+day;
+        String dateStr = String.valueOf(date);
+        SQLiteDatabase db = this.getReadableDatabase();
+        try {
+            Cursor cursor = db.query("reservations",
+                    RESERVATION_COLUMNS, // b. column names
+                    "workspace_id = ? AND date = ?", // c. selections
+                    new String[]{workspaceName, dateStr}, // d. selections args
+                    null, // e. group by
+                    null, // f. having
+                    null, // g. order by
+                    null); // h. limit
+
+            if(cursor.getCount() > 0)
+                return true;
+            else
+                return false;
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean editReservation(int rowID, String workspaceName, int date, int startTime, int endTime)
     {
         String idStr = String.valueOf(rowID);
