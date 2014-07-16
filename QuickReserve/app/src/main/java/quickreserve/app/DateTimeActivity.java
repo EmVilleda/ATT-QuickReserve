@@ -87,9 +87,9 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         hour_start = calendar.get(Calendar.HOUR_OF_DAY);
-        min_start = calendar.get(Calendar.MINUTE);
+        min_start = roundDown(calendar.get(Calendar.MINUTE));
         hour_end = calendar.get(Calendar.HOUR_OF_DAY) + 1;
-        min_end = calendar.get(Calendar.MINUTE);
+        min_end = roundDown(calendar.get(Calendar.MINUTE));
         //min date must be earlier than the current time
         mCalendarView.setMinDate(calendar.getTimeInMillis()-3000);
         //14 days of milliseconds
@@ -267,6 +267,22 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
         }
         return true;
+    }
+
+    //rounds down minute to match 15 minute interval
+    public int roundDown(int min){
+        if (min < 15){
+            return 0;
+        }
+        else if (min < 30){
+            return 15;
+        }
+        else if (min < 45){
+            return 30;
+        }
+        else{
+            return 45;
+        }
     }
 
     //If possible reserves a seat at given time, prioritizes favorite seats,
@@ -470,7 +486,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             int minute = time % 100;
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
+            return new CustomTimePickerDialog(getActivity(), this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
         }
 
