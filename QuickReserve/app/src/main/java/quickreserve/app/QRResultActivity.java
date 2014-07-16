@@ -36,6 +36,7 @@ public class QRResultActivity extends Activity {
     private Button reserveButton;
 
     private MySQLiteHelper mySQLiteHelper;
+    private static final String ACTIVITY_DRAWER_REF = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

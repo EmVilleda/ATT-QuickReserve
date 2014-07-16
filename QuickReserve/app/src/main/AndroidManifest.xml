@@ -3,6 +3,7 @@
     package="quickreserve.app" >
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -32,7 +33,8 @@
         </activity>
         <activity
             android:name=".ViewReservationActivity"
-            android:label="@string/title_activity_view_reservation" >
+            android:label="@string/title_activity_view_reservation"
+            android:parentActivityName=".MyReservationActivity">
         </activity>
         <activity
             android:name=".EditReservationTimeActivity"

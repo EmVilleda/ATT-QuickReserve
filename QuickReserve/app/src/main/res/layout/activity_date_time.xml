@@ -10,18 +10,6 @@
         android:background="#fff"
         >
 
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/calendarView"
-            android:visibility="gone"
-            android:showWeekNumber="false"
-            android:selectedWeekBackgroundColor="@color/orange_highlight"
-            android:focusable="true"
-            android:clickable="true"
-            android:weekNumberColor="@color/blue"
-            android:weekSeparatorLineColor="@color/blue" />
-
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -42,7 +30,7 @@
                 android:background="@drawable/border"
                 android:layout_alignTop="@+id/dateButton"
                 android:padding="5dp"
-                android:clickable="false"
+                android:clickable="true"
                 android:editable="false"/>
 
             <EditText
@@ -57,7 +45,7 @@
                 android:layout_alignTop="@+id/startTimeButton"
                 android:background="@drawable/border"
                 android:padding="5dp"
-                android:clickable="false"
+                android:clickable="true"
                 android:editable="false"/>
 
             <Button
@@ -81,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/startTime"
                 android:id="@+id/startTimeButton"
-                android:layout_below="@+id/dateButton"
+                android:layout_below="@+id/calendarView"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/endTimeButton"
@@ -120,7 +108,7 @@
                 android:layout_alignTop="@+id/endTimeButton"
                 android:background="@drawable/border"
                 android:padding="5dp"
-                android:clickable="false"
+                android:clickable="true"
                 android:editable="false"/>
 
             <Button
@@ -128,12 +116,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/quickReserve"
                 android:id="@+id/quickReserveButton"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
                 android:background="@drawable/my_button"
                 android:textColor="@color/white"
                 android:padding="10dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_below="@+id/endTimeButton"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="42dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -166,6 +155,21 @@
                 android:layout_alignLeft="@+id/quickReserveButton"
                 android:layout_alignStart="@+id/quickReserveButton" />
 
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/calendarView"
+                android:visibility="gone"
+                android:showWeekNumber="false"
+                android:selectedWeekBackgroundColor="@color/blue"
+                android:focusable="false"
+                android:clickable="true"
+                android:weekNumberColor="@color/blue"
+                android:weekSeparatorLineColor="@color/blue"
+                android:layout_below="@+id/dateButton"
+                android:foregroundGravity="center"
+                android:shownWeekCount="3" />
+
         </RelativeLayout>
 
 
@@ -176,7 +180,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode = "none"
-        android:divider="@color/gray"
+        android:divider="@color/light_gray"
         android:dividerHeight="1dp"
         android:background="@color/white"
         />

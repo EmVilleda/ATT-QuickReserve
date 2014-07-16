@@ -40,14 +40,21 @@
     <string-array name="options_list">
         <item>Add Reservation</item>
         <item>My Reservations</item>
-        <item>Logout</item>
+        <item>Favorite Seats</item>
         <item>About</item>
         <item>Help</item>
+        <item>Logout</item>
     </string-array>
 
     <string name="options">Options</string>
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_close">Close drawer</string>
+    <string name="drawer_add_reservation">Add Reservation</string>
+    <string name = "drawer_my_reservation">My Reservations</string>
+    <string name = "drawer_logout">Logout</string>
+    <string name = "drawer_favorites">Favorites</string>
+    <string name = "drawer_about">About</string>
+    <string name = "drawer_help">Help</string>
     <string name="noReservations">No reservations found</string>
     <string name="editReservation">Edit Reservation</string>
     <string name="deleteReservation">Delete Reservation</string>
@@ -66,5 +73,6 @@
     <string name="title_activity_favorite_seat_select">Select Seat</string>
     <string name="title_activity_qrscanner">QRScannerActivity</string>
     <string name="title_activity_qrresult">QRResultActivity</string>
+    <string name="workspaceDesc">workspace image</string>
 
 </resources>

@@ -28,6 +28,7 @@ public class EditReservationSeatActivity extends Activity {
     protected int date;
     protected String origin;
     protected int currentSector;
+    private static final String ACTIVITY_DRAWER_REF = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

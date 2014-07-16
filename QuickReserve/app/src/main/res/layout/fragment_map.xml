@@ -24,12 +24,12 @@
             android:id="@+id/button1"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:alpha="0.5"
+            android:alpha="1"
             android:textSize="100dp"
-            android:background="@color/blue"
             android:textColor="@color/white"
             android:singleLine="false"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:clickable="true" />
 
         <Button
             android:layout_width="match_parent"
@@ -39,10 +39,10 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@color/blue"
-            android:alpha="0.5"
             android:textColor="@color/white"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:clickable="true"
+            android:alpha="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,12 +60,12 @@
             android:id="@+id/button3"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@color/blue"
-            android:alpha="0.5"
+            android:alpha="1"
             android:singleLine="false"
             android:textColor="@color/white"
             android:layout_gravity="center"
-            android:textAlignment="gravity" />
+            android:textAlignment="gravity"
+            android:clickable="true" />
 
         <Button
             android:layout_width="match_parent"
@@ -74,10 +74,10 @@
             android:id="@+id/button4"
             android:layout_weight="1"
             android:textSize="100dp"
-            android:background="@color/blue"
-            android:alpha="0.5"
             android:singleLine="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:clickable="false"
+            android:background="@drawable/abc_ab_bottom_transparent_dark_holo" />
     </LinearLayout>
 
 

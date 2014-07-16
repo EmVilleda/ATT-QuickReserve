@@ -2,7 +2,6 @@ package quickreserve.app;
 
 
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ public class SectionFragment extends Fragment {
     private ListView mAvailableSeatList;
     private LinearLayout mSelectionLayout;
     private MySQLiteHelper mySQLiteHelper;
-    private String tempID;
+    private String att_uid;
     private int tempDate_int;
     private int flag;
     private boolean firstClick;
@@ -69,7 +67,7 @@ public class SectionFragment extends Fragment {
         mySQLiteHelper = new MySQLiteHelper(getActivity());
 
         Intent intent = getActivity().getIntent();
-        tempID = intent.getStringExtra("att_uid");
+        att_uid = intent.getStringExtra("att_uid");
         tempDate_int = intent.getIntExtra("date_selected", -1);
         final int newDate = tempDate_int;
         start_time = intent.getIntExtra("start_time", -1);
@@ -107,17 +105,21 @@ public class SectionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ReservationController controller = new ReservationController(getActivity());
-                //Toast.makeText(getActivity(), tempID + " " + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), att_uid + " " + "", Toast.LENGTH_SHORT).show();
 
                 if(selectedSeat != null)
                 {
-                    int result = controller.createReservation(selectedSeat, tempID, newStartTime, newEndTime, newDate);
+                    int result = controller.createReservation(selectedSeat, att_uid, newStartTime, newEndTime, newDate);
                     if (result == 0)
                         Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
                     else if (result == 1)
                         Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
                     else if (result == 2) {
                         Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(getActivity(), MyReservationActivity.class);
+                        i.putExtra("att_uid", att_uid);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        getActivity().startActivity(i);
                         getActivity().finish();
                     } else
                         Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();

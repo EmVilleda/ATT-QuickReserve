@@ -16,6 +16,7 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
 {
     private String att_uid;
     private ZXingScannerView mScannerView;
+    private static final String ACTIVITY_DRAWER_REF = "";
 
     @Override
     public void onCreate(Bundle state) {

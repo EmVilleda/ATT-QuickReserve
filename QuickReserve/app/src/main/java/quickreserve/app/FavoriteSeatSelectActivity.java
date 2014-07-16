@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +38,12 @@ public class FavoriteSeatSelectActivity extends Activity {
     protected int currentSector;
     protected int selectedFavorite;
     protected TouchImageView sectorImage;
+    private static final String ACTIVITY_DRAWER_REF = "";
+    private String[] mOptionsList;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ListView mDrawerList;
+    private String att_uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +53,12 @@ public class FavoriteSeatSelectActivity extends Activity {
 
         final Context context = this;
         Intent intent = getIntent();
+        att_uid = getIntent().getStringExtra("att_uid");
         selectedFavorite = intent.getIntExtra("selectedFavorite", -1);
         //Sets removable seats depending on which seat we're changing
         selectedSeat = intent.getStringExtra("selectedSeat");
+        getActionBar().setTitle(getString(R.string.title_activity_favorite_seat_select));
+
         if(selectedFavorite == 1){
             tbr1 = p.getString("seat2", "");
             tbr2 = p.getString("seat3", "");
@@ -124,6 +136,58 @@ public class FavoriteSeatSelectActivity extends Activity {
 
             }
         });
+
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mOptionsList));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ){
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(getString(R.string.title_activity_favorite_seat_select));
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(getString(R.string.options));
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public void setImage(int sector){
@@ -157,6 +221,10 @@ public class FavoriteSeatSelectActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);

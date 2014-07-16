@@ -36,6 +36,7 @@ public class EditReservationTimeActivity extends Activity {
     private static int timeButtonflag;
     ArrayList<Reservation> seatReservations;
     ArrayList<Reservation> reservationList;
+    private static final String ACTIVITY_DRAWER_REF = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

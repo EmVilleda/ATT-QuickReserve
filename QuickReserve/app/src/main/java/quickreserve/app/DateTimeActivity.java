@@ -1,6 +1,7 @@
 package quickreserve.app;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -21,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -63,6 +63,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     private ActionBarDrawerToggle mDrawerToggle;
     private Animation fadeIn;
     private Context context;
+    private static final String ACTIVITY_DRAWER_REF = "Add Reservation";
 
 
     @Override
@@ -107,15 +108,41 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fadeIn.setDuration(600);
 
-                //mCalendarView.setVisibility(View.VISIBLE);
-                //mChoiceLayout.setVisibility(View.GONE);
-                mCalendarView.setAnimation(fadeIn);
-                mCalendarView.startAnimation(fadeIn);
+                if(mCalendarView.getVisibility() != View.VISIBLE)
+                {
+                    fadeIn.setDuration(600);
+
+                    //mCalendarView.setVisibility(View.VISIBLE);
+                    //mChoiceLayout.setVisibility(View.GONE);
+                    mCalendarView.setAnimation(fadeIn);
+                    mCalendarView.startAnimation(fadeIn);
+                }
+                else
+                    mCalendarView.setVisibility(View.GONE);
+
             }
         });
 
+        mSelectedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mCalendarView.getVisibility() != View.VISIBLE)
+                {
+                    fadeIn.setDuration(600);
+
+                    //mCalendarView.setVisibility(View.VISIBLE);
+                    //mChoiceLayout.setVisibility(View.GONE);
+                    mCalendarView.setAnimation(fadeIn);
+                    mCalendarView.startAnimation(fadeIn);
+                }
+                else
+                    mCalendarView.setVisibility(View.GONE);
+            }
+        });
+
+
+        mCalendarView.setShownWeekCount(3);
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {
@@ -153,7 +180,28 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
         });
 
+        mSelectedStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                timeButtonflag = 1;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "timePicker");
+
+            }
+        });
+
         mEndTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                timeButtonflag = 2;
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "timePicker");
+
+            }
+        });
+
+        mSelectedEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timeButtonflag = 2;
@@ -215,7 +263,8 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 R.layout.drawer_list_item, mOptionsList));
 
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -343,8 +392,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
     @Override
     public void onAnimationStart(Animation animation) {
-        mCalendarView.setVisibility(View.VISIBLE);
-        mChoiceLayout.setVisibility(View.GONE);
+
+        if(mCalendarView.getVisibility() == View.VISIBLE)
+            mCalendarView.setVisibility(View.GONE);
+        else
+            mCalendarView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -357,72 +409,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
     }
 
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-            MapActivity.getToast().makeText(getApplicationContext(), mOptionsList[position].toString()
-                    , Toast.LENGTH_SHORT).show();
-            final int pos = position;
-            mDrawerLayout.closeDrawers();
-            mDrawerLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    String option = mOptionsList[pos].toString();
-
-                    if(option.equals("Add Reservation"))
-                    {
-                        Intent i = new Intent(getApplicationContext(), DateTimeActivity.class);
-                        i.putExtra("att_uid", att_uid);
-                        startActivity(i);
-                    }
-                    else if(option.equals("My Reservations"))
-                    {
-                        Intent i = new Intent(getApplicationContext(), MyReservationActivity.class);
-                        i.putExtra("att_uid", att_uid);
-                        startActivity(i);
-
-                    }
-                    else if(option.equals("Logout"))
-                    {
-
-                        AlertDialog.Builder logoutDialog = new AlertDialog.Builder(DateTimeActivity.this);
-                        logoutDialog.setTitle("Do you want to log out?");
-                        logoutDialog.setCancelable(false);
-                        logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                DateTimeActivity.this.finish();
-
-                            }
-
-                        });
-                        logoutDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-
-                        });
-
-                        AlertDialog finishedDialog = logoutDialog.create();
-                        finishedDialog.show();
-
-                    }
-                    else if(option.equals("About"))
-                    {
-                        Intent i = new Intent(getApplicationContext(), FavoriteSeatActivity.class);
-                        startActivity(i);
-                    }
-                    else if(option.equals("Help"))
-                    {
-
-                    }
-
-                }
-            }, 300);
-
-        }
-    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -512,12 +499,26 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     @Override
     public void onBackPressed() {
 
+        ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+
+        Log.e("test", "" + taskList.get(0).numActivities);
+        Log.e("test", "" + taskList.get(0).baseActivity);
+        Log.e("test", "" + taskList.get(0).topActivity);
+
+
+        if(taskList.get(0).numActivities == 2 &&
+                taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
+            Log.e("test", "2 activity in the stack");
+        }
+
         if(mCalendarView.getVisibility() == View.VISIBLE)
         {
             mCalendarView.setVisibility(View.GONE);
             mChoiceLayout.setVisibility(View.VISIBLE);
         }
-        else
+        else if(taskList.get(0).numActivities == 2)
         {
             AlertDialog.Builder logoutDialog = new AlertDialog.Builder(DateTimeActivity.this);
             logoutDialog.setTitle("Do you want to log out?");
@@ -525,6 +526,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
+                    Intent i = new Intent(context, LoginActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
                     DateTimeActivity.this.finish();
 
                 }
@@ -539,9 +544,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
             AlertDialog finishedDialog = logoutDialog.create();
             finishedDialog.show();
-            //super.onBackPressed();
 
         }
+        else
+            super.onBackPressed();
 
 
 

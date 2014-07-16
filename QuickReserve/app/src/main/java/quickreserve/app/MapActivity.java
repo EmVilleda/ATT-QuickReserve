@@ -25,6 +25,7 @@ public class MapActivity extends FragmentActivity
     private int date_selected;
     private ActionBarDrawerToggle mDrawerToggle;
     private String tempTitle;
+    private static final String ACTIVITY_DRAWER_REF = "";
 
 
     public static Toast getToast() {
@@ -51,7 +52,8 @@ public class MapActivity extends FragmentActivity
                 R.layout.drawer_list_item, mOptionsList));
 
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
 
         InitFragment firstFragment = new InitFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.container, firstFragment, "init_fragment").commit();
@@ -99,27 +101,6 @@ public class MapActivity extends FragmentActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-            toast = new Toast(getApplicationContext());
-            toast.makeText(getApplicationContext(), mOptionsList[position].toString()
-                    , Toast.LENGTH_SHORT).show();
-            mDrawerLayout.closeDrawers();
-            mDrawerLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent i = new Intent(MapActivity.this, MyReservationActivity.class);
-                    i.putExtra("att_uid", att_uid);
-                    startActivity(i);
-                }
-            }, 300);
-
-        }
     }
 
     @Override

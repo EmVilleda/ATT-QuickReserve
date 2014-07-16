@@ -2,58 +2,22 @@
 <pre-dex-items>
 
     <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-0c3a504933f458fa68e15e59a1949e2179ae9241.jar"
-        jar="C:\Users\AT892Q\gitproj\team2020\QuickReserve\build\intermediates\exploded-aar\it.sephiroth.android.library.imagezoom\imagezoom\1.0.5\classes.jar"
+        dex="C:\Users\dm0497\AndroidStudioProjects\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-d36693ae705436925d3a5436da64b7d0f203d721.jar"
+        jar="C:\Users\dm0497\AndroidStudioProjects\QuickReserve\build\intermediates\exploded-aar\me.dm7.barcodescanner\core\1.1\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="325a1fc8175dc80366c7162b7a62193d3a231d3b"/>
+        sha1="326868515a36f3aea301d9b66ed59749fba4a462"/>
     <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\disklrucache-1.3.1-f7c785d36de4a3dbb52b25a27d72f9652d06b3aa.jar"
-        jar="C:\Users\AT892Q\.gradle\caches\modules-2\files-2.1\com.jakewharton\disklrucache\1.3.1\7d14a74fb87b3e0a7df770036db5f8454b475a07\disklrucache-1.3.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="7d14a74fb87b3e0a7df770036db5f8454b475a07"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\TileView-1.0.11-c5e7d1e33e97f1f04ddf144ea1cc03b83c66b8ce.jar"
-        jar="C:\Users\AT892Q\.gradle\caches\modules-2\files-2.1\com.qozix\TileView\1.0.11\7b97963766b3ddb99a31ff17ab0629c376bc0f5f\TileView-1.0.11.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="7b97963766b3ddb99a31ff17ab0629c376bc0f5f"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-9f18a2eea3e6597f75642efbce562ccdb2636579.jar"
-        jar="C:\Users\AT892Q\gitproj\team2020\QuickReserve\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-7663b82e426ef3f2e30165f86f037c037c44baeb.jar"
-        jar="C:\Users\AT892Q\gitproj\team2020\QuickReserve\build\intermediates\exploded-aar\it.sephiroth.android.library.easing\android-easing\1.0.3\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="90c8cd98f8c1cd37285d7bf9ea5a9ec6df3a99b6"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\support-v4-19.1.0-8c86e2c7607ad4dd141dbea895d18fdf4d2ea5d3.jar"
-        jar="C:\Users\AT892Q\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-2e3ad6c52a9533aa4ebaf12b7ce7f4cd409b6991.jar"
-        jar="C:\Users\AT892Q\gitproj\team2020\QuickReserve\build\intermediates\exploded-aar\me.dm7.barcodescanner\zxing\1.1\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="4e6c7a0434fd93fe0a482f1141cea21059873ee3"/>
-    <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\core-2.2-b8642bae10f3e0331575bb2764734dae6d829ab6.jar"
-        jar="C:\Users\AT892Q\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\2.2\cba0b93b0072105d808ef7a00a107a4eb97874e7\core-2.2.jar"
+        dex="C:\Users\dm0497\AndroidStudioProjects\QuickReserve\app\build\intermediates\pre-dexed\debug\core-2.2-2c102b04711a9666181a35ea9b262d22344d846d.jar"
+        jar="C:\Users\dm0497\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\2.2\cba0b93b0072105d808ef7a00a107a4eb97874e7\core-2.2.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="cba0b93b0072105d808ef7a00a107a4eb97874e7"/>
     <item
-        dex="C:\Users\AT892Q\gitproj\team2020\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-f1d6810489a7d9b8c96303101a50871aa1dc79ff.jar"
-        jar="C:\Users\AT892Q\gitproj\team2020\QuickReserve\build\intermediates\exploded-aar\me.dm7.barcodescanner\core\1.1\classes.jar"
+        dex="C:\Users\dm0497\AndroidStudioProjects\QuickReserve\app\build\intermediates\pre-dexed\debug\classes-d47bf2a9ae8bcd34ec2168e4b1ab053088a47684.jar"
+        jar="C:\Users\dm0497\AndroidStudioProjects\QuickReserve\build\intermediates\exploded-aar\me.dm7.barcodescanner\zxing\1.1\classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="326868515a36f3aea301d9b66ed59749fba4a462"/>
+        sha1="4e6c7a0434fd93fe0a482f1141cea21059873ee3"/>
 
 </pre-dex-items>

@@ -47,6 +47,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
         mLoginView = (RelativeLayout)findViewById(R.id.loginView);
         mTempFrame = (FrameLayout)findViewById(R.id.tempFrame);
         mUserID_field = (EditText)findViewById(R.id.userID);
+        mUserID_field.setText("dm0497");
         mPassword_field = (EditText)findViewById(R.id.password);
         mLoginButton = (Button)findViewById(R.id.loginButton);
         mySQLiteHelper = new MySQLiteHelper(this);

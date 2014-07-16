@@ -1,5 +1,8 @@
 package quickreserve.app;
 
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -32,6 +35,7 @@ public class MyReservationActivity extends ActionBarActivity {
     private String[] mOptionsList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private static final String ACTIVITY_DRAWER_REF = "My Reservations";
 
 
     @Override
@@ -57,7 +61,8 @@ public class MyReservationActivity extends ActionBarActivity {
                 R.layout.drawer_list_item, mOptionsList));
 
         // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -98,25 +103,6 @@ public class MyReservationActivity extends ActionBarActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-            MapActivity.getToast().makeText(getApplicationContext(), mOptionsList[position].toString()
-                    , Toast.LENGTH_SHORT).show();
-            mDrawerLayout.closeDrawers();
-            mDrawerLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent i = new Intent(getApplicationContext(), MyReservationActivity.class);
-                    i.putExtra("att_uid", att_uid);
-                    startActivity(i);
-                }
-            }, 300);
-
-        }
     }
 
     @Override
@@ -163,6 +149,7 @@ public class MyReservationActivity extends ActionBarActivity {
                     int ID = reservationList.get(position).getID();
                     Intent intent = new Intent(MyReservationActivity.this, ViewReservationActivity.class);
                     intent.putExtra("ID", ID);
+                    intent.putExtra("att_uid", att_uid);
                     startActivity(intent);
                 }
             });
@@ -196,6 +183,49 @@ public class MyReservationActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed() {
+
+        ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+
+        List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+
+        Log.e("test", "" + taskList.get(0).numActivities);
+        Log.e("test", "" + taskList.get(0).baseActivity);
+        Log.e("test", "" + taskList.get(0).topActivity);
+
+        if(taskList.get(0).numActivities == 2)
+        {
+            AlertDialog.Builder logoutDialog = new AlertDialog.Builder(MyReservationActivity.this);
+            logoutDialog.setTitle("Do you want to log out?");
+            logoutDialog.setCancelable(false);
+            logoutDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    finish();
+
+                }
+
+            });
+            logoutDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+
+            });
+
+            AlertDialog finishedDialog = logoutDialog.create();
+            finishedDialog.show();
+
+        }
+        else
+            super.onBackPressed();
+
     }
 
 }

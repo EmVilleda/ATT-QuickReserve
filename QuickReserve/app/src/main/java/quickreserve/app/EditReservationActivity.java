@@ -30,6 +30,8 @@ public class EditReservationActivity extends Activity {
     CalendarView calendarView;
     View screenView;
     private static int timeButtonflag;
+    private static final String ACTIVITY_DRAWER_REF = "";
+    private String att_uid;
 
 
     @Override
