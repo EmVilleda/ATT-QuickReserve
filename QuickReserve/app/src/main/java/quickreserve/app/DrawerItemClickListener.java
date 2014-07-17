@@ -109,6 +109,12 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                     //activity.finish();
 
                 }
+                else if(option.equals("Find a Friend")){
+                    Intent i = new Intent(context, CreepActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(i);
+                }
                 else if(option.equals("About"))
                 {
 

@@ -167,8 +167,21 @@
 
         </LinearLayout>
 
-        <Button
+        <TextView style= "@style/ReservationTextView"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reservations for A1 on selected day"
+            android:id="@+id/editReservationTimeTextView"
+            android:layout_gravity="center" />
+
+        <ListView style = "@style/MyListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:id="@+id/editReservationTimeList" />
+
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/selectSeat"
@@ -177,11 +190,5 @@
             android:textColor="@color/white"
             android:padding="10dp"
             android:textStyle="bold" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4">
-        </View>
-
     </LinearLayout>
 </FrameLayout>

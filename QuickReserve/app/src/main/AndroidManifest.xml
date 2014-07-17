@@ -34,7 +34,7 @@
         <activity
             android:name=".ViewReservationActivity"
             android:label="@string/title_activity_view_reservation"
-            android:parentActivityName=".MyReservationActivity">
+            android:parentActivityName=".MyReservationActivity" >
         </activity>
         <activity
             android:name=".EditReservationTimeActivity"
@@ -71,7 +71,12 @@
         <activity
             android:name=".QRResultActivity"
             android:label="Scan Result"
-            android:parentActivityName=".QRScannerActivity">
+            android:parentActivityName=".QRScannerActivity" >
+        </activity>
+        <activity
+            android:name=".CreepActivity"
+            android:label="@string/title_activity_creep"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

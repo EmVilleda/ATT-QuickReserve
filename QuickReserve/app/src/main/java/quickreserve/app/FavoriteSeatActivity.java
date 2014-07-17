@@ -18,6 +18,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import quickreserve.app.R;
 
 public class FavoriteSeatActivity extends Activity {
@@ -115,10 +118,12 @@ public class FavoriteSeatActivity extends Activity {
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mOptionsList));
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF

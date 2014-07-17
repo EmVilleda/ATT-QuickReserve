@@ -28,7 +28,10 @@ public class EditReservationSeatActivity extends Activity {
     protected int date;
     protected String origin;
     protected int currentSector;
+    protected String seatName;
+    TouchImageView sectorImage;
     private static final String ACTIVITY_DRAWER_REF = "";
+    protected String att_uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class EditReservationSeatActivity extends Activity {
         final Context context = this;
 
         Intent intent = getIntent();
+        att_uid = intent.getStringExtra("att_uid");
         final int ID = intent.getIntExtra("ID", -1);
         if (ID == -1) {
 
@@ -53,16 +57,18 @@ public class EditReservationSeatActivity extends Activity {
             start_time = intent.getIntExtra("start_time", 0);
             end_time = intent.getIntExtra("end_time", 0);
             date = intent.getIntExtra("date", 0);
+            seatName = intent.getStringExtra("seatName");
         }else if (origin.equals("view")){
             date = reservation.getDate();
             start_time = reservation.getStartTime();
             end_time = reservation.getEndTime();
+            seatName = "";
         }
         else{
             finish();
         }
 
-        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspaces(date, start_time, end_time);
+        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspacesIncludeExtra(date, start_time, end_time,seatName);
         //should possibly make a workspace list adapter instead
         ArrayList<String> workspaceNames = new ArrayList<String>();
 
@@ -71,12 +77,12 @@ public class EditReservationSeatActivity extends Activity {
         }
 
         final ListView seatList = (ListView) findViewById(R.id.editReservationSeatList);
-        final TouchImageView sectorImage = (TouchImageView) findViewById(R.id.editReservationSeatImage);
+        sectorImage = (TouchImageView) findViewById(R.id.editReservationSeatImage);
         Button submitButton = (Button) findViewById(R.id.editReservationSeatButton);
         final TextView dateText = (TextView) findViewById(R.id.editReservationSeatText);
-        int selectedItem = -1;
         currentSector = 1;
         sectorImage.setImageResource(R.drawable.section_a);
+
 
         dateText.setText("Available workspaces for " + TimeParser.parseDate(date) + " during the time slot " + TimeParser.parseTime(start_time, end_time));
 
@@ -89,23 +95,21 @@ public class EditReservationSeatActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 int sector = workspaces.get(position).getSector();
                 seatList.setItemChecked(position, true);
-                if (sector == 1 && currentSector!=1) {
-                    sectorImage.setImageResource(R.drawable.section_a);
-                    currentSector = 1;
-                    sectorImage.resetZoom();
-                } else if (sector == 2 && currentSector!=2) {
-                    sectorImage.setImageResource(R.drawable.section_b);
-                    currentSector = 2;
-                    sectorImage.resetZoom();
-                } else if(sector == 3 && currentSector!=3){
-                    sectorImage.setImageResource(R.drawable.section_c);
-                    currentSector = 3;
-                    sectorImage.resetZoom();
-                }
+                setImage(sector);
             }
         });
-
         seatList.setAdapter(seatListAdapter);
+
+        if(!(seatName.equals(""))){
+            for (int index = 0; index < availableWorkspaces.size(); index++){
+                if (availableWorkspaces.get(index).getName().equals(seatName)){
+                    int sector = availableWorkspaces.get(index).getSector();
+                    setImage(sector);
+                    seatList.setItemChecked(index, true);
+                    seatList.setSelection(index);
+                }
+            }
+        }
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +143,22 @@ public class EditReservationSeatActivity extends Activity {
             }
         });
 
+    }
+
+    public void setImage(int sector){
+        if (sector == 1 && currentSector!=1) {
+            sectorImage.setImageResource(R.drawable.section_a);
+            currentSector = 1;
+            sectorImage.resetZoom();
+        } else if (sector == 2 && currentSector!=2) {
+            sectorImage.setImageResource(R.drawable.section_b);
+            currentSector = 2;
+            sectorImage.resetZoom();
+        } else if(sector == 3 && currentSector!=3){
+            sectorImage.setImageResource(R.drawable.section_c);
+            currentSector = 3;
+            sectorImage.resetZoom();
+        }
     }
 
 

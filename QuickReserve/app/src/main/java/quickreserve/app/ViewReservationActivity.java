@@ -22,6 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -129,9 +131,12 @@ public class ViewReservationActivity extends ActionBarActivity {
         Log.e("test", mDrawerLayout.toString());
         Log.e("test", mDrawerList.toString());
 
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
+
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mOptionsList));
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
                 ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
@@ -204,46 +209,11 @@ public class ViewReservationActivity extends ActionBarActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder editDialog = new AlertDialog.Builder(context);
-                editDialog.setTitle("Select which to edit.");
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, context.getResources().getStringArray(R.array.edit_options_array));
-                editDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0){
-                            Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationTimeActivity.class);
-                            newIntent.putExtra("ID", ID);
-                            startActivity(newIntent);
-                        }
-                        else if(i==1){
-                            Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationSeatActivity.class);
-                            newIntent.putExtra("ID", ID);
-                            newIntent.putExtra("origin", "view");
-                            startActivity(newIntent);
-                        }
-                        else{
-                            Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationActivity.class);
-                            newIntent.putExtra("ID", ID);
-                            //newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(newIntent);
-                        }
-                    }
-                });
-                editDialog.setCancelable(true);
-                editDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-
-                });
-                AlertDialog finishedDialog = editDialog.create();
-                //DialogColor.dialogColor(finishedDialog);
-                finishedDialog.show();
-
-
+                Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationActivity.class);
+                newIntent.putExtra("ID", ID);
+                //newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(newIntent);
             }
-
-
         });
 
 

@@ -31,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -257,10 +259,12 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mOptionsList));
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
@@ -292,6 +296,29 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
     }
 
+    //change set end time if start time overlaps
+    private static void updateEndTime(){
+        int start = hour_start*100 + min_start;
+        int end = hour_end * 100 + min_end;
+
+        if(start >= end){
+            hour_end = (hour_start + 1) % 24;
+            min_end = min_start;
+            mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
+        }
+    }
+
+    //change set start time if end time overlaps
+    private static void updateStartTime(){
+        int start = hour_start*100 + min_start;
+        int end = hour_end * 100 + min_end;
+
+        if (end <= start){
+            hour_start = hour_end - 1;
+            min_start = min_end;
+            mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
+        }
+    }
 
     //Checks if user already has a reservation overlapping this time
     public boolean isUserTimeAvailable(int date, int start_time, int end_time){
@@ -345,7 +372,6 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         boolean seat2F = false;
         boolean seat3F = false;
         MySQLiteHelper manager = new MySQLiteHelper(context);
-        Toast.makeText(DateTimeActivity.this, seat1 + " " + seat2 + " " + seat3, Toast.LENGTH_SHORT).show();
 
         List<Workspace> openWorkspaces = manager.getOpenWorkspaces(date, start_time, end_time);
         if(openWorkspaces.size()==0){
@@ -486,12 +512,14 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 mSelectedStartTime.setText(time);
                 hour_start = hourOfDay;
                 min_start = minute;
+                updateEndTime();
             }
             else if(getTimeButtonFlag() == 2)
             {
                 mSelectedEndTime.setText(time);
                 hour_end = hourOfDay;
                 min_end = minute;
+                updateStartTime();
             }
         }
     }

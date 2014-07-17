@@ -14,12 +14,12 @@ import java.util.List;
 /**
  * Created by at892q on 6/12/2014.
  */
-public class MyReservationAdapter extends ArrayAdapter<Reservation>{
+public class MyEditReservationAdapter extends ArrayAdapter<Reservation>{
 
 
     private Context context;
 
-    public MyReservationAdapter(Context context, int textViewResourceId, List<Reservation> items) {
+    public MyEditReservationAdapter(Context context, int textViewResourceId, List<Reservation> items) {
         super(context, textViewResourceId, items);
         this.context = context;
     }
@@ -28,7 +28,7 @@ public class MyReservationAdapter extends ArrayAdapter<Reservation>{
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.my_reservation_row_layout, null);
+            view = inflater.inflate(R.layout.my_edit_reservation_row_layout, null);
         }
 
         Reservation reservation = (Reservation)getItem(position);
@@ -38,10 +38,11 @@ public class MyReservationAdapter extends ArrayAdapter<Reservation>{
 
         TextView dateView = (TextView) view.findViewById(R.id.myReservationRowDate);
         TextView timeView = (TextView) view.findViewById(R.id.myReservationRowTime);
-        TextView seatView = (TextView) view.findViewById(R.id.myReservationRowSeat);
+        //TextView seatView = (TextView) view.findViewById(R.id.myReservationRowSeat);
+        ImageView icon = (ImageView) view.findViewById(R.id.myEditReservationIcon);
 
-
-        seatView.setText(reservation.getWorkspaceID() + "");
+        icon.setImageResource(R.drawable.ic_action_edit);
+        //seatView.setText(reservation.getWorkspaceID() + "");
         dateView.setText(TimeParser.parseDate(reservation.getDate()));
         timeView.setText(TimeParser.parseTime(reservation.getStartTime(), reservation.getEndTime()));
 

@@ -415,7 +415,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         List<Reservation> reservations = new LinkedList<Reservation>();
 
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM reservations";
+        String query = "SELECT * FROM reservations ORDER BY date, start_time ASC";
         Reservation reservation = null;
         try {
             Cursor cursor = db.rawQuery(query, null);
@@ -457,7 +457,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                             new String[]{att_uid, dateStr}, // d. selections args
                             null, // e. group by
                             null, // f. having
-                            "date ASC", // g. order by
+                            "date, start_time ASC", // g. order by
                             null); // h. limit
 
             Reservation reservation = null;
@@ -698,6 +698,43 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             int size = allWorkspaces.size();
             for (int i = 0; i < size; i++) {
                 if (!takenWorkspaces.contains(allWorkspaces.get(i).getName()))
+                    workspaces.add(allWorkspaces.get(i));
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return workspaces;
+    }
+
+    public List<Workspace> getOpenWorkspacesIncludeExtra(int date, int startTime, int endTime, String workspaceName)
+    {
+        List<Workspace> workspaces = new LinkedList<Workspace>();
+        List<Workspace> allWorkspaces = getAllWorkspaces();
+        List<String> takenWorkspaces = new LinkedList<String>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String dateStr = String.valueOf(date);
+        String startTimeStr = String.valueOf(startTime);
+        String endTimeStr = String.valueOf(endTime);
+        String workspace = null;
+
+        try {
+            Cursor cursor = db.query("reservations",
+                    new String[]{"workspace_id"},
+                    "date = ? AND start_time < ? AND end_time > ?",
+                    new String[]{dateStr, endTimeStr, startTimeStr},
+                    null,
+                    null,
+                    null);
+            if (cursor.moveToFirst()) {
+                do {
+                    workspace = cursor.getString(0);
+                    takenWorkspaces.add(workspace);
+                } while (cursor.moveToNext());
+            }
+            int size = allWorkspaces.size();
+            for (int i = 0; i < size; i++) {
+                if (!takenWorkspaces.contains(allWorkspaces.get(i).getName()) || allWorkspaces.get(i).getName().equals(workspaceName))
                     workspaces.add(allWorkspaces.get(i));
             }
         } catch (SQLiteException e) {
