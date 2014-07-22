@@ -32,6 +32,9 @@ public class FavoriteSeatActivity extends Activity {
     protected Button seat2Button;
     protected Button seat3Button;
     protected Button submitButton;
+    protected Button seat1OverlayButton;
+    protected Button seat2OverlayButton;
+    protected Button seat3OverlayButton;
     private static final String ACTIVITY_DRAWER_REF = "Favorite Seats";
     private String[] mOptionsList;
     private DrawerLayout mDrawerLayout;
@@ -44,12 +47,14 @@ public class FavoriteSeatActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_seat);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         final Context context = this;
         getActionBar().setTitle(getString(R.string.title_activity_favorite_seat));
         att_uid = getIntent().getStringExtra("att_uid");
         seat1Text = (TextView) findViewById(R.id.favoriteSeatText1);
         seat2Text = (TextView) findViewById(R.id.favoriteSeatText2);
         seat3Text = (TextView) findViewById(R.id.favoriteSeatText3);
+
 
         seat1Button = (Button) findViewById(R.id.favoriteSeatButton1);
         seat1Button.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +63,26 @@ public class FavoriteSeatActivity extends Activity {
                 Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
                 //selected = # of favorite
                 i.putExtra("selectedFavorite", 1);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                String seat = seat1Text.getText().toString();
+                if (seat.equals("Select a seat")){
+                    seat = "";
+                }
+                i.putExtra("selectedSeat", seat);
+                startActivityForResult(i, 1);
+            }
+        });
+
+        seat1OverlayButton = (Button)findViewById(R.id.seat1OverlayButton);
+        seat1OverlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
+                //selected = # of favorite
+                i.putExtra("selectedFavorite", 1);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 String seat = seat1Text.getText().toString();
                 if (seat.equals("Select a seat")){
                     seat = "";
@@ -74,6 +99,8 @@ public class FavoriteSeatActivity extends Activity {
                 Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
                 //selected = # of favorite
                 i.putExtra("selectedFavorite", 2);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 String seat = seat2Text.getText().toString();
                 if (seat.equals("Select a seat")){
                     seat = "";
@@ -82,6 +109,25 @@ public class FavoriteSeatActivity extends Activity {
                 startActivityForResult(i, 1);
             }
         });
+
+        seat2OverlayButton = (Button)findViewById(R.id.seat2OverlayButton);
+        seat2OverlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
+                //selected = # of favorite
+                i.putExtra("selectedFavorite", 2);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                String seat = seat2Text.getText().toString();
+                if (seat.equals("Select a seat")){
+                    seat = "";
+                }
+                i.putExtra("selectedSeat", seat);
+                startActivityForResult(i, 1);
+            }
+        });
+
         seat3Button = (Button) findViewById(R.id.favoriteSeatButton3);
         seat3Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +135,26 @@ public class FavoriteSeatActivity extends Activity {
                 Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
                 //selected = # of favorite
                 i.putExtra("selectedFavorite", 3);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                String seat = seat3Text.getText().toString();
+                if (seat.equals("Select a seat")){
+                    seat = "";
+                }
+                i.putExtra("selectedSeat", seat);
+                startActivityForResult(i, 1);
+            }
+        });
+
+        seat3OverlayButton = (Button)findViewById(R.id.seat3OverlayButton);
+        seat3OverlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, FavoriteSeatSelectActivity.class);
+                //selected = # of favorite
+                i.putExtra("selectedFavorite", 3);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 String seat = seat3Text.getText().toString();
                 if (seat.equals("Select a seat")){
                     seat = "";

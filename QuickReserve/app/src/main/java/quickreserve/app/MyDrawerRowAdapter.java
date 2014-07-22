@@ -44,6 +44,9 @@ public class MyDrawerRowAdapter extends ArrayAdapter<String> {
         else if(labelName.equals("Favorite Seats")){
             id = R.drawable.ic_action_important;
         }
+        else if(labelName.equals("Scan QR Code")){
+            id = R.drawable.ic_drawer_qr;
+        }
         else if(labelName.equals("Find a Friend")){
             id = R.drawable.ic_action_person;
         }

@@ -14,16 +14,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class MapActivity extends FragmentActivity
 {
+    private ActionBarDrawerToggle mDrawerToggle;
     private String[] mOptionsList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private static Toast toast;
     private String att_uid;
     private int date_selected;
-    private ActionBarDrawerToggle mDrawerToggle;
     private String tempTitle;
     private static final String ACTIVITY_DRAWER_REF = "";
 
@@ -49,7 +52,7 @@ public class MapActivity extends FragmentActivity
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mOptionsList));
+                R.layout.my_drawer_row_layout, mOptionsList));
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
@@ -62,6 +65,21 @@ public class MapActivity extends FragmentActivity
         //toast.setGravity(Gravity.CENTER, 0,0);
 
         //toast.show();
+
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getBaseContext(),MapActivity.this,mDrawerLayout,mOptionsList));
+
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -79,7 +97,6 @@ public class MapActivity extends FragmentActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-
                 tempTitle = getActionBar().getTitle().toString();
                 getActionBar().setTitle(getString(R.string.options));
             }

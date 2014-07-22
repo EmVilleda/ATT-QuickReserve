@@ -3,7 +3,10 @@ package quickreserve.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -32,45 +36,30 @@ public class EditReservationSeatActivity extends Activity {
     TouchImageView sectorImage;
     private static final String ACTIVITY_DRAWER_REF = "";
     protected String att_uid;
+    ArrayList<String> workspaceNames;
+    private String[] mOptionsList;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reservation_seat);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         final Context context = this;
 
         Intent intent = getIntent();
         att_uid = intent.getStringExtra("att_uid");
-        final int ID = intent.getIntExtra("ID", -1);
-        if (ID == -1) {
 
-            finish();
-        }
-
-        final boolean timeChange = intent.getBooleanExtra("timeChanged", false);
         final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
-        final Reservation reservation = reservationManager.getReservation(ID);
 
-        origin = intent.getStringExtra("origin");
+        seatName = intent.getStringExtra("seatName");
 
-        if (origin.equals("edit")){
-            start_time = intent.getIntExtra("start_time", 0);
-            end_time = intent.getIntExtra("end_time", 0);
-            date = intent.getIntExtra("date", 0);
-            seatName = intent.getStringExtra("seatName");
-        }else if (origin.equals("view")){
-            date = reservation.getDate();
-            start_time = reservation.getStartTime();
-            end_time = reservation.getEndTime();
-            seatName = "";
-        }
-        else{
-            finish();
-        }
-
-        List<Workspace> availableWorkspaces = reservationManager.getOpenWorkspacesIncludeExtra(date, start_time, end_time,seatName);
+        List<Workspace> availableWorkspaces = reservationManager.getAllWorkspaces();
         //should possibly make a workspace list adapter instead
-        ArrayList<String> workspaceNames = new ArrayList<String>();
+        workspaceNames = new ArrayList<String>();
 
         for (Workspace w: availableWorkspaces){
             workspaceNames.add(w.getName());
@@ -79,12 +68,8 @@ public class EditReservationSeatActivity extends Activity {
         final ListView seatList = (ListView) findViewById(R.id.editReservationSeatList);
         sectorImage = (TouchImageView) findViewById(R.id.editReservationSeatImage);
         Button submitButton = (Button) findViewById(R.id.editReservationSeatButton);
-        final TextView dateText = (TextView) findViewById(R.id.editReservationSeatText);
         currentSector = 1;
         sectorImage.setImageResource(R.drawable.section_a);
-
-
-        dateText.setText("Available workspaces for " + TimeParser.parseDate(date) + " during the time slot " + TimeParser.parseTime(start_time, end_time));
 
         //to use in listener
         final List<Workspace> workspaces = availableWorkspaces;
@@ -100,14 +85,12 @@ public class EditReservationSeatActivity extends Activity {
         });
         seatList.setAdapter(seatListAdapter);
 
-        if(!(seatName.equals(""))){
-            for (int index = 0; index < availableWorkspaces.size(); index++){
-                if (availableWorkspaces.get(index).getName().equals(seatName)){
-                    int sector = availableWorkspaces.get(index).getSector();
-                    setImage(sector);
-                    seatList.setItemChecked(index, true);
-                    seatList.setSelection(index);
-                }
+        for (int index = 0; index < availableWorkspaces.size(); index++){
+            if (availableWorkspaces.get(index).getName().equals(seatName)){
+                int sector = availableWorkspaces.get(index).getSector();
+                setImage(sector);
+                seatList.setItemChecked(index, true);
+                seatList.setSelection(index);
             }
         }
 
@@ -115,34 +98,71 @@ public class EditReservationSeatActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
-                    int checkedPosition = seatList.getCheckedItemPosition();
-                    ReservationController controller = new ReservationController(context);
-                    boolean result = false;
-                    if (origin.equals("edit")) {
-                        result = controller.editReservation(ID, workspaces.get(checkedPosition).getName(), date, start_time, end_time);
-                    } else{
-                        result = controller.editReservation(ID, workspaces.get(checkedPosition).getName(), 0, 0, 0);
-                    }
-                    //Toast.makeText(EditReservationSeatActivity.this, checkedPosition + " " + selectedWorkspace.getName(), Toast.LENGTH_SHORT).show();
-                    if (result == true) {
-                        Toast.makeText(EditReservationSeatActivity.this, "Succesfully edited", Toast.LENGTH_SHORT).show();
-                        if(origin.equals("edit")){
-                            Intent intent = new Intent();
-                            setResult(Activity.RESULT_OK, intent);
-                            finish();
-                        }
-                        finish();
-                    }
-                    else {
-                        Toast.makeText(EditReservationSeatActivity.this, "Unknowns error", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception E) {
+                    String seatName = workspaceNames.get(seatList.getCheckedItemPosition());
+                    Intent intent = new Intent();
+                    setResult(Activity.RESULT_OK, intent);
+                    intent.putExtra("selectedSeat", seatName);
+                    finish();
+                }
+                catch (Exception E) {
                     Toast.makeText(EditReservationSeatActivity.this, "Please select a seat", Toast.LENGTH_SHORT).show();
 
                 }
             }
         });
 
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                EditReservationSeatActivity.this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ){
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle("Change time");
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(getString(R.string.options));
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     public void setImage(int sector){
@@ -176,6 +196,9 @@ public class EditReservationSeatActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

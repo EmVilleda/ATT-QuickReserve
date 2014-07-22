@@ -1,5 +1,6 @@
 package quickreserve.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,30 +9,43 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.qozix.animation.easing.Linear;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 
-public class EditReservationActivity extends Activity {
+public class EditReservationActivity extends Activity implements Animation.AnimationListener{
 
-    TextView dateSelected;
-    private static TextView startTimeSelected;
-    private static TextView endTimeSelected;
+    EditText dateSelected;
+    private static EditText startTimeSelected;
+    private static EditText endTimeSelected;
+    private static EditText seatSelected;
     CalendarView calendarView;
     View screenView;
     private static int timeButtonflag;
@@ -41,17 +55,32 @@ public class EditReservationActivity extends Activity {
     private static final String ACTIVITY_DRAWER_REF = "";
     private String att_uid;
     private static TextView reservationText;
+    List<Reservation> allReservations;
+    int ID;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String[] mOptionsList;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private LinearLayout otherReservationsLayout;
+    private TextView noReservationTextView;
+    private Button editDateOverlayButton;
+    private Button editStartOverlayButton;
+    private Button editEndOverlayButton;
+    private Button editSeatOverlayButton;
+    private Animation fadeIn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_reservation);
-
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+        otherReservationsLayout = (LinearLayout)findViewById(R.id.otherReservationsLayout);
+        noReservationTextView = (TextView) findViewById(R.id.noReservationTextView);
         final Context context = this;
         Intent intent = getIntent();
         att_uid = intent.getStringExtra("att_uid");
-        final int ID = intent.getIntExtra("ID", -1);
+        ID = intent.getIntExtra("ID", -1);
         if (ID == -1) {
 
             finish();
@@ -66,7 +95,7 @@ public class EditReservationActivity extends Activity {
         seat = reservation.getWorkspaceID();
 
         //remove when sqlhelper is updated
-        List<Reservation> allReservations = reservationManager.getAllReservations();
+        allReservations = reservationManager.getAllReservations();
         seatReservations = new ArrayList<Reservation>();
         for(Reservation r: allReservations){
             //ignores the reservation being edited
@@ -75,16 +104,17 @@ public class EditReservationActivity extends Activity {
             }
         }
 
-        dateSelected = (TextView) findViewById(R.id.editReservationDateText);
-        startTimeSelected = (TextView) findViewById(R.id.editReservationStartTimeText);
-        endTimeSelected = (TextView) findViewById(R.id.editReservationEndTimeText);
+        dateSelected = (EditText) findViewById(R.id.editReservationDateText);
+        startTimeSelected = (EditText) findViewById(R.id.editReservationStartTimeText);
+        endTimeSelected = (EditText) findViewById(R.id.editReservationEndTimeText);
         calendarView = (CalendarView) findViewById(R.id.editReservationCalendarView);
-        screenView = (View) findViewById(R.id.editReservationView);
         reservationText = (TextView) findViewById(R.id.editReservationTimeTextView);
+        seatSelected = (EditText) findViewById(R.id.editReservationChangeSeatText);
 
         dateSelected.setText(TimeParser.parseDateFormat(date));
         startTimeSelected.setText(TimeParser.parseTime(start_time));
         endTimeSelected.setText(TimeParser.parseTime(end_time));
+        seatSelected.setText(seat);
 
         updateList();
 
@@ -99,21 +129,64 @@ public class EditReservationActivity extends Activity {
         //14 days of milliseconds
         calendarView.setMaxDate(System.currentTimeMillis() + 1209600000);
 
+        editDateOverlayButton = (Button) findViewById(R.id.editDateOverlayButton);
+        editStartOverlayButton = (Button) findViewById(R.id.editStartTimeOverlayButton);
+        editEndOverlayButton = (Button) findViewById(R.id.editEndTimeOverlayButton);
+        editSeatOverlayButton = (Button) findViewById(R.id.editSeatOverlayButton);
+        fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+        fadeIn.setAnimationListener(this);
+
 
         Button calendarButton = (Button) findViewById(R.id.editReservationDateButton);
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calendarView.setVisibility(View.VISIBLE);
-                screenView.setVisibility(View.GONE);
+                if(calendarView.getVisibility() != View.VISIBLE)
+                {
+                    fadeIn.setDuration(600);
+
+                    //mCalendarView.setVisibility(View.VISIBLE);
+                    //mChoiceLayout.setVisibility(View.GONE);
+                    calendarView.setAnimation(fadeIn);
+                    calendarView.startAnimation(fadeIn);
+                }
+                else
+                    calendarView.setVisibility(View.GONE);
+
             }
+
         });
 
-        calendarView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener dateChangeListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 calendarView.setVisibility(View.GONE);
-                screenView.setVisibility(View.VISIBLE);
+               // screenView.setVisibility(View.VISIBLE);
+            }
+        };
+
+        calendarView.setOnClickListener(dateChangeListener);
+
+        editDateOverlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                editDateOverlayButton.setVisibility(View.VISIBLE);
+                //fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+
+                Log.e("test", "overlayclicked");
+                if(calendarView.getVisibility() != View.VISIBLE)
+                {
+                    fadeIn.setDuration(600);
+                    calendarView.setAnimation(fadeIn);
+                    calendarView.setVisibility(View.INVISIBLE);
+                    calendarView.startAnimation(fadeIn);
+                    Log.e("test", "should start showing ");
+                }
+                else {
+                    calendarView.setVisibility(View.GONE);
+                    Log.e("test", "should be gone");
+                }
             }
         });
 
@@ -131,7 +204,7 @@ public class EditReservationActivity extends Activity {
 
                 {
                     calendarView.setVisibility(View.GONE);
-                    screenView.setVisibility(View.VISIBLE);
+                    //screenView.setVisibility(View.VISIBLE);
                 }
                 dateSelected.setText(TimeParser.parseDate(year, month + 1, dayOfMonth));
                 updateList();
@@ -140,8 +213,10 @@ public class EditReservationActivity extends Activity {
 
         Button startTimeButton = (Button) findViewById(R.id.editReservationStartButton);
         Button endTimeButton = (Button) findViewById(R.id.editReservationEndButton);
+        Button changeSeatButton = (Button) findViewById(R.id.editReservationChangeSeatButton);
 
-        startTimeButton.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener startTimeListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -150,8 +225,14 @@ public class EditReservationActivity extends Activity {
                 newFragment.show(getFragmentManager(), "timePicker");
 
             }
-        });
-        endTimeButton.setOnClickListener(new View.OnClickListener() {
+        };
+
+        startTimeButton.setOnClickListener(startTimeListener);
+        editStartOverlayButton.setOnClickListener(startTimeListener);
+
+
+
+        View.OnClickListener endTimeListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -160,8 +241,22 @@ public class EditReservationActivity extends Activity {
                 newFragment.show(getFragmentManager(), "timePicker");
 
             }
-        });
+        };
 
+        endTimeButton.setOnClickListener(endTimeListener);
+        editEndOverlayButton.setOnClickListener(endTimeListener);
+
+        View.OnClickListener changeSeatListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, EditReservationSeatActivity.class);
+                i.putExtra("att_uid", att_uid);
+                i.putExtra("seatName", seat);
+                startActivityForResult(i, 1);
+            }
+        };
+        changeSeatButton.setOnClickListener(changeSeatListener);
+        editSeatOverlayButton.setOnClickListener(changeSeatListener);
 
         Button submitButton = (Button) findViewById(R.id.editReservationSubmitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -174,34 +269,32 @@ public class EditReservationActivity extends Activity {
                     Toast.makeText(EditReservationActivity.this, "End time must be later than start time", Toast.LENGTH_SHORT).show();
                 }
                 else if (isTimeAvail()){
-                    Intent i = new Intent(EditReservationActivity.this, EditReservationSeatActivity.class);
-                    i.putExtra("ID", ID);
-                    i.putExtra("start_time", newStartTime);
-                    i.putExtra("end_time", newEndTime);
-                    i.putExtra("date", newDate);
-                    i.putExtra("seatName", seat);
-                    i.putExtra("origin", "edit");
-                    startActivityForResult(i, 1);
+                    ReservationController controller = new ReservationController(context);
+                    boolean result = controller.editReservation(ID, seat, newDate, newStartTime, newEndTime);
+
+                    if (result == true) {
+                        Toast.makeText(context, "Reservation succesfully edited", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
                     AlertDialog.Builder seatChangeDialog = new AlertDialog.Builder(context);
-                    seatChangeDialog.setTitle("Confirm seat change.");
-                    seatChangeDialog.setMessage("Your current seat has another reservation at this time. Confirm seat change?");
+                    seatChangeDialog.setTitle("Reservation conflict!");
+                    seatChangeDialog.setMessage("Seat is reserved by a collegue  for the selected time and date. Change the seat or time.");
                     seatChangeDialog.setCancelable(true);
                     seatChangeDialog.setPositiveButton("Change Seat", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent i = new Intent(EditReservationActivity.this, EditReservationSeatActivity.class);
-                            i.putExtra("ID", ID);
-                            i.putExtra("start_time", newStartTime);
-                            i.putExtra("end_time", newEndTime);
-                            i.putExtra("date", newDate);
-                            i.putExtra("seatName", "");
-                            i.putExtra("origin", "edit");
+                            Intent i = new Intent(context, EditReservationSeatActivity.class);
+                            i.putExtra("att_uid", att_uid);
+                            i.putExtra("seatName", seat);
                             startActivityForResult(i, 1);
                         }
 
                     });
-                    seatChangeDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    seatChangeDialog.setNegativeButton("Change Time", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -215,7 +308,72 @@ public class EditReservationActivity extends Activity {
                 }
             }
         });
+
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
+                R.layout.my_drawer_row_layout, drawerOptions));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                EditReservationActivity.this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ){
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(getString(R.string.title_activity_edit_reservation));
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(getString(R.string.options));
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
     }
+
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+        Log.e("test", "animation should start");
+        if(calendarView.getVisibility() == View.VISIBLE)
+            calendarView.setVisibility(View.GONE);
+        else
+            calendarView.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+        //mChoiceLayout.setVisibility(View.GONE);
+        Log.e("test", "should be done showing ");
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
+
     public boolean isTimeAvail(){
         int newStartTime = TimeParser.parseTime(startTimeSelected.getText().toString());
         int newEndTime = TimeParser.parseTime(endTimeSelected.getText().toString());
@@ -234,6 +392,15 @@ public class EditReservationActivity extends Activity {
     }
 
     public void updateList(){
+
+        seatReservations = new ArrayList<Reservation>();
+        for(Reservation r: allReservations){
+            //ignores the reservation being edited
+            if (r.getWorkspaceID().equals(seat) && r.getID()!=ID){
+                seatReservations.add(r);
+            }
+        }
+
         final int date = TimeParser.parseDate(dateSelected.getText().toString());
         ListView reservationListView = (ListView) findViewById(R.id.editReservationTimeList);
         reservationList = new ArrayList<Reservation>();
@@ -246,10 +413,14 @@ public class EditReservationActivity extends Activity {
         Log.e("test", reservationList.toString());
         reservationListView.setAdapter(adapter);
         if (reservationList.size()==0){
-            reservationText.setText("");
+            otherReservationsLayout.setVisibility(View.GONE);
+            noReservationTextView.setVisibility(View.VISIBLE);
+            noReservationTextView.setText("No other reservations for seat " + seat);
         }
         else{
-            reservationText.setText("Reservations for " + seat + " on selected day");
+            otherReservationsLayout.setVisibility(View.VISIBLE);
+            noReservationTextView.setVisibility(View.GONE);
+            reservationText.setText("Reservations for " + seat + " by collegues");
         }
     }
 
@@ -258,7 +429,12 @@ public class EditReservationActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                finish();
+                String seatName = data.getStringExtra("selectedSeat");
+                if (!(seatName.equals(""))) {
+                    seat = seatName;
+                    seatSelected.setText(seatName);
+                    updateList();
+                }
             }
         }
     }
@@ -277,7 +453,9 @@ public class EditReservationActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -344,5 +522,17 @@ public class EditReservationActivity extends Activity {
                 updateStartTime();
             }
         }
+    }
+
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }

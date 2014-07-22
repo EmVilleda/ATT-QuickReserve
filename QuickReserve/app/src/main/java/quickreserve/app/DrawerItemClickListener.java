@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class DrawerItemClickListener extends Activity implements android.widget.
     private DrawerLayout mDrawerLayout;
     private String activityName;
     Activity activity;
+
 
     public DrawerItemClickListener(String att_uid, String activityName, Context context, Activity activity
             , DrawerLayout mDrawerLayout, String[] mOptionsList)
@@ -44,6 +46,7 @@ public class DrawerItemClickListener extends Activity implements android.widget.
         mDrawerLayout.closeDrawers();
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
+
             public void run() {
                 String option = mOptionsList[pos].toString();
 
@@ -53,6 +56,7 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                 }
                 else if(option.equals("Add Reservation"))
                 {
+                    Log.e("test", "testing uid - " + att_uid);
                     Intent i = new Intent(activity, DateTimeActivity.class);
                     i.putExtra("att_uid", att_uid);
                     i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -68,7 +72,14 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                     activity.startActivity(i);
                     //activity.finish();
 
-
+                }
+                else if(option.equals("Scan QR Code"))
+                {
+                    Intent i = new Intent(activity, QRScannerActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(i);
+                    //activity.finish();
                 }
                 else if(option.equals("Logout"))
                 {
@@ -117,7 +128,10 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                 }
                 else if(option.equals("About"))
                 {
-
+                    Intent i = new Intent(context, AboutActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(i);
 
                 }
                 else if(option.equals("Help"))

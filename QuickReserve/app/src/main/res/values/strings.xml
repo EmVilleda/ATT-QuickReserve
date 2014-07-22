@@ -40,6 +40,7 @@
     <string-array name="options_list">
         <item>Add Reservation</item>
         <item>My Reservations</item>
+        <item>Scan QR Code</item>
         <item>Favorite Seats</item>
         <item>Find a Friend</item>
         <item>About</item>
@@ -76,5 +77,18 @@
     <string name="title_activity_qrresult">QRResultActivity</string>
     <string name="workspaceDesc">workspace image</string>
     <string name="title_activity_creep">Find a Friend</string>
+    <string name="confirm">Confirm</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="aboutInfo">
+        <![CDATA[
+        <p><b>Scrum Master: </b> </p>
+        <p>\t\tLaura Laine</p>
+        <p><b>Product Owner: </b> </p>
+        <p>\t\tBrandon Jaster</p>
+        <p><b>Developers: </b> </p>
+        <p>\t\tSidalia Aguilar<br>\t\tCharlie Albright<br>\t\tDevang Mistry<br>\t\tAndrew Toscano<br>\t\tEmely Villeda-Principe</p>
+        ]]>
+</string>
 
 </resources>

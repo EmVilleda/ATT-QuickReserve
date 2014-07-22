@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/reserveButton"
         android:text="@string/Reserve"
-        android:clickable="false"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

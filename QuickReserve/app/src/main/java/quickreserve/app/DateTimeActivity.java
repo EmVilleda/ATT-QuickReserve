@@ -22,10 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TimePicker;
@@ -38,11 +38,14 @@ import java.util.List;
 
 public class DateTimeActivity extends Activity implements Animation.AnimationListener {
 
-    private Button mDateButton;
-    private Button mStartTimeButton;
-    private Button mEndTimeButton;
+    private ImageButton mDateButton;
+    private ImageButton mStartTimeButton;
+    private ImageButton mEndTimeButton;
     private Button mQuickReserveButton;
     private Button mPickSeatButton;
+    private Button mDateOverlayButton;
+    private Button mStartTimeOverlayButton;
+    private Button mEndTimeOverlayButton;
     private EditText mSelectedDate;
     private static EditText mSelectedStartTime;
     private static EditText mSelectedEndTime;
@@ -74,12 +77,16 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         context = this;
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
         setContentView(R.layout.activity_date_time);
-        getActionBar().setTitle(getString(R.string.selectSeat));
+        getActionBar().setTitle("Select Date and Time");
         att_uid = getIntent().getStringExtra("att_uid");
+        Log.e("test", "testing uid - " + att_uid);
         Toast.makeText(this, att_uid + " ", Toast.LENGTH_SHORT).show();
-        mDateButton = (Button) findViewById(R.id.dateButton);
-        mStartTimeButton = (Button) findViewById(R.id.startTimeButton);
-        mEndTimeButton = (Button) findViewById(R.id.endTimeButton);
+        mDateButton = (ImageButton) findViewById(R.id.dateButton);
+        mDateOverlayButton = (Button) findViewById(R.id.dateOverlayButton);
+        mStartTimeOverlayButton = (Button) findViewById(R.id.startTimeOverlayButton);
+        mEndTimeOverlayButton = (Button) findViewById(R.id.endTimeOverlayButton);
+        mStartTimeButton = (ImageButton) findViewById(R.id.startTimeButton);
+        mEndTimeButton = (ImageButton) findViewById(R.id.endTimeButton);
         mQuickReserveButton = (Button) findViewById(R.id.quickReserveButton);
         mPickSeatButton = (Button) findViewById(R.id.pickSeatButton);
         mSelectedDate = (EditText) findViewById(R.id.selectedDate);
@@ -111,12 +118,14 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             @Override
             public void onClick(View view) {
 
+                mDateOverlayButton.setVisibility(View.VISIBLE);
                 if(mCalendarView.getVisibility() != View.VISIBLE)
                 {
                     fadeIn.setDuration(600);
 
                     //mCalendarView.setVisibility(View.VISIBLE);
                     //mChoiceLayout.setVisibility(View.GONE);
+                    mCalendarView.setVisibility(View.INVISIBLE);
                     mCalendarView.setAnimation(fadeIn);
                     mCalendarView.startAnimation(fadeIn);
                 }
@@ -126,20 +135,26 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
         });
 
-        mSelectedDate.setOnClickListener(new View.OnClickListener() {
+        mDateOverlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                mDateOverlayButton.setVisibility(View.VISIBLE);
+                //fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
+
+                Log.e("test", "overlayclicked");
                 if(mCalendarView.getVisibility() != View.VISIBLE)
                 {
                     fadeIn.setDuration(600);
-
-                    //mCalendarView.setVisibility(View.VISIBLE);
-                    //mChoiceLayout.setVisibility(View.GONE);
                     mCalendarView.setAnimation(fadeIn);
+                    mCalendarView.setVisibility(View.INVISIBLE);
                     mCalendarView.startAnimation(fadeIn);
+                    Log.e("test", "should start showing ");
                 }
-                else
+                else {
                     mCalendarView.setVisibility(View.GONE);
+                    Log.e("test", "should be gone");
+                }
             }
         });
 
@@ -179,10 +194,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
 
+
             }
         });
 
-        mSelectedStartTime.setOnClickListener(new View.OnClickListener() {
+        mStartTimeOverlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -192,6 +208,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
             }
         });
+
 
         mEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,7 +220,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
         });
 
-        mSelectedEndTime.setOnClickListener(new View.OnClickListener() {
+        mEndTimeOverlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timeButtonflag = 2;
@@ -419,15 +436,18 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     @Override
     public void onAnimationStart(Animation animation) {
 
+        Log.e("test", "animation should start");
         if(mCalendarView.getVisibility() == View.VISIBLE)
             mCalendarView.setVisibility(View.GONE);
         else
             mCalendarView.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void onAnimationEnd(Animation animation) {
         //mChoiceLayout.setVisibility(View.GONE);
+        Log.e("test", "should be done showing ");
     }
 
     @Override

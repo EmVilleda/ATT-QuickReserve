@@ -36,6 +36,7 @@ public class ViewReservationActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String att_uid;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -105,8 +106,8 @@ public class ViewReservationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reservation);
-
-
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+        getActionBar().setTitle("Reservation Details");
         Intent intent = getIntent();
         att_uid = intent.getStringExtra("att_uid");
         final int ID = intent.getIntExtra("ID", -1);
@@ -152,7 +153,7 @@ public class ViewReservationActivity extends ActionBarActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle(getString(R.string.title_activity_view_reservation));
+                getActionBar().setTitle("Reservation Details");
             }
 
             /** Called when a drawer has settled in a completely open state. */
@@ -211,7 +212,8 @@ public class ViewReservationActivity extends ActionBarActivity {
             public void onClick(View view) {
                 Intent newIntent = new Intent(ViewReservationActivity.this, EditReservationActivity.class);
                 newIntent.putExtra("ID", ID);
-                //newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                newIntent.putExtra("att_uid", att_uid);
                 startActivity(newIntent);
             }
         });

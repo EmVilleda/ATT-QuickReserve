@@ -7,7 +7,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -19,17 +19,36 @@
         <ListView style = "@style/MyListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/myReservationListView" />
+            android:id="@+id/myReservationListView"
+            android:layout_above="@+id/addReservationButton"
+            android:padding="5dp"
+            android:background="@drawable/border"
+            android:layout_alignParentTop="true" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/noReservations"
             android:visibility="gone"
             android:text = "@string/noReservations"
             android:textSize="30dp"
             android:layout_centerInParent="true"
-            />
+            android:background="@drawable/border"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_above="@+id/addReservationButton"/>
+        <Button
+            android:id="@+id/addReservationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/my_button"
+            android:text="@string/drawer_add_reservation"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -42,10 +61,6 @@
         android:dividerHeight="1dp"
         android:background="@color/white"
         />
-
-
-
-
 
 </android.support.v4.widget.DrawerLayout>
 

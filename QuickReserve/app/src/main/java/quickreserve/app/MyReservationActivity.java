@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class MyReservationActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private static final String ACTIVITY_DRAWER_REF = "My Reservations";
+    private Button mAddReservationButton;
 
 
     @Override
@@ -65,7 +67,7 @@ public class MyReservationActivity extends ActionBarActivity {
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
-                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+                ,getBaseContext(),MyReservationActivity.this,mDrawerLayout,mOptionsList));
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -92,6 +94,19 @@ public class MyReservationActivity extends ActionBarActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+        mAddReservationButton = (Button) findViewById(R.id.addReservationButton);
+
+        mAddReservationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), DateTimeActivity.class);
+                i.putExtra("att_uid", att_uid);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //activity.finish();
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -149,11 +164,12 @@ public class MyReservationActivity extends ActionBarActivity {
             reservationView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    int ID = reservationList.get(position).getID();
+
+                    /*int ID = reservationList.get(position).getID();
                     Intent intent = new Intent(MyReservationActivity.this, ViewReservationActivity.class);
                     intent.putExtra("ID", ID);
                     intent.putExtra("att_uid", att_uid);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             });
         }

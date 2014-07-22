@@ -98,6 +98,8 @@ public class SectionFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Log.e("test", "" + mAvailableSeatList.getAdapter().getItem(position).toString());
                 selectedSeat = mAvailableSeatList.getAdapter().getItem(position).toString();
+
+                changeImageForSeat(selectedSeat);
             }
         });
 
@@ -137,6 +139,19 @@ public class SectionFragment extends Fragment {
         return mInflatedView;
 
 
+    }
+
+    private void changeImageForSeat(String selectedSeat) {
+
+        selectedSeat = selectedSeat.substring(1,selectedSeat.length());
+        int seat = Integer.parseInt(selectedSeat);
+
+        if(seat >= 27 && seat <= 32  )
+        {
+            mSectionImage.setZoom(2f);
+            mSectionImage.setScrollPosition(100f,100f);
+
+        }
     }
 
     private void populateSpinner() {

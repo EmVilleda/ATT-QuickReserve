@@ -4,156 +4,103 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:padding="20dp"
         >
 
-        <LinearLayout
-            android:id="@+id/favoriteSeatView"
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:background="#fff"
-            android:layout_height="fill_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:padding="20dp">
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
 
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/favoriteSeat1"
                     android:id="@+id/favoriteSeatButton1"
                     style="@style/MyButton"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@+id/favoriteSeatSubmitButton" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
 
-                <TextView
-                    android:layout_width="0dp"
+                <EditText
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2.5"
                     android:id="@+id/favoriteSeatText1"
                     android:hint="@string/selectSeat"
                     android:background="@drawable/border"
+                    android:layout_alignTop="@+id/favoriteSeatButton1"
+                    android:layout_alignBottom="@+id/favoriteSeatButton1"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/favoriteSeatButton1"
+                    android:layout_marginLeft="67dp"
+                    android:editable="false"
                     android:padding="5dp" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5">
-                </View>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
-
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/favoriteSeat2"
                     android:id="@+id/favoriteSeatButton2"
                     style="@style/MyButton"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_below="@+id/favoriteSeatButton1"
+                    android:layout_alignLeft="@+id/favoriteSeatButton1"
+                    android:layout_alignRight="@+id/favoriteSeatButton1"
+                    android:layout_marginBottom="20dp"/>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
 
-                <TextView
-                    android:layout_width="0dp"
+                <EditText
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2.5"
                     android:id="@+id/favoriteSeatText2"
                     android:hint="@string/selectSeat"
                     android:background="@drawable/border"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:layout_alignTop="@+id/favoriteSeatButton2"
+                    android:layout_toRightOf="@+id/favoriteSeatButton2"
+                    android:layout_alignBottom="@+id/favoriteSeatButton2"
+                    android:layout_alignLeft="@+id/favoriteSeatText1"
+                    android:layout_alignParentRight="true"
+                    android:editable="false"
+                    />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5">
-                </View>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
 
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1.75"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/favoriteSeat3"
                     android:id="@+id/favoriteSeatButton3"
                     style="@style/MyButton"
                     android:textStyle="bold"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:layout_below="@+id/favoriteSeatButton2"
+                    android:layout_marginBottom="20dp"
+                    android:layout_alignLeft="@+id/favoriteSeatButton2"
+                    android:layout_alignRight="@+id/favoriteSeatButton2"/>
 
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".25">
-                </View>
-
-                <TextView
-                    android:layout_width="0dp"
+                <EditText
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2.5"
                     android:id="@+id/favoriteSeatText3"
                     android:hint="@string/selectSeat"
                     android:background="@drawable/border"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:layout_alignBottom="@+id/favoriteSeatButton3"
+                    android:layout_alignLeft="@+id/favoriteSeatText2"
+                    android:layout_alignStart="@+id/favoriteSeatText2"
+                    android:layout_alignTop="@+id/favoriteSeatButton3"
+                    android:layout_alignRight="@+id/favoriteSeatText2"
+                    android:layout_alignEnd="@+id/favoriteSeatText2"
+                    android:editable="false"/>
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5">
-                </View>
-
-            </LinearLayout>
 
             <Button
                 android:layout_width="wrap_content"
@@ -164,11 +111,48 @@
                 android:background="@drawable/my_button"
                 android:textColor="@color/white"
                 android:padding="10dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/favoriteSeatButton3"
+                android:layout_marginTop="50dp"/>
 
-        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seat1OverlayButton"
+            android:layout_alignTop="@+id/favoriteSeatText1"
+            android:layout_alignLeft="@+id/favoriteSeatText1"
+            android:layout_alignStart="@+id/favoriteSeatText1"
+            android:layout_alignRight="@+id/favoriteSeatText1"
+            android:layout_alignEnd="@+id/favoriteSeatText1"
+            android:layout_alignBottom="@+id/favoriteSeatText1"
+            android:background="@android:color/transparent" />
 
-    </FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seat2OverlayButton"
+            android:background="@android:color/transparent"
+            android:layout_alignTop="@+id/favoriteSeatText2"
+            android:layout_alignLeft="@+id/favoriteSeatText2"
+            android:layout_alignStart="@+id/favoriteSeatText2"
+            android:layout_alignRight="@+id/favoriteSeatText2"
+            android:layout_alignEnd="@+id/favoriteSeatText2"
+            android:layout_alignBottom="@+id/favoriteSeatText2" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seat3OverlayButton"
+            android:background="@android:color/transparent"
+            android:layout_alignBottom="@+id/favoriteSeatText3"
+            android:layout_alignLeft="@+id/favoriteSeatText3"
+            android:layout_alignStart="@+id/favoriteSeatText3"
+            android:layout_alignRight="@+id/favoriteSeatText3"
+            android:layout_alignEnd="@+id/favoriteSeatText3"
+            android:layout_alignTop="@+id/favoriteSeatText3" />
+
+    </RelativeLayout>
 
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

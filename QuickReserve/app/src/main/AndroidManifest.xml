@@ -76,7 +76,11 @@
         <activity
             android:name=".CreepActivity"
             android:label="@string/title_activity_creep"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

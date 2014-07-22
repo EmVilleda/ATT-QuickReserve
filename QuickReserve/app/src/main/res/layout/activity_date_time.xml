@@ -4,97 +4,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:padding="20dp"
             android:id="@+id/choiceLayout"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            >
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/selectedDate"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@+id/dateButton"
                 android:hint="@string/selectedDate"
                 android:background="@drawable/border"
-                android:layout_alignTop="@+id/dateButton"
                 android:padding="5dp"
-                android:clickable="true"
-                android:editable="false"/>
+                android:clickable="false"
+                android:editable="false"
+                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@+id/dateOverlayButton"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignLeft="@+id/dateOverlayButton"
+                android:layout_alignStart="@+id/dateOverlayButton" />
 
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:id="@+id/selectedStartTime"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@+id/startTimeButton"
                 android:hint="@string/selectedStartTime"
-                android:layout_alignTop="@+id/startTimeButton"
                 android:background="@drawable/border"
                 android:padding="5dp"
                 android:clickable="true"
-                android:editable="false"/>
+                android:editable="false"
+                android:layout_alignTop="@+id/startTimeButton"
+                android:layout_alignBottom="@+id/startTimeButton"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignLeft="@+id/startTimeOverlayButton"
+                android:layout_alignStart="@+id/startTimeOverlayButton" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/date"
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="55dp"
                 android:id="@+id/dateButton"
+                android:src="@drawable/ic_select_calendar"
+                android:scaleType="fitXY"
+                android:background="@android:color/transparent"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/startTimeButton"
-                android:layout_alignEnd="@+id/startTimeButton"
-                style="@style/MyButton"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:layout_marginBottom="5dp" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/startTime"
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="55dp"
                 android:id="@+id/startTimeButton"
+                android:background="@android:color/transparent"
                 android:layout_below="@+id/calendarView"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/endTimeButton"
-                android:layout_alignEnd="@+id/endTimeButton"
-                style="@style/MyButton"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:src="@drawable/ic_select_start"
+                android:scaleType="fitXY"
+                android:layout_alignLeft="@+id/dateButton"
+                android:layout_alignStart="@+id/dateButton"
+                android:layout_alignRight="@+id/dateButton"
+                android:layout_alignEnd="@+id/dateButton" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/endTime"
+            <ImageButton
+                android:layout_width="60dp"
+                android:layout_height="55dp"
                 android:id="@+id/endTimeButton"
                 android:layout_below="@+id/startTimeButton"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                style="@style/MyButton"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:textColor="@color/white" />
+                android:layout_toLeftOf="@+id/endTimeOverlayButton"
+                android:layout_alignLeft="@+id/startTimeButton"
+                android:layout_alignStart="@+id/startTimeButton"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_select_end"
+                android:scaleType="fitXY"/>
 
             <EditText
                 android:layout_width="wrap_content"
@@ -109,7 +100,8 @@
                 android:background="@drawable/border"
                 android:padding="5dp"
                 android:clickable="true"
-                android:editable="false"/>
+                android:editable="false"
+                android:layout_toRightOf="@+id/startTimeButton" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -170,16 +162,50 @@
                 android:foregroundGravity="center"
                 android:shownWeekCount="3" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dateOverlayButton"
+                android:background="@android:color/transparent"
+                android:layout_alignParentTop="false"
+                android:layout_alignTop="@+id/dateButton"
+                android:layout_alignBottom="@+id/dateButton"
+                android:layout_alignRight="@+id/startTimeOverlayButton"
+                android:layout_alignEnd="@+id/startTimeOverlayButton"
+                android:layout_toRightOf="@+id/dateButton" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/startTimeOverlayButton"
+                android:background="@android:color/transparent"
+                android:layout_alignTop="@+id/selectedStartTime"
+                android:layout_alignBottom="@+id/startTimeButton"
+                android:layout_alignRight="@+id/selectedEndTime"
+                android:layout_alignEnd="@+id/selectedEndTime"
+                android:layout_alignLeft="@+id/selectedEndTime"
+                android:layout_alignStart="@+id/selectedEndTime" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endTimeOverlayButton"
+                android:layout_alignBottom="@+id/selectedEndTime"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:layout_alignTop="@+id/endTimeButton"
+                android:layout_alignLeft="@+id/selectedEndTime"
+                android:layout_alignStart="@+id/selectedEndTime" />
+
         </RelativeLayout>
 
 
-        </FrameLayout>
-
-    <ListView android:id="@+id/left_drawer"
+        <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:choiceMode = "none"
+        android:choiceMode = "singleChoice"
         android:divider="@color/light_gray"
         android:dividerHeight="1dp"
         android:background="@color/white"
