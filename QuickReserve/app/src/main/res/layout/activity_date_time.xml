@@ -5,201 +5,209 @@
     android:layout_height="match_parent">
 
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="20dp"
-            android:id="@+id/choiceLayout"
-            >
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="18dp"
+                android:id="@+id/choiceLayout"
+                android:background="@color/light_gray"
+                >
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/selectedDate"
-                android:hint="@string/selectedDate"
-                android:background="@drawable/border"
-                android:padding="5dp"
-                android:clickable="false"
-                android:editable="false"
-                android:layout_alignParentTop="true"
-                android:layout_alignBottom="@+id/dateOverlayButton"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignLeft="@+id/dateOverlayButton"
-                android:layout_alignStart="@+id/dateOverlayButton" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/dateTimeLayout"
+                    android:background="@color/white"
+                    android:padding="10dp">
+                    <!--android:layout_above="@+id/buttonLinearLayout"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="5dp"-->
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/selectedStartTime"
-                android:hint="@string/selectedStartTime"
-                android:background="@drawable/border"
-                android:padding="5dp"
-                android:clickable="true"
-                android:editable="false"
-                android:layout_alignTop="@+id/startTimeButton"
-                android:layout_alignBottom="@+id/startTimeButton"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignLeft="@+id/startTimeOverlayButton"
-                android:layout_alignStart="@+id/startTimeOverlayButton" />
+                    <CalendarView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:id="@+id/calendarView"
+                        android:visibility="gone"
+                        android:showWeekNumber="false"
+                        android:selectedWeekBackgroundColor="@color/blue"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:weekNumberColor="@color/blue"
+                        android:weekSeparatorLineColor="@color/blue"
+                        android:layout_below="@+id/dateButton"
+                        android:foregroundGravity="center"
+                        android:shownWeekCount="3" />
 
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="55dp"
-                android:id="@+id/dateButton"
-                android:src="@drawable/ic_select_calendar"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="5dp" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/selectedDate"
+                        android:hint="@string/selectedDate"
+                        android:background="@drawable/border"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:clickable="false"
+                        android:editable="false"
+                        android:layout_toRightOf="@+id/dateButton"
+                        android:layout_alignBottom="@+id/dateButton"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/dateButton"
+                        android:layout_marginRight="10dp" />
 
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="55dp"
-                android:id="@+id/startTimeButton"
-                android:background="@android:color/transparent"
-                android:layout_below="@+id/calendarView"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:src="@drawable/ic_select_start"
-                android:scaleType="fitXY"
-                android:layout_alignLeft="@+id/dateButton"
-                android:layout_alignStart="@+id/dateButton"
-                android:layout_alignRight="@+id/dateButton"
-                android:layout_alignEnd="@+id/dateButton" />
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/selectedStartTime"
+                        android:hint="@string/selectedStartTime"
+                        android:background="@drawable/border"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:editable="false"
+                        android:layout_alignTop="@+id/startTimeButton"
+                        android:layout_alignBottom="@+id/startTimeButton"
+                        android:layout_toRightOf="@+id/startTimeButton"
+                        android:layout_alignRight="@+id/selectedDate"
+                        />
 
-            <ImageButton
-                android:layout_width="60dp"
-                android:layout_height="55dp"
-                android:id="@+id/endTimeButton"
-                android:layout_below="@+id/startTimeButton"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_toLeftOf="@+id/endTimeOverlayButton"
-                android:layout_alignLeft="@+id/startTimeButton"
-                android:layout_alignStart="@+id/startTimeButton"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_select_end"
-                android:scaleType="fitXY"/>
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:id="@+id/selectedEndTime"
+                        android:layout_alignBottom="@+id/endTimeButton"
+                        android:hint="@string/selectedEndTime"
+                        android:layout_alignTop="@+id/endTimeButton"
+                        android:background="@drawable/border"
+                        android:padding="5dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:editable="false"
+                        android:layout_toRightOf="@+id/endTimeButton"
+                        android:layout_alignRight="@+id/selectedDate"
+                        />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:id="@+id/selectedEndTime"
-                android:layout_alignBottom="@+id/endTimeButton"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:hint="@string/selectedEndTime"
-                android:layout_alignTop="@+id/endTimeButton"
-                android:background="@drawable/border"
-                android:padding="5dp"
-                android:clickable="true"
-                android:editable="false"
-                android:layout_toRightOf="@+id/startTimeButton" />
+                    <ImageButton
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:id="@+id/dateButton"
+                        android:src="@drawable/ic_select_calendar"
+                        android:scaleType="fitCenter"
+                        android:background="@drawable/icon_button"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quickReserve"
-                android:id="@+id/quickReserveButton"
-                android:background="@drawable/my_button"
-                android:textColor="@color/white"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:layout_below="@+id/endTimeButton"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="42dp" />
+                    <ImageButton
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:id="@+id/startTimeButton"
+                        android:background="@drawable/icon_button"
+                        android:layout_below="@+id/calendarView"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/ic_select_start"
+                        android:scaleType="fitCenter"
+                        android:layout_alignLeft="@+id/dateButton"
+                        android:layout_alignStart="@+id/dateButton"
+                        android:layout_alignRight="@+id/dateButton"
+                        android:layout_alignEnd="@+id/dateButton" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pickaSeat"
-                android:id="@+id/pickSeatButton"
-                android:background="@drawable/my_button"
-                android:textColor="@color/white"
-                android:padding="10dp"
-                android:textStyle="bold"
-                android:layout_below="@+id/orTextView"
-                android:layout_alignLeft="@+id/orTextView"
-                android:layout_alignStart="@+id/orTextView"
-                android:layout_alignRight="@+id/orTextView"
-                android:layout_alignEnd="@+id/orTextView" />
+                    <ImageButton
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:id="@+id/endTimeButton"
+                        android:layout_below="@+id/startTimeButton"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_alignLeft="@+id/startTimeButton"
+                        android:layout_alignStart="@+id/startTimeButton"
+                        android:background="@drawable/icon_button"
+                        android:src="@drawable/ic_select_end"
+                        android:scaleType="fitCenter"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/or"
-                android:id="@+id/orTextView"
-                android:padding="10dp"
-                android:textAlignment="center"
-                android:textColor="@color/blue_highlight"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_below="@+id/quickReserveButton"
-                android:layout_alignRight="@+id/quickReserveButton"
-                android:layout_alignEnd="@+id/quickReserveButton"
-                android:layout_alignLeft="@+id/quickReserveButton"
-                android:layout_alignStart="@+id/quickReserveButton" />
 
-            <CalendarView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:id="@+id/calendarView"
-                android:visibility="gone"
-                android:showWeekNumber="false"
-                android:selectedWeekBackgroundColor="@color/blue"
-                android:focusable="false"
-                android:clickable="true"
-                android:weekNumberColor="@color/blue"
-                android:weekSeparatorLineColor="@color/blue"
-                android:layout_below="@+id/dateButton"
-                android:foregroundGravity="center"
-                android:shownWeekCount="3" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/dateOverlayButton"
+                        android:background="@android:color/transparent"
+                        android:layout_alignParentTop="false"
+                        android:layout_alignTop="@+id/dateButton"
+                        android:layout_alignBottom="@+id/dateButton"
+                        android:layout_toRightOf="@+id/dateButton"
+                        android:layout_alignRight="@+id/selectedDate"
+                        android:layout_alignEnd="@+id/selectedDate" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dateOverlayButton"
-                android:background="@android:color/transparent"
-                android:layout_alignParentTop="false"
-                android:layout_alignTop="@+id/dateButton"
-                android:layout_alignBottom="@+id/dateButton"
-                android:layout_alignRight="@+id/startTimeOverlayButton"
-                android:layout_alignEnd="@+id/startTimeOverlayButton"
-                android:layout_toRightOf="@+id/dateButton" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/startTimeOverlayButton"
+                        android:background="@android:color/transparent"
+                        android:layout_alignTop="@+id/selectedStartTime"
+                        android:layout_alignBottom="@+id/startTimeButton"
+                        android:layout_alignLeft="@+id/selectedEndTime"
+                        android:layout_alignStart="@+id/selectedEndTime"
+                        android:layout_alignRight="@+id/selectedStartTime"
+                        android:layout_alignEnd="@+id/selectedStartTime" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/startTimeOverlayButton"
-                android:background="@android:color/transparent"
-                android:layout_alignTop="@+id/selectedStartTime"
-                android:layout_alignBottom="@+id/startTimeButton"
-                android:layout_alignRight="@+id/selectedEndTime"
-                android:layout_alignEnd="@+id/selectedEndTime"
-                android:layout_alignLeft="@+id/selectedEndTime"
-                android:layout_alignStart="@+id/selectedEndTime" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/endTimeOverlayButton"
+                        android:layout_alignBottom="@+id/selectedEndTime"
+                        android:background="@android:color/transparent"
+                        android:layout_alignTop="@+id/selectedEndTime"
+                        android:layout_alignLeft="@+id/selectedEndTime"
+                        android:layout_alignRight="@+id/selectedStartTime"
+                        android:layout_alignEnd="@+id/selectedStartTime" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/endTimeOverlayButton"
-                android:layout_alignBottom="@+id/selectedEndTime"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:background="@android:color/transparent"
-                android:layout_alignTop="@+id/endTimeButton"
-                android:layout_alignLeft="@+id/selectedEndTime"
-                android:layout_alignStart="@+id/selectedEndTime" />
 
-        </RelativeLayout>
+                </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/buttonLinearLayout"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="horizontal"
+                    >
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quickReserve"
+                        android:id="@+id/quickReserveButton"
+                        android:background="@drawable/my_button"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:layout_marginRight="4dp"
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pickaSeat"
+                        android:id="@+id/pickSeatButton"
+                        android:background="@drawable/my_button"
+                        android:textColor="@color/white"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="4dp"
+                        />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
 
         <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

@@ -58,8 +58,8 @@
     <string name="drawer_about">About</string>
     <string name="drawer_help">Help</string>
     <string name="noReservations">No reservations found</string>
-    <string name="editReservation">Edit Reservation</string>
-    <string name="deleteReservation">Delete Reservation</string>
+    <string name="editReservation">Edit</string>
+    <string name="deleteReservation">Delete</string>
     <string name="title_activity_date_time">DateTimeActivity</string>
     <string name="date">Date</string>
     <string name="startTime">Start Time</string>

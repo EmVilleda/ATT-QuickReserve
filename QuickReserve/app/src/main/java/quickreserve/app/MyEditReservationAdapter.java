@@ -69,16 +69,7 @@ public class MyEditReservationAdapter extends ArrayAdapter<Reservation>{
 
         });
 
-        icon.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
 
-
-                icon.setImageResource(R.drawable.ic_action_edit2_highlight);
-
-                return false;
-            }
-        });
 
         return view;
     }

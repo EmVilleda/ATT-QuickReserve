@@ -38,71 +38,6 @@ public class ViewReservationActivity extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_reservation, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        updateInfo();
-    }
-
-    protected void updateInfo(){
-        Intent intent = getIntent();
-        final int ID = intent.getIntExtra("ID", -1);
-        if (ID == -1) {
-
-            finish();
-        }
-
-        //finds reservation
-        final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
-        Reservation reservation = reservationManager.getReservation(ID);
-        if(reservation== null){
-            Toast.makeText(this, "Reservation null.", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
-        Workspace workspace = reservationManager.getWorkspace(reservation.getWorkspaceID());
-        if (workspace == null){
-            Toast.makeText(this, "Workspace null.", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-        TextView seatView = (TextView) findViewById(R.id.viewReservationSeat);
-        TextView dateView = (TextView) findViewById(R.id.viewReservationDate);
-        TextView timeView = (TextView) findViewById(R.id.viewReservationTime);
-        TextView phoneView = (TextView) findViewById(R.id.viewReservationPhone);
-        TextView printerView = (TextView) findViewById(R.id.viewReservationPrinter);
-
-        seatView.setText("Seat Number: " + workspace.getName());
-        dateView.setText("Reservation Date: " + TimeParser.parseDate(reservation.getDate()));
-        timeView.setText("Reservation Time: " + TimeParser.parseTime(reservation.getStartTime(), reservation.getEndTime()));
-        phoneView.setText("Phone Number: " + workspace.getPhoneNumber());
-        printerView.setText("Printer Number: " + workspace.getPrinterNumber());
-    }
-
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reservation);
@@ -219,6 +154,71 @@ public class ViewReservationActivity extends ActionBarActivity {
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.view_reservation, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        updateInfo();
+    }
+
+    protected void updateInfo()
+    {
+        Intent intent = getIntent();
+        final int ID = intent.getIntExtra("ID", -1);
+        if (ID == -1) {
+
+            finish();
+        }
+
+        //finds reservation
+        final MySQLiteHelper reservationManager = new MySQLiteHelper(this);
+        Reservation reservation = reservationManager.getReservation(ID);
+        if(reservation== null){
+            Toast.makeText(this, "Reservation null.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        Workspace workspace = reservationManager.getWorkspace(reservation.getWorkspaceID());
+        if (workspace == null){
+            Toast.makeText(this, "Workspace null.", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        TextView seatView = (TextView) findViewById(R.id.viewReservationSeat);
+        TextView dateView = (TextView) findViewById(R.id.viewReservationDate);
+        TextView timeView = (TextView) findViewById(R.id.viewReservationTime);
+        TextView phoneView = (TextView) findViewById(R.id.viewReservationPhone);
+        TextView printerView = (TextView) findViewById(R.id.viewReservationPrinter);
+
+        seatView.setText("Seat " + workspace.getName());
+        Log.e("date", "date = " + reservation.getDate());
+        dateView.setText(TimeParser.getDay(reservation.getDate()) + ", " + TimeParser.parseDate(reservation.getDate()));
+        timeView.setText(TimeParser.parseTime(reservation.getStartTime(), reservation.getEndTime()));
+        phoneView.setText(workspace.getPhoneNumber());
+        printerView.setText(workspace.getPrinterNumber());
     }
 
     protected void onPostCreate(Bundle savedInstanceState) {

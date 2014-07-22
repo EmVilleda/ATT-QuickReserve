@@ -50,6 +50,7 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
         intent.putExtra("value", rawResult.getText());
         intent.putExtra("format", rawResult.getBarcodeFormat().toString());
         intent.putExtra("att_uid", att_uid);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

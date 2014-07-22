@@ -6,6 +6,7 @@ import android.widget.TimePicker;
 
 import java.sql.Time;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -14,7 +15,22 @@ import java.util.List;
 public class TimeParser {
     final static String[] monthArray = {"January", "February", "March", "April", "May", "June", "July",
             "August", "September", "October", "November", "December"};
+    final static String[] dayArray = {"Sunday", "Monday", "Tuesday" , "Wednesday", "Thursday", "Friday", "Saturday"};
     public TimeParser(){
+    }
+
+    public static String getDay(int date)
+    {
+        String stringDate = Integer.toString(date);
+        int year = Integer.parseInt(stringDate.substring(0,4));
+        int month = Integer.parseInt(stringDate.substring(4,6));
+        int day = Integer.parseInt(stringDate.substring(6));
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+        return dayArray[cal.get(Calendar.DAY_OF_YEAR)];
     }
 
     public static String parseDate(int year, int month, int day){

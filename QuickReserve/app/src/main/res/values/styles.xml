@@ -15,6 +15,7 @@
     </style>
     <style name="ReservationTextView">
         <item name="android:textSize">20dp</item>
+        <item name="android:color">@color/gray</item>
     </style>
     <style name="DrawerLabelTextView">
         <item name="android:textSize">18dp</item>
