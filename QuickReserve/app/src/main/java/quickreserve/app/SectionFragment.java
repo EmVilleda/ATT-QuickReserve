@@ -2,6 +2,8 @@ package quickreserve.app;
 
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,7 +74,6 @@ public class SectionFragment extends Fragment {
         final int newDate = tempDate_int;
         start_time = intent.getIntExtra("start_time", -1);
         end_time = intent.getIntExtra("end_time", -1);
-        Toast.makeText(getActivity(), start_time + " " + end_time, Toast.LENGTH_SHORT).show();
 
         final int newStartTime = start_time;
         final int newEndTime = end_time;
@@ -103,41 +104,47 @@ public class SectionFragment extends Fragment {
             }
         });
 
-        mReserveButton.setOnClickListener(new View.OnClickListener() {
+        //SectionFragment
+
+        mReserveButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick (View view){
                 ReservationController controller = new ReservationController(getActivity());
                 //Toast.makeText(getActivity(), att_uid + " " + "", Toast.LENGTH_SHORT).show();
 
-                if(selectedSeat != null)
-                {
+                if (selectedSeat != null) {
                     int result = controller.createReservation(selectedSeat, att_uid, newStartTime, newEndTime, newDate);
                     if (result == 0)
-                        Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Database Error occurred, see LogCat", Toast.LENGTH_SHORT).show();
                     else if (result == 1)
                         Toast.makeText(getActivity(), "You've already reserved a seat during this time frame", Toast.LENGTH_SHORT).show();
                     else if (result == 2) {
-                        Toast.makeText(getActivity(), "Reservation successful", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(getActivity(), MyReservationActivity.class);
-                        i.putExtra("att_uid", att_uid);
-                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        getActivity().startActivity(i);
-                        getActivity().finish();
-                    } else
+                        AlertDialog.Builder confirmationDialog = controller.getDialog(selectedSeat, newStartTime, newEndTime, newDate);
+
+                    confirmationDialog.setTitle("Reservation confirmed");
+                    confirmationDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getActivity(), MyReservationActivity.class);
+                            intent.putExtra("att_uid", att_uid);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            getActivity().startActivity(intent);
+                            getActivity().finish();
+                            }
+                        });
+                    confirmationDialog.show();
+                    }
+                    else
                         Toast.makeText(getActivity(), "General error: int flag not set or recognized", Toast.LENGTH_SHORT).show();
                 }
-                else
-                {
-                    Toast.makeText(getActivity(), "Please select a seat", Toast.LENGTH_SHORT).show();
-
+                else {
+                        Toast.makeText(getActivity(), "Please select a seat", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
 
         return mInflatedView;
-
 
     }
 

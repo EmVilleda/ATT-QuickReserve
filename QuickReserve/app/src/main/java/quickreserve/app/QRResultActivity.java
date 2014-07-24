@@ -1,6 +1,8 @@
 package quickreserve.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,8 +39,8 @@ public class QRResultActivity extends Activity {
     private TextView seatTextView;
     private TextView dateTextView;
     private TextView isBookedTextView;
-    private Button previousDateButton;
-    private Button nextDateButton;
+    private ImageButton previousDateButton;
+    private ImageButton nextDateButton;
     private Button reserveButton;
 
     private String[] mOptionsList;
@@ -64,8 +67,8 @@ public class QRResultActivity extends Activity {
         seatTextView = (TextView)findViewById(R.id.seatNameTextView);
         dateTextView = (TextView)findViewById(R.id.dateTextView);
         isBookedTextView = (TextView)findViewById(R.id.isBookedTextView);
-        previousDateButton = (Button)findViewById(R.id.previousDateButton);
-        nextDateButton = (Button)findViewById(R.id.nextDateButton);
+        previousDateButton = (ImageButton)findViewById(R.id.previousDateButton);
+        nextDateButton = (ImageButton)findViewById(R.id.nextDateButton);
         reserveButton = (Button)findViewById(R.id.reserveFromQRButton);
 
         previousDateButton.setClickable(false);
@@ -226,7 +229,7 @@ public class QRResultActivity extends Activity {
         boolean booked = mySQLiteHelper.isWorkspaceReserved(seat, days[index], months[index], years[index]);
         if(booked)
         {
-            isBookedTextView.setText("BOOKED");
+            isBookedTextView.setText("NOT AVAILABLE");
             isBookedTextView.setTextColor(getResources().getColor(R.color.orange));
             reserveButton.setClickable(false);
 
@@ -242,7 +245,7 @@ public class QRResultActivity extends Activity {
     public void onNextDateButtonClicked(View view)
     {
         previousDateButton.setClickable(true);
-        previousDateButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        previousDateButton.setBackground(getResources().getDrawable(R.drawable.icon_button));
         index++;
         if(index == 13) {
             nextDateButton.setClickable(false);
@@ -256,7 +259,7 @@ public class QRResultActivity extends Activity {
     public void onPreviousDateButtonClicked(View view)
     {
         nextDateButton.setClickable(true);
-        nextDateButton.setBackgroundColor(getResources().getColor(R.color.blue));
+        nextDateButton.setBackground(getResources().getDrawable(R.drawable.icon_button));
         index--;
         if(index == 0) {
             previousDateButton.setClickable(false);
@@ -271,6 +274,7 @@ public class QRResultActivity extends Activity {
     {
         Intent intent = new Intent(this, QRScannerActivity.class);
         intent.putExtra("att_uid", att_uid);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
@@ -283,11 +287,42 @@ public class QRResultActivity extends Activity {
         reservation.setDate(years[index], months[index]-1, days[index]);
         reservation.setStartTime(800);
         reservation.setEndTime(1700);
-        mySQLiteHelper.addReservation(reservation);
+        int result = mySQLiteHelper.addReservation(reservation);
 
-        Intent intent = new Intent(this, MyReservationActivity.class);
-        intent.putExtra("att_uid", att_uid);
-        startActivity(intent);
-        finish();
+        if(result == 1){
+
+            AlertDialog.Builder conflictDialog = new AlertDialog.Builder(QRResultActivity.this);
+            conflictDialog.setTitle("Reservation conflict");
+            conflictDialog.setMessage("You already have another reservation for the selected day");
+            conflictDialog.setPositiveButton("Change day", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                    //finish();
+                }
+            });
+            conflictDialog.show();
+
+        }
+        else if (result == 2){
+            ReservationController controller = new ReservationController(this);
+
+            AlertDialog.Builder confirmationDialog = controller.getDialog(reservation.getWorkspaceID(), reservation.getStartTime(), reservation.getEndTime(), reservation.getDate());
+            confirmationDialog.setTitle("Reservation confirmed");
+            confirmationDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getApplication(), MyReservationActivity.class);
+                    intent.putExtra("att_uid", att_uid);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            confirmationDialog.show();
+
+
+        }
+
     }
 }

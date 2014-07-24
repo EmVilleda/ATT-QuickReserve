@@ -66,7 +66,14 @@ public class CreepActivity extends Activity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateList();
+
+                if(attUIDSelected.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplication(),"Please enter valid ATTUID",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                    updateList();
             }
         });
 
@@ -128,11 +135,10 @@ public class CreepActivity extends Activity {
 
     public void updateList(){
         final String ID = attUIDSelected.getText().toString();
-        Toast.makeText(CreepActivity.this, ID, Toast.LENGTH_SHORT).show();
         reservationList = reservationManager.getUserReservations(ID);
         ArrayList<Reservation> reservationListByToday = new ArrayList<Reservation>();
         if(reservationList == null || reservationList.size()==0){
-            foundReservation.setText("No Reservations for Today Found");
+            foundReservation.setText("No reservations for today");
             reservationList = new LinkedList<Reservation>();
         }
         else{

@@ -75,12 +75,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+        overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
         setContentView(R.layout.activity_date_time);
         getActionBar().setTitle("Select Date and Time");
         att_uid = getIntent().getStringExtra("att_uid");
         Log.e("test", "testing uid - " + att_uid);
-        Toast.makeText(this, att_uid + " ", Toast.LENGTH_SHORT).show();
         mDateButton = (ImageButton) findViewById(R.id.dateButton);
         mDateOverlayButton = (Button) findViewById(R.id.dateOverlayButton);
         mStartTimeOverlayButton = (Button) findViewById(R.id.startTimeOverlayButton);
@@ -101,14 +100,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         hour_end = calendar.get(Calendar.HOUR_OF_DAY) + 1;
         min_end = roundDown(calendar.get(Calendar.MINUTE));
         //min date must be earlier than the current time
-        mCalendarView.setMinDate(calendar.getTimeInMillis()-3000);
+        mCalendarView.setMinDate(calendar.getTimeInMillis() - 3000);
         //14 days of milliseconds
         mCalendarView.setMaxDate(calendar.getTimeInMillis() + 1209600000);
         mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
         mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
         fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
         fadeIn.setAnimationListener(this);
-
 
 
         mSelectedDate.setText(TimeParser.parseDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
@@ -119,8 +117,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             public void onClick(View view) {
 
                 mDateOverlayButton.setVisibility(View.VISIBLE);
-                if(mCalendarView.getVisibility() != View.VISIBLE)
-                {
+                if (mCalendarView.getVisibility() != View.VISIBLE) {
                     fadeIn.setDuration(600);
 
                     //mCalendarView.setVisibility(View.VISIBLE);
@@ -128,8 +125,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                     mCalendarView.setVisibility(View.INVISIBLE);
                     mCalendarView.setAnimation(fadeIn);
                     mCalendarView.startAnimation(fadeIn);
-                }
-                else
+                } else
                     mCalendarView.setVisibility(View.GONE);
 
             }
@@ -143,15 +139,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 //fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
 
                 Log.e("test", "overlayclicked");
-                if(mCalendarView.getVisibility() != View.VISIBLE)
-                {
+                if (mCalendarView.getVisibility() != View.VISIBLE) {
                     fadeIn.setDuration(600);
                     mCalendarView.setAnimation(fadeIn);
                     mCalendarView.setVisibility(View.INVISIBLE);
                     mCalendarView.startAnimation(fadeIn);
                     Log.e("test", "should start showing ");
-                }
-                else {
+                } else {
                     mCalendarView.setVisibility(View.GONE);
                     Log.e("test", "should be gone");
                 }
@@ -164,15 +158,15 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {
 
-                int date = (year * 10000) + ((month+1)*100) + dayOfMonth;
+                int date = (year * 10000) + ((month + 1) * 100) + dayOfMonth;
                 tempDate = TimeParser.parseDateFormat(date);
 
                 Log.e("test", "onDateChanged");
-                Log.e("test","button: " + mSelectedDate.getText());
-                Log.e("test","temp: " + tempDate);
+                Log.e("test", "button: " + mSelectedDate.getText());
+                Log.e("test", "temp: " + tempDate);
 
-                if( (!tempDate.trim().equals(mSelectedDate.getText().toString().trim())
-                                    && !mSelectedDate.getText().toString().equals("")))
+                if ((!tempDate.trim().equals(mSelectedDate.getText().toString().trim())
+                        && !mSelectedDate.getText().toString().equals("")))
 
                 {
                     mCalendarView.clearAnimation();
@@ -233,15 +227,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mPickSeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int start_time = hour_start*100 + min_start;
+                int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
-                if(start_time >= end_time){
+                if (start_time >= end_time) {
                     Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
-                }
-                else if (!isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time)){
+                } else if (!isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time)) {
                     Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     intent.putExtra("start_time", start_time);
                     intent.putExtra("end_time", end_time);
@@ -258,15 +250,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mQuickReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int start_time = hour_start*100 + min_start;
+                int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
-                if(start_time >= end_time){
+                if (start_time >= end_time) {
                     Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
-                }
-                else if (!(isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time))){
+                } else if (!(isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time))) {
                     Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     quickReserve(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time);
                 }
 
@@ -285,7 +275,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
-                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+                , getApplicationContext(), this, mDrawerLayout, mOptionsList));
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -293,7 +283,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
                 R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
-        ){
+        ) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
@@ -314,11 +304,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     }
 
     //change set end time if start time overlaps
-    private static void updateEndTime(){
-        int start = hour_start*100 + min_start;
+    private static void updateEndTime() {
+        int start = hour_start * 100 + min_start;
         int end = hour_end * 100 + min_end;
 
-        if(start >= end){
+        if (start >= end) {
             hour_end = (hour_start + 1) % 24;
             min_end = min_start;
             mSelectedEndTime.setText(TimeParser.parseCalendarTime(hour_end, min_end));
@@ -326,11 +316,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     }
 
     //change set start time if end time overlaps
-    private static void updateStartTime(){
-        int start = hour_start*100 + min_start;
+    private static void updateStartTime() {
+        int start = hour_start * 100 + min_start;
         int end = hour_end * 100 + min_end;
 
-        if (end <= start){
+        if (end <= start) {
             hour_start = hour_end - 1;
             min_start = min_end;
             mSelectedStartTime.setText(TimeParser.parseCalendarTime(hour_start, min_start));
@@ -338,22 +328,19 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     }
 
     //Checks if user already has a reservation overlapping this time
-    public boolean isUserTimeAvailable(int date, int start_time, int end_time){
+    public boolean isUserTimeAvailable(int date, int start_time, int end_time) {
         MySQLiteHelper manager = new MySQLiteHelper(DateTimeActivity.this);
         List<Reservation> currentReservations = manager.getUserReservations(att_uid);
-        if(currentReservations==null || currentReservations.size()==0){
+        if (currentReservations == null || currentReservations.size() == 0) {
             return true;
-        }
-        else{
-            for (Reservation r: currentReservations){
-                if(r.getDate() == date){
-                    if(r.getStartTime() >= start_time && r.getStartTime() < end_time){
+        } else {
+            for (Reservation r : currentReservations) {
+                if (r.getDate() == date) {
+                    if (r.getStartTime() >= start_time && r.getStartTime() < end_time) {
                         return false;
-                    }
-                    else if(r.getEndTime() > start_time && r.getEndTime() <= end_time){
+                    } else if (r.getEndTime() > start_time && r.getEndTime() <= end_time) {
                         return false;
-                    }
-                    else if(r.getStartTime() <= start_time && r.getEndTime() >= end_time){
+                    } else if (r.getStartTime() <= start_time && r.getEndTime() >= end_time) {
                         return false;
                     }
                 }
@@ -363,75 +350,81 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     }
 
     //rounds down minute to match 15 minute interval
-    public int roundDown(int min){
-        if (min < 15){
+    public int roundDown(int min) {
+        if (min < 15) {
             return 0;
-        }
-        else if (min < 30){
+        } else if (min < 30) {
             return 15;
-        }
-        else if (min < 45){
+        } else if (min < 45) {
             return 30;
-        }
-        else{
+        } else {
             return 45;
         }
     }
 
     //If possible reserves a seat at given time, prioritizes favorite seats,
     //but picks the first open seat if none of the favorites are available
-    public void quickReserve(int date, int start_time, int end_time){
+    public void quickReserve(int date, int start_time, int end_time) {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(DateTimeActivity.this);
-        String seat1= p.getString("seat1", "");
-        String seat2= p.getString("seat2", "");
-        String seat3= p.getString("seat3", "");
+        String seat1 = p.getString("seat1", "");
+        String seat2 = p.getString("seat2", "");
+        String seat3 = p.getString("seat3", "");
         boolean seat1F = false;
         boolean seat2F = false;
         boolean seat3F = false;
         MySQLiteHelper manager = new MySQLiteHelper(context);
 
         List<Workspace> openWorkspaces = manager.getOpenWorkspaces(date, start_time, end_time);
-        if(openWorkspaces.size()==0){
+        if (openWorkspaces.size() == 0) {
             Toast.makeText(DateTimeActivity.this, "No seats are available for this time", Toast.LENGTH_SHORT).show();
             return;
         }
-        for(Workspace w: openWorkspaces){
-            if(w.getName().equals(seat1)){
+        for (Workspace w : openWorkspaces) {
+            if (w.getName().equals(seat1)) {
                 seat1F = true;
             }
-            if(w.getName().equals(seat2)){
+            if (w.getName().equals(seat2)) {
                 seat2F = true;
             }
-            if(w.getName().equals(seat3)){
+            if (w.getName().equals(seat3)) {
                 seat3F = true;
             }
         }
         String seatName = "";
-        if(seat1F){
+        if (seat1F) {
             seatName = seat1;
-        }
-        else if(seat2F){
+        } else if (seat2F) {
             seatName = seat2;
-        }
-        else if(seat3F) {
+        } else if (seat3F) {
             seatName = seat3;
-        }
-        else{
+        } else {
             seatName = openWorkspaces.get(0).getName();
         }
         ReservationController controller = new ReservationController(context);
 
         int result = controller.createReservation(seatName, att_uid, start_time, end_time, date);
-        if(result == 0 || result == 1){
+        if (result == 0 || result == 1) {
             Toast.makeText(DateTimeActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
         }
-        if(result == 2){
-            Toast.makeText(DateTimeActivity.this, "Seat " + seatName + " has been reserved", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(DateTimeActivity.this, MyReservationActivity.class);
-            i.putExtra("att_uid", att_uid);
-            startActivity(i);
+        if (result == 2) {
+            AlertDialog.Builder confirmationDialog = controller.getDialog(seatName, start_time, end_time, date);
+            confirmationDialog.setTitle("Reservation confirmed");
+            confirmationDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(DateTimeActivity.this, MyReservationActivity.class);
+                    intent.putExtra("att_uid", att_uid);
+                    startActivity(intent);
+                }
+            });
+            confirmationDialog.show();
         }
     }
+
+
+
+//EditReservationActivity
+
 
     @Override
     public void onAnimationStart(Animation animation) {

@@ -29,6 +29,7 @@ public class MyDrawerRowAdapter extends ArrayAdapter<String> {
             view = inflater.inflate(R.layout.my_drawer_row_layout, null);
         }
 
+
         String labelName = (String)getItem(position);
 
         ImageView myIcon = (ImageView) view.findViewById(R.id.myDrawerRowIcon);
@@ -40,6 +41,9 @@ public class MyDrawerRowAdapter extends ArrayAdapter<String> {
         }
         else if(labelName.equals("My Reservations")){
             id = R.drawable.ic_action_event;
+        }
+        else if(labelName.equals("View Map")){
+            id = R.drawable.ic_action_map;
         }
         else if(labelName.equals("Favorite Seats")){
             id = R.drawable.ic_action_important;

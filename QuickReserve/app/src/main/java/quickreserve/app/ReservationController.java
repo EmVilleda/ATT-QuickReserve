@@ -5,17 +5,23 @@
 
 package quickreserve.app;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class ReservationController{
 
     private MySQLiteHelper reservationManager;
-
-
+    private Context context;
     //Links the SQLHelper to the controller
     public ReservationController(Context context){
         reservationManager =  new MySQLiteHelper(context);
+        this.context = context;
     }
 
 
@@ -40,9 +46,37 @@ public class ReservationController{
         Reservation reservation = new Reservation(workspace_name, att_uid, start_time, end_time, date);
 
         int hasBeenCreated = reservationManager.addReservation(reservation);
+
         return hasBeenCreated;
     }
 
+    //Dialog to display reservation information
+    //Must set title, and positive buttons
+    public AlertDialog.Builder getDialog(String workspace_name, int start_time, int end_time, int date){
+        final AlertDialog.Builder confirmationDialog = new AlertDialog.Builder(context);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View dialogView = layoutInflater.inflate(R.layout.my_reservation_dialog_layout, null);
+        //finds workspace information, sets it to view
+        Workspace workspace = reservationManager.getWorkspace(workspace_name);
+
+        TextView seatView = (TextView) dialogView.findViewById(R.id.viewReservationSeat);
+        TextView dateView = (TextView) dialogView.findViewById(R.id.viewReservationDate);
+        TextView timeView = (TextView) dialogView.findViewById(R.id.viewReservationTime);
+        TextView phoneView = (TextView) dialogView.findViewById(R.id.viewReservationPhone);
+        TextView printerView = (TextView) dialogView.findViewById(R.id.viewReservationPrinter);
+
+        seatView.setText("Seat " + workspace.getName());
+        Log.e("date", "date = " + date);
+        dateView.setText(TimeParser.getDay(date) + ", " + TimeParser.parseDate(date));
+        timeView.setText(TimeParser.parseTime(start_time, end_time));
+        phoneView.setText(workspace.getPhoneNumber());
+        printerView.setText(workspace.getPrinterNumber());
+        confirmationDialog.setView(dialogView);
+        return confirmationDialog;
+    }
+    public AlertDialog.Builder getDialog(Reservation r){
+        return getDialog(r.getWorkspaceID(), r.getStartTime(), r.getEndTime(), r.getDate());
+    }
 
  		/*
  		 *Sends id of the reservation to be deleted

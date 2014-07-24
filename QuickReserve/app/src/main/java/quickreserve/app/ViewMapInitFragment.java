@@ -12,8 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
-public class InitFragment extends Fragment {
+/**
+ * Created by DM0497 on 7/24/2014.
+ */
+public class ViewMapInitFragment extends Fragment {
 
     private Button mButton1;
     private Button mButton2;
@@ -35,7 +37,7 @@ public class InitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().getActionBar().setTitle(getString(R.string.select_a_section));
+        getActivity().getActionBar().setTitle(getString(R.string.select_a_section) + " to view map");
         mInflatedView = inflater.inflate(R.layout.fragment_map, container, false);
 
         mButton1 = (Button) mInflatedView.findViewById(R.id.button1);
@@ -57,12 +59,13 @@ public class InitFragment extends Fragment {
                 Log.v("dev_init", "NW clicked");
 
 
-                SectionFragment sectionFragment = new SectionFragment();
+                ViewMapSectionFragment sectionFragment = new ViewMapSectionFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 sectionFragment.setFlag(1);
+                sectionFragment.setSelectedSection("A");
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
-                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
+                transaction.setCustomAnimations(R.anim.zoom_in_a, R.anim.fade_out);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 
@@ -80,13 +83,13 @@ public class InitFragment extends Fragment {
                     toast.cancel();
                 }
 
-                SectionFragment sectionFragment = new SectionFragment();
+                ViewMapSectionFragment sectionFragment = new ViewMapSectionFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 sectionFragment.setFlag(2);
-
+                sectionFragment.setSelectedSection("B");
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
-                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
+                transaction.setCustomAnimations(R.anim.zoom_in_b, R.anim.fade_out);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 
@@ -102,13 +105,13 @@ public class InitFragment extends Fragment {
                 Log.v("dev_init", "showing SW toast");
                 //zoomImageFromThumb(mButton3, R.drawable.part3);
 
-                SectionFragment sectionFragment = new SectionFragment();
+                ViewMapSectionFragment sectionFragment = new ViewMapSectionFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 sectionFragment.setFlag(3);
-
+                sectionFragment.setSelectedSection("C");
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
-                transaction.setCustomAnimations(R.anim.activity_open_translate,R.anim.activity_close_scale);
+                transaction.setCustomAnimations(R.anim.zoom_in_c, R.anim.fade_out);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
 

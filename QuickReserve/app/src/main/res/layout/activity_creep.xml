@@ -5,57 +5,27 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/light_gray"
+        android:padding="20dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:background="@color/white"
-        tools:context="quickreserve.app.CreepActivity">
+        <RelativeLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:padding="20dp"
+            tools:context="quickreserve.app.CreepActivity"
+
+            >
 
 
-
-
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".25">
-            </View>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1.75"
-                android:layout_height="wrap_content"
-                android:text="AT&amp;T UID"
-                android:id="@+id/creepUIDButton"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:clickable="false"
-                style="@style/MyButton"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".25">
-            </View>
 
             <EditText
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.5"
                 android:inputType="textEmailAddress"
                 android:ems="10"
                 android:id="@+id/creepIDEditText"
@@ -68,47 +38,51 @@
                 android:background="@android:drawable/editbox_background"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:padding="5dp" />
+                android:padding="20dp" />
 
-            <View
-                android:layout_width="1dp"
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Find Reservations"
+                android:id="@+id/creepSearchButton"
+                android:background="@drawable/my_button"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:layout_below="@id/creepIDEditText"
+                android:layout_marginTop="10dp"/>
+
+
+
+            <TextView style= "@style/ReservationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reservations for today"
+                android:id="@+id/creepTextView"
+                android:layout_gravity="center|clip_horizontal"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/creepSearchButton"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:padding="5dp"/>
+
+            <ListView style = "@style/MyListView"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight=".5">
-            </View>
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Search for Reservations"
-            android:id="@+id/creepSearchButton"
-            android:background="@drawable/my_button"
-            android:textColor="@color/white"
-            android:padding="10dp"
-            android:textStyle="bold" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_weight=".5">
-        </View>
-
-        <TextView style= "@style/ReservationTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reservations for today"
-            android:id="@+id/creepTextView"
-            android:layout_gravity="center" />
-
-        <ListView style = "@style/MyListView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:id="@+id/creepReservationList" />
+                android:id="@+id/creepReservationList"
+                android:layout_below="@+id/creepTextView"/>
 
 
-    </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+    </FrameLayout>
+
+
+
 
     <ListView android:id="@+id/left_drawer"
         android:layout_width="240dp"

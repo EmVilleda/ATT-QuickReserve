@@ -67,7 +67,7 @@ public class LoginActivity extends Activity implements Animation.AnimationListen
 
                 if(mySQLiteHelper.getUser(att_uid) == null)
                 {
-                    Toast.makeText(getApplicationContext(), "User not found in DB", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "User not found", Toast.LENGTH_SHORT).show();
 
                 }
 

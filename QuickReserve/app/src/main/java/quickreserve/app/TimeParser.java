@@ -2,6 +2,7 @@ package quickreserve.app;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.widget.TimePicker;
 
 import java.sql.Time;
@@ -30,7 +31,8 @@ public class TimeParser {
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
-        return dayArray[cal.get(Calendar.DAY_OF_YEAR)];
+        Log.e("date", "index = " + (cal.get(Calendar.DAY_OF_MONTH) + 1) % 7 );
+        return dayArray[(cal.get(Calendar.DAY_OF_MONTH) + 1) % 7];
     }
 
     public static String parseDate(int year, int month, int day){

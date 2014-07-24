@@ -18,10 +18,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/dateTimeLayout"
                     android:background="@color/white"
-                    android:padding="10dp">
-                    <!--android:layout_above="@+id/buttonLinearLayout"
+                    android:padding="10dp"
+                    android:layout_above="@+id/buttonLinearLayout"
                     android:layout_alignParentTop="true"
-                    android:layout_marginBottom="5dp"-->
+                    android:layout_marginBottom="15dp">
 
                     <CalendarView
                         android:layout_width="match_parent"
@@ -29,10 +29,9 @@
                         android:id="@+id/calendarView"
                         android:visibility="gone"
                         android:showWeekNumber="false"
-                        android:selectedWeekBackgroundColor="@color/blue"
-                        android:focusable="false"
+                        android:selectedWeekBackgroundColor="@color/blue_highlight"
+                        android:focusable="true"
                         android:clickable="true"
-                        android:weekNumberColor="@color/blue"
                         android:weekSeparatorLineColor="@color/blue"
                         android:layout_below="@+id/dateButton"
                         android:foregroundGravity="center"
@@ -94,7 +93,7 @@
                         android:layout_height="55dp"
                         android:id="@+id/dateButton"
                         android:src="@drawable/ic_select_calendar"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitXY"
                         android:background="@drawable/icon_button"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
@@ -112,7 +111,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:src="@drawable/ic_select_start"
-                        android:scaleType="fitCenter"
+                        android:scaleType="fitXY"
                         android:layout_alignLeft="@+id/dateButton"
                         android:layout_alignStart="@+id/dateButton"
                         android:layout_alignRight="@+id/dateButton"
@@ -129,7 +128,7 @@
                         android:layout_alignStart="@+id/startTimeButton"
                         android:background="@drawable/icon_button"
                         android:src="@drawable/ic_select_end"
-                        android:scaleType="fitCenter"/>
+                        android:scaleType="fitXY"/>
 
 
                     <Button

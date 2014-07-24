@@ -1,66 +1,81 @@
 package quickreserve.app;
 
 import android.app.Activity;
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.os.Build;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import quickreserve.app.R;
 
-public class AboutActivity extends Activity {
-
-    private static final String ACTIVITY_DRAWER_REF = "About";
+public class ViewMapActivity extends FragmentActivity
+{
+    private ActionBarDrawerToggle mDrawerToggle;
     private String[] mOptionsList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private static Toast toast;
     private String att_uid;
-    private TextView aboutText;
+    private int date_selected;
+    private String tempTitle;
+    private static final String ACTIVITY_DRAWER_REF = "View Map";
+
+
+    public static Toast getToast() {
+        return toast;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
-        getActionBar().setTitle("About Team 2020");
+        overridePendingTransition(R.anim.activity_open_translate, R.anim.activity_close_scale);
+        setContentView(R.layout.activity_map);
+        tempTitle = getString(R.string.select_a_section);
+        getActionBar().setTitle(tempTitle);
         att_uid = getIntent().getStringExtra("att_uid");
-        aboutText = (TextView)findViewById(R.id.teamInfo);
+        date_selected = getIntent().getIntExtra("date_selected", -1);
+        //Toast.makeText(this, att_uid + " " + date_selected, Toast.LENGTH_SHORT).show();
+
+        mOptionsList = getResources().getStringArray(R.array.options_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.my_drawer_row_layout, mOptionsList));
+
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
+                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+
+        ViewMapInitFragment firstFragment = new ViewMapInitFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, firstFragment, "init_fragment").commit();
+
+        //toast = Toast.makeText(getApplicationContext(), "Please choose a section", Toast.LENGTH_SHORT);
+        //toast.setGravity(Gravity.CENTER, 0,0);
+
+        //toast.show();
+
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
 
-        final ImageView imageView = (ImageView)findViewById(R.id.selfieImage);
-
-        ViewTreeObserver vto = imageView.getViewTreeObserver();
-        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            public boolean onPreDraw() {
-                // Remove after the first run so it doesn't fire forever
-               // tv.getViewTreeObserver().removeOnPreDrawListener(this);
-                int finalHeight = imageView.getMeasuredHeight();
-                int finalWidth = imageView.getMeasuredWidth();
-                Log.e("Image", "Height: " + finalHeight + " Width: " + finalWidth);
-                return true;
-            }
-        });
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
@@ -68,7 +83,7 @@ public class AboutActivity extends Activity {
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
-                ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
+                ,getBaseContext(),ViewMapActivity.this,mDrawerLayout,mOptionsList));
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
@@ -81,12 +96,13 @@ public class AboutActivity extends Activity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getActionBar().setTitle("About Team 2020");
+                getActionBar().setTitle(tempTitle);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                tempTitle = getActionBar().getTitle().toString();
                 getActionBar().setTitle(getString(R.string.options));
             }
         };
@@ -96,20 +112,7 @@ public class AboutActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        setAboutTextFont();
-
-
     }
-
-    private void setAboutTextFont() {
-
-        //String txt = "asdasd";
-        //String txt2 = "Bold";
-        aboutText.setText(Html.fromHtml(getString(R.string.aboutInfo)));
-
-    }
-
-    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
@@ -123,22 +126,38 @@ public class AboutActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.about, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+        int id = item.getItemId();
+
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(toast != null)
+        {
+            toast.cancel();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(toast != null)
+        {
+            toast.cancel();
+        }
     }
 }

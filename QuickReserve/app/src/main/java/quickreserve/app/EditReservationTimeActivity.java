@@ -200,7 +200,6 @@ public class EditReservationTimeActivity extends Activity {
 
     public void updateList(){
         final int date = TimeParser.parseDate(dateSelected.getText().toString());
-        Toast.makeText(EditReservationTimeActivity.this, date + "",Toast.LENGTH_SHORT).show();
         ListView reservationListView = (ListView) findViewById(R.id.editReservationTimeList);
         reservationList = new ArrayList<Reservation>();
         for (Reservation r: seatReservations){

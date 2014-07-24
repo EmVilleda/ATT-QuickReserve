@@ -1,7 +1,9 @@
 package quickreserve.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,25 +14,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import quickreserve.app.R;
 
 public class FavoriteSeatActivity extends Activity {
 
     protected TextView seat1Text;
     protected TextView seat2Text;
     protected TextView seat3Text;
-    protected Button seat1Button;
-    protected Button seat2Button;
-    protected Button seat3Button;
+    protected ImageButton seat1Button;
+    protected ImageButton seat2Button;
+    protected ImageButton seat3Button;
     protected Button submitButton;
     protected Button seat1OverlayButton;
     protected Button seat2OverlayButton;
@@ -56,7 +55,7 @@ public class FavoriteSeatActivity extends Activity {
         seat3Text = (TextView) findViewById(R.id.favoriteSeatText3);
 
 
-        seat1Button = (Button) findViewById(R.id.favoriteSeatButton1);
+        seat1Button = (ImageButton) findViewById(R.id.favoriteSeatButton1);
         seat1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +91,7 @@ public class FavoriteSeatActivity extends Activity {
             }
         });
 
-        seat2Button = (Button) findViewById(R.id.favoriteSeatButton2);
+        seat2Button = (ImageButton) findViewById(R.id.favoriteSeatButton2);
         seat2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +127,7 @@ public class FavoriteSeatActivity extends Activity {
             }
         });
 
-        seat3Button = (Button) findViewById(R.id.favoriteSeatButton3);
+        seat3Button = (ImageButton) findViewById(R.id.favoriteSeatButton3);
         seat3Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,8 +173,16 @@ public class FavoriteSeatActivity extends Activity {
                 editor.putString("seat2", seat2Text.getText().toString());
                 editor.putString("seat3", seat3Text.getText().toString());
                 editor.commit();
-                Toast.makeText(context, "Favorite seats successfully saved.", Toast.LENGTH_SHORT).show();
-                finish();
+                AlertDialog.Builder saveDialog = new AlertDialog.Builder(context);
+                saveDialog.setTitle("Favorite seats saved.");
+                saveDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                        finish();
+                    }
+                });
+                saveDialog.show();
             }
         });
 

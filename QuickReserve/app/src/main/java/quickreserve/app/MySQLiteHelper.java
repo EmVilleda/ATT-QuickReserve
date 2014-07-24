@@ -441,11 +441,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public List<Reservation> getUserReservations(String att_uid)
     {
         Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH)+1;
         int day = c.get(Calendar.DAY_OF_MONTH);
         int date = (year*10000)+(month*100)+day;
+        int time = hour*100 + minute;
         String dateStr = String.valueOf(date);
+        String timeStr = String.valueOf(time);
         List<Reservation> userReservations = new LinkedList<Reservation>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -472,7 +476,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                     reservation.setStartTime(Integer.parseInt(cursor.getString(3)));
                     reservation.setEndTime(Integer.parseInt(cursor.getString(4)));
                     reservation.setDate(Integer.parseInt(cursor.getString(5)));
-                    userReservations.add(reservation);
+                    if(reservation.getEndTime() > time || reservation.getDate() != date)
+                        userReservations.add(reservation);
                 } while (cursor.moveToNext());
             }
             else

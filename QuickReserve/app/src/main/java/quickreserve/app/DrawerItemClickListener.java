@@ -73,6 +73,15 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                     //activity.finish();
 
                 }
+                else if(option.equals("View Map"))
+                {
+                    Intent i = new Intent(context, ViewMapActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(i);
+                    //activity.finish();
+
+                }
                 else if(option.equals("Scan QR Code"))
                 {
                     Intent i = new Intent(activity, QRScannerActivity.class);
@@ -136,7 +145,10 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                 }
                 else if(option.equals("Help"))
                 {
-
+                    Intent i = new Intent(context, HelpActivity.class);
+                    i.putExtra("att_uid", att_uid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    activity.startActivity(i);
                 }
 
             }

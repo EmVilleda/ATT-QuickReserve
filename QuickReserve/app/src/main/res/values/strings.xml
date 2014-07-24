@@ -35,11 +35,12 @@
     <string name="favoriteSeat1">Seat 1</string>
     <string name="favoriteSeat2">Seat 2</string>
     <string name="favoriteSeat3">Seat 3</string>
-    <string name="saveSeats">Save selected seats</string>
+    <string name="saveSeats">Save</string>
 
     <string-array name="options_list">
         <item>Add Reservation</item>
         <item>My Reservations</item>
+        <item>View Map</item>
         <item>Scan QR Code</item>
         <item>Favorite Seats</item>
         <item>Find a Friend</item>
@@ -79,16 +80,49 @@
     <string name="title_activity_creep">Find a Friend</string>
     <string name="confirm">Confirm</string>
     <string name="title_activity_about">AboutActivity</string>
-
     <string name="aboutInfo">
-        <![CDATA[
-        <p><b>Scrum Master: </b> </p>
-        <p>\t\tLaura Laine</p>
-        <p><b>Product Owner: </b> </p>
-        <p>\t\tBrandon Jaster</p>
-        <p><b>Developers: </b> </p>
-        <p>\t\tSidalia Aguilar<br>\t\tCharlie Albright<br>\t\tDevang Mistry<br>\t\tAndrew Toscano<br>\t\tEmely Villeda-Principe</p>
+<![CDATA[
+            <h3> Who We Are </h3>
+            <p style = "font-size:10"> Team 2020 is a TDP -  Emerging Technologies intern group formed
+            to create a reservation app for AT&T. Through utilization of the Agile Scrum Process and the latest in Android technology,
+            we strive to provide AT&T employees a quick and easy service for reserving seats in the new Workplace 2020 areas. </p>
+
+            <h3> Team 2020 Members </h3>
+            <p style = "font-size:10"> Brandon Jaster - <em>Product Owner</em> <br/>
+            Laura Laine - <em>Scrum Master</em> <br/>
+            Sidalia Aguilar - <em>Developer</em> <br/>
+            Andrew Toscano - <em>Developer</em> <br/>
+            Charlie Albright - <em>Developer</em> <br/>
+            Devang Mistry - <em>Developer</em> <br/>
+            Emely Villeda-Principe - <em>Developer</em>
+            </p>
         ]]>
-</string>
+    </string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="question1">Q. What is the QuickReserve App?</string>
+    <string name="answer1">A. QuickReserve is a reservation service for AT&amp;T employees on the 14th Floor of Two Bell.
+        The idea is to make the work environment more efficient by allowing users to easily and quickly find
+        open seats, anytime and anywhere.</string>
+    <string name="question2">Q. What does the QuickReserve function do?</string>
+    <string name="answer2">A. The QuickReserve function allows users to reserve a seat for a certain
+        date and time period without the hassle of choosing a workspace. The app chooses a seat based on
+        the availability of your Favorite seats. If none of your favorites are available, the first
+        available seat is chosen.</string>
+    <string name="question3">Q. What does the QR code scanner function do?</string>
+    <string name="answer3">A. QR code scanner allows users to reserve seats for any date, but only for full-day work periods (8 AM – 5 PM).
+        Simply find the workstation you’d like to reserve, scan the QR Code on the seat, and make your reservation.</string>
+    <string name="question4">Q. What does the Friend Finder function do?</string>
+    <string name="answer4">A. The Friend Finder function allows users to look up a fellow AT&amp;T employee (through their ATTUID)
+        and view their reservations for the day. In this way you can easily find fellow team members to sit by
+        in order to collaborate and increase productivity.</string>
+    <string name="question5">Q. Can I make more than one reservation a day?</string>
+    <string name="answer5">A. You can make as many reservations a day you want, as long as the time periods don’t overlap.</string>
+    <string name="question6">Q. What is the earliest I can make a reservation?</string>
+    <string name="answer6">A. You can reserve any seat up to 2 weeks in advance.</string>
+    <string name="question7">Q. Can I edit or delete a reservation once it has been made?</string>
+    <string name="answer7">A. Yes. The My Reservations page lists all reservations you currently have. Tapping on the
+        View Details button will allow you to see the details of that reservation, and from there you can choose
+        to Edit or Delete your reservation.</string>
+    <string name="title_activity_view_map">viewMapActivity</string>
 
 </resources>

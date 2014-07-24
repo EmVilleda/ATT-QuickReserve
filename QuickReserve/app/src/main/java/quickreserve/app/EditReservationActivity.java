@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -67,6 +68,11 @@ public class EditReservationActivity extends Activity implements Animation.Anima
     private Button editStartOverlayButton;
     private Button editEndOverlayButton;
     private Button editSeatOverlayButton;
+    private ImageButton startTimeButton;
+    private ImageButton endTimeButton;
+    private ImageButton changeSeatButton;
+    private ImageButton calendarButton;
+
     private Animation fadeIn;
 
 
@@ -137,7 +143,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         fadeIn.setAnimationListener(this);
 
 
-        Button calendarButton = (Button) findViewById(R.id.editReservationDateButton);
+        calendarButton = (ImageButton) findViewById(R.id.editReservationDateButton);
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,9 +217,9 @@ public class EditReservationActivity extends Activity implements Animation.Anima
             }
         });
 
-        Button startTimeButton = (Button) findViewById(R.id.editReservationStartButton);
-        Button endTimeButton = (Button) findViewById(R.id.editReservationEndButton);
-        Button changeSeatButton = (Button) findViewById(R.id.editReservationChangeSeatButton);
+        startTimeButton = (ImageButton) findViewById(R.id.editReservationStartButton);
+        endTimeButton = (ImageButton) findViewById(R.id.editReservationEndButton);
+        changeSeatButton = (ImageButton) findViewById(R.id.editReservationChangeSeatButton);
 
 
         View.OnClickListener startTimeListener = new View.OnClickListener() {
@@ -273,8 +279,17 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                     boolean result = controller.editReservation(ID, seat, newDate, newStartTime, newEndTime);
 
                     if (result == true) {
-                        Toast.makeText(context, "Reservation succesfully edited", Toast.LENGTH_SHORT).show();
-                        finish();
+                        AlertDialog.Builder confirmationDialog = controller.getDialog(seat, newStartTime, newEndTime, newDate);
+
+                        confirmationDialog.setTitle("Reservation edited");
+                        confirmationDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.cancel();
+                                finish();
+                            }
+                        });
+                        confirmationDialog.show();
                     }
                     else{
                         Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show();
@@ -308,7 +323,6 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                 }
             }
         });
-
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);

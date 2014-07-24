@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginTop="5dp"
+    android:padding="10dp"
+    android:background="@color/white"
+    android:layout_alignParentTop="true"
+    android:id="@+id/detailsRelativeLayout"
+    android:layout_above="@+id/viewReservationButtonLinearLayout">
+
+
+    <TextView
+        style = "@style/ReservationTextView"
+        android:id="@+id/viewReservationSeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Seat"
+        android:layout_marginBottom="8dp"
+        android:textStyle="bold"
+        android:textSize="28dp"
+        android:textColor="@color/gray"
+        android:gravity="center_vertical"
+        android:padding="2dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateIcon"
+        android:src="@drawable/ic_date"
+        android:layout_below="@+id/viewReservationSeat"
+        android:layout_alignLeft="@id/workspaceImage"
+        android:layout_marginTop="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        />
+
+
+
+    <TextView
+        style = "@style/ReservationTextView"
+        android:id="@+id/viewReservationDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Date"
+        android:layout_toRightOf ="@+id/dateIcon"
+        android:layout_alignTop="@+id/dateIcon"
+        android:layout_alignBottom="@+id/dateIcon"
+        android:layout_marginLeft="30dp"
+        android:layout_alignParentRight="true"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeIcon"
+        android:src="@drawable/ic_time"
+        android:layout_below="@+id/dateIcon"
+        android:layout_marginTop="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        />
+
+    <TextView
+        style = "@style/ReservationTextView"
+        android:id="@+id/viewReservationTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Time"
+        android:layout_alignTop="@+id/timeIcon"
+        android:layout_toRightOf="@+id/timeIcon"
+        android:layout_alignLeft="@+id/viewReservationDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/timeIcon"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/phoneIcon"
+        android:src="@drawable/ic_phone"
+        android:layout_below="@+id/timeIcon"
+        android:layout_marginTop="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        />
+
+    <TextView
+        style = "@style/ReservationTextView"
+        android:id="@+id/viewReservationPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Phone Number"
+        android:layout_alignTop="@+id/phoneIcon"
+        android:layout_toRightOf="@+id/phoneIcon"
+        android:layout_alignLeft="@+id/viewReservationDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/phoneIcon"
+
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/printerIcon"
+        android:src="@drawable/ic_printer"
+        android:layout_below="@+id/phoneIcon"
+        android:layout_marginTop="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        />
+
+    <TextView
+        style = "@style/ReservationTextView"
+        android:id="@+id/viewReservationPrinter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Printer Number"
+        android:layout_alignTop="@+id/printerIcon"
+        android:layout_toRightOf="@+id/printerIcon"
+        android:layout_alignLeft="@+id/viewReservationDate"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/printerIcon"
+        />
+
+</RelativeLayout>
