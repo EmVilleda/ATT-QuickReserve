@@ -1,6 +1,13 @@
 package quickreserve.app;
 
+/*
+*   This class renders the Find a Friend page. This page allows you to find reservations that a
+*   colleague/friend has made for the current day
+* */
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -19,11 +26,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import quickreserve.app.R;
 
 public class CreepActivity extends Activity {
 
@@ -40,15 +44,18 @@ public class CreepActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private static final String ACTIVITY_DRAWER_REF = "Find a Friend";
+    private MySQLiteHelper mySQLiteHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creep);
-        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
-        att_uid = getIntent().getStringExtra("att_uid");
 
+        //activity transition animation
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
+        att_uid = getIntent().getStringExtra("att_uid");
         foundReservation = (TextView) findViewById(R.id.creepTextView);
         reservationListView = (ListView) findViewById(R.id.creepReservationList);
         attUIDSelected = (EditText) findViewById(R.id.creepIDEditText);
@@ -56,6 +63,7 @@ public class CreepActivity extends Activity {
         reservationList = new LinkedList<Reservation>();
         foundReservation.setText("");
         reservationManager = new MySQLiteHelper(this);
+        mySQLiteHelper = new MySQLiteHelper(this);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -63,6 +71,11 @@ public class CreepActivity extends Activity {
         date = calendar.get(Calendar.DAY_OF_MONTH) + ((calendar.get(Calendar.MONTH) + 1) * 100) + (calendar.get(Calendar.YEAR) * 10000);
 
         searchButton = (Button) findViewById(R.id.creepSearchButton);
+
+        /*
+        * onClickListener for the search button. It displays the list of reservations made
+        * by the employee whose id is typed in the search box
+        * */
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +83,21 @@ public class CreepActivity extends Activity {
                 if(attUIDSelected.getText().toString().isEmpty())
                 {
                     Toast.makeText(getApplication(),"Please enter valid ATTUID",Toast.LENGTH_SHORT).show();
+
+                }
+                else if(mySQLiteHelper.getUser(attUIDSelected.getText().toString()) == null)
+                {
+                    AlertDialog.Builder confirmationDialog = new AlertDialog.Builder(CreepActivity.this);
+
+                    confirmationDialog.setTitle("User not found");
+                    confirmationDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int i) {
+                            dialog.cancel();
+
+                        }
+                    });
+                    confirmationDialog.show();
 
                 }
                 else
@@ -137,23 +165,35 @@ public class CreepActivity extends Activity {
         final String ID = attUIDSelected.getText().toString();
         reservationList = reservationManager.getUserReservations(ID);
         ArrayList<Reservation> reservationListByToday = new ArrayList<Reservation>();
-        if(reservationList == null || reservationList.size()==0){
-            foundReservation.setText("No reservations for today");
-            reservationList = new LinkedList<Reservation>();
-        }
-        else{
-            foundReservation.setText("Reservations for Today");
+
+        Log.e("size test" , "size = " + reservationList.size());
+        if (reservationList != null || reservationList.size() > 0)
+        {
             for (Reservation r: reservationList){
                 if(r.getDate() == date){
                     reservationListByToday.add(r);
                 }
             }
-        }
-        MyReservationAdapter adapter = new MyReservationAdapter(this, R.layout.my_reservation_row_layout, reservationListByToday);
-        Log.e("test", reservationList.toString());
-        reservationListView.setAdapter(adapter);
-    }
+            Log.e("size test" , "size by today = " + reservationListByToday.size());
 
+            if(reservationListByToday.size()==0){
+                foundReservation.setText("No reservations for today");
+                reservationList = new LinkedList<Reservation>();
+            }
+            else{
+                foundReservation.setText("Reservations for Today");
+            }
+            MyReservationAdapter adapter = new MyReservationAdapter(this, R.layout.my_reservation_row_layout, reservationListByToday);
+            Log.e("test", reservationList.toString());
+            reservationListView.setAdapter(adapter);
+        }
+        else
+        {
+            foundReservation.setText("No reservations for today");
+            reservationList = new LinkedList<Reservation>();
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

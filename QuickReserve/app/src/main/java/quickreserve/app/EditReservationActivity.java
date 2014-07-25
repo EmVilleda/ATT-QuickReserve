@@ -176,7 +176,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
             @Override
             public void onClick(View view) {
                 calendarView.setVisibility(View.GONE);
-               // screenView.setVisibility(View.VISIBLE);
+                // screenView.setVisibility(View.VISIBLE);
             }
         };
 
@@ -316,7 +316,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
 
                 else if (isTimeAvail()){
                     ReservationController controller = new ReservationController(context);
-                    boolean result = controller.editReservation(ID, seat, newDate, newStartTime, newEndTime);
+                    boolean result = controller.editReservation(ID, att_uid, seat, newDate, newStartTime, newEndTime);
 
                     if (result == true) {
                         AlertDialog.Builder confirmationDialog = controller.getDialog(seat, newStartTime, newEndTime, newDate);
@@ -332,7 +332,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                         confirmationDialog.show();
                     }
                     else{
-                        Toast.makeText(context, "Unknown error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "You already have a reservation at this time.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{

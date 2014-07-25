@@ -1,29 +1,27 @@
 package quickreserve.app;
 
+/*
+*   This class is used to render the About Page Activity. This activity provides some information
+*   about the QuickReserve app and Team2020
+* */
+
 import android.app.Activity;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import quickreserve.app.R;
 
 public class AboutActivity extends Activity {
 
@@ -34,33 +32,27 @@ public class AboutActivity extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private String att_uid;
     private TextView aboutText;
+    private ImageView imageView;
 
+
+    /*
+    * The onCreate method is called when the activity is started. This method renders the page
+    * correctly and sets the required attributes.
+    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
-        getActionBar().setTitle("About Team 2020");
+        getActionBar().setTitle("About Team 2020"); // set the title for the activity
         att_uid = getIntent().getStringExtra("att_uid");
         aboutText = (TextView)findViewById(R.id.teamInfo);
         mOptionsList = getResources().getStringArray(R.array.options_list);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         ArrayList<String> drawerOptions = new ArrayList<String>(Arrays.asList(mOptionsList));
+        imageView = (ImageView)findViewById(R.id.selfieImage);
 
-        final ImageView imageView = (ImageView)findViewById(R.id.selfieImage);
-
-        ViewTreeObserver vto = imageView.getViewTreeObserver();
-        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            public boolean onPreDraw() {
-                // Remove after the first run so it doesn't fire forever
-               // tv.getViewTreeObserver().removeOnPreDrawListener(this);
-                int finalHeight = imageView.getMeasuredHeight();
-                int finalWidth = imageView.getMeasuredWidth();
-                Log.e("Image", "Height: " + finalHeight + " Width: " + finalWidth);
-                return true;
-            }
-        });
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new MyDrawerRowAdapter(this,
@@ -70,6 +62,7 @@ public class AboutActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener(att_uid, ACTIVITY_DRAWER_REF
                 ,getApplicationContext(),this,mDrawerLayout,mOptionsList));
 
+        // navigation drawer icon toggle
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -96,19 +89,14 @@ public class AboutActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        setAboutTextFont();
-
-
-    }
-
-    private void setAboutTextFont() {
-
-        //String txt = "asdasd";
-        //String txt2 = "Bold";
         aboutText.setText(Html.fromHtml(getString(R.string.aboutInfo)));
 
+
     }
 
+    /*
+    * onPostCreate Called when activity start-up is complete. Required for the navigation drawer.
+    * */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -116,6 +104,10 @@ public class AboutActivity extends Activity {
         mDrawerToggle.syncState();
     }
 
+
+    /*
+    * Required for the navigation drawer.
+    * */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -129,6 +121,7 @@ public class AboutActivity extends Activity {
         return true;
     }
 
+    /* To enable drawer toggle when navigation drawer icon is clicked */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

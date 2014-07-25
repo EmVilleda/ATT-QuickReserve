@@ -514,9 +514,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean editReservation(int rowID, String workspaceName, int date, int startTime, int endTime)
+    public boolean editReservation(int rowID, String att_uid, String workspaceName, int date, int startTime, int endTime)
     {
         String idStr = String.valueOf(rowID);
+        String dateStr = String.valueOf(date);
+        String startTimeStr = String.valueOf(startTime);
+        String endTimeStr = String.valueOf(endTime);
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         if(workspaceName != null)
@@ -527,6 +530,29 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put("start_time", startTime);
         if(endTime != 0)
             values.put("end_time", endTime);
+
+        try {
+            Cursor cursor = db.query("reservations",
+                    RESERVATION_COLUMNS,
+                    "att_uid = ? AND date = ? AND start_time < ? and end_time > ?",
+                    new String[] {att_uid, dateStr, endTimeStr, startTimeStr},
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if(cursor.getCount() > 0)
+            {
+                cursor.moveToFirst();
+                do {
+                    if(Integer.parseInt(cursor.getString(0)) != rowID)
+                        return false;
+                } while(cursor.moveToNext());
+            }
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         try {
             db.update("reservations", values, "id = ?", new String[] {idStr});

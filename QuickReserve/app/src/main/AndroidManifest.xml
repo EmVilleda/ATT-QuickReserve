@@ -37,10 +37,6 @@
             android:parentActivityName=".MyReservationActivity" >
         </activity>
         <activity
-            android:name=".EditReservationTimeActivity"
-            android:label="@string/title_activity_edit_reservation_time" >
-        </activity>
-        <activity
             android:name=".EditReservationSeatActivity"
             android:label="@string/title_activity_edit_reservation_seat" >
         </activity>

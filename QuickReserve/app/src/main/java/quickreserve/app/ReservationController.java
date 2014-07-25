@@ -97,8 +97,8 @@ public class ReservationController{
      *false - unknown error adding (most likely with creating reservation in database)
      *true -  Reservation created successfully
      */
-    public boolean editReservation(int id, String workspace_name, int date, int start_time, int end_time){
-        return reservationManager.editReservation(id, workspace_name, date, start_time, end_time);
+    public boolean editReservation(int id, String workspace_name,String seat, int date, int start_time, int end_time){
+        return reservationManager.editReservation(id, workspace_name,seat, date, start_time, end_time);
     }
 
 
