@@ -61,6 +61,8 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     private static int day_selected;
     private static int month_selected;
     private static int year_selected;
+
+    private static int timePickerFlag;
     private String att_uid;
     private String[] mOptionsList;
     private DrawerLayout mDrawerLayout;
@@ -99,6 +101,9 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         min_start = roundDown(calendar.get(Calendar.MINUTE));
         hour_end = calendar.get(Calendar.HOUR_OF_DAY) + 1;
         min_end = roundDown(calendar.get(Calendar.MINUTE));
+        day_selected = calendar.get(Calendar.DAY_OF_MONTH);
+        month_selected = calendar.get(Calendar.MONTH);
+        year_selected = calendar.get(Calendar.YEAR);
         //min date must be earlier than the current time
         mCalendarView.setMinDate(calendar.getTimeInMillis() - 3000);
         //14 days of milliseconds
@@ -185,6 +190,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             public void onClick(View view) {
 
                 timeButtonflag = 1;
+                timePickerFlag = 1;
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
 
@@ -197,6 +203,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             public void onClick(View view) {
 
                 timeButtonflag = 1;
+                timePickerFlag = 1;
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
 
@@ -208,6 +215,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             @Override
             public void onClick(View view) {
                 timeButtonflag = 2;
+                timePickerFlag = 2;
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
 
@@ -218,6 +226,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             @Override
             public void onClick(View view) {
                 timeButtonflag = 2;
+                timePickerFlag = 2;
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
 
@@ -227,36 +236,126 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mPickSeatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Calendar c = Calendar.getInstance();
+                int current_time = (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE));
                 int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
                 if (start_time >= end_time) {
-                    Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
-                } else if (!isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time)) {
-                    Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
-                } else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("End time must be after start time");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                else if (!isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time)) {
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("You already have a reservation for this time.");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+                else if(day_selected == c.get(Calendar.DAY_OF_MONTH) && end_time <= current_time)
+                {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("Time requested has already passed");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+
+                else {
                     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     intent.putExtra("start_time", start_time);
                     intent.putExtra("end_time", end_time);
                     Log.e("test", att_uid);
                     intent.putExtra("att_uid", att_uid);
                     intent.putExtra("date_selected", TimeParser.parseDate(mSelectedDate.getText().toString()));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
-
-
             }
         });
 
         mQuickReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar c = Calendar.getInstance();
+                int current_time = (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE));
                 int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
+
+                Log.e("final test", "current hour = " + c.get(Calendar.HOUR_OF_DAY));
+                Log.e("final test", "current minute = " + c.get(Calendar.MINUTE));
+                Log.e("final test", "current time = " + (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE)));
+                Log.e("final test", "start time = " + start_time);
+                Log.e("final test", "end time = " + end_time);
+                Log.e("final test", "day selected = " + day_selected + " month selected = " + month_selected
+                                    + "year selected = " + year_selected);
+                Log.e("final test", "cal day = " + c.get(Calendar.DAY_OF_MONTH) + " cal month = " + c.get(Calendar.MONTH)
+                                    + "cal year = " + c.get(Calendar.YEAR));
+
+
                 if (start_time >= end_time) {
-                    Toast.makeText(DateTimeActivity.this, "End time must be after start time", Toast.LENGTH_SHORT).show();
-                } else if (!(isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time))) {
-                    Toast.makeText(DateTimeActivity.this, "You already have a reservation for this time.", Toast.LENGTH_SHORT).show();
-                } else {
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("End time must be after start time");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+                }
+                else if (!(isUserTimeAvailable(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time))) {
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("You already have a reservation for this time.");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+                else if(day_selected == c.get(Calendar.DAY_OF_MONTH) && end_time <= current_time)
+                {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("Time requested has already passed");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+                else {
                     quickReserve(TimeParser.parseDate(mSelectedDate.getText().toString()), start_time, end_time);
                 }
 
@@ -365,6 +464,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     //If possible reserves a seat at given time, prioritizes favorite seats,
     //but picks the first open seat if none of the favorites are available
     public void quickReserve(int date, int start_time, int end_time) {
+
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(DateTimeActivity.this);
         String seat1 = p.getString("seat1", "");
         String seat2 = p.getString("seat2", "");
@@ -590,9 +690,11 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         else
             super.onBackPressed();
 
-
-
-
     }
+
+    public static int getTimePickerFlag() {
+        return timePickerFlag;
+    }
+
 }
 

@@ -72,6 +72,10 @@ public class EditReservationActivity extends Activity implements Animation.Anima
     private ImageButton endTimeButton;
     private ImageButton changeSeatButton;
     private ImageButton calendarButton;
+    private Calendar calendar;
+    private static int day_selected;
+    private static int month_selected;
+    private static int year_selected;
 
     private Animation fadeIn;
 
@@ -121,6 +125,8 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         startTimeSelected.setText(TimeParser.parseTime(start_time));
         endTimeSelected.setText(TimeParser.parseTime(end_time));
         seatSelected.setText(seat);
+        calendar = Calendar.getInstance();
+
 
         updateList();
 
@@ -129,6 +135,9 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         c.set(Calendar.MONTH, ((date /100) %100)-1);
         c.set(Calendar.DAY_OF_MONTH, (date % 100));
         c.getTimeInMillis();
+        day_selected = c.get(Calendar.DAY_OF_MONTH);
+        month_selected = c.get(Calendar.MONTH);
+        year_selected = c.get(Calendar.YEAR);
         calendarView.setDate(c.getTimeInMillis());
         //min date must be earlier than the current time
         calendarView.setMinDate(System.currentTimeMillis()-3000);
@@ -214,6 +223,9 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                 }
                 dateSelected.setText(TimeParser.parseDate(year, month + 1, dayOfMonth));
                 updateList();
+                day_selected = dayOfMonth;
+                month_selected = month;
+                year_selected = year;
             }
         });
 
@@ -268,12 +280,40 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Calendar c = Calendar.getInstance();
+                int current_time = (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE));
                 final int newDate = TimeParser.parseDate(dateSelected.getText().toString());
                 final int newStartTime = TimeParser.parseTime(startTimeSelected.getText().toString());
                 final int newEndTime = TimeParser.parseTime(endTimeSelected.getText().toString());
                 if (newEndTime <= newStartTime){
-                    Toast.makeText(EditReservationActivity.this, "End time must be later than start time", Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("End time must be after start time");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
                 }
+                else if(day_selected == c.get(Calendar.DAY_OF_MONTH) && newEndTime <= current_time)
+                {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("Reservation error");
+                    alertDialog.setMessage("Time requested has already passed");
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    alertDialog.show();
+
+                }
+
                 else if (isTimeAvail()){
                     ReservationController controller = new ReservationController(context);
                     boolean result = controller.editReservation(ID, seat, newDate, newStartTime, newEndTime);
@@ -298,7 +338,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                 else{
                     AlertDialog.Builder seatChangeDialog = new AlertDialog.Builder(context);
                     seatChangeDialog.setTitle("Reservation conflict!");
-                    seatChangeDialog.setMessage("Seat is reserved by a collegue  for the selected time and date. Change the seat or time.");
+                    seatChangeDialog.setMessage("Seat is reserved by a colleague  for the selected time and date. Change the seat or time.");
                     seatChangeDialog.setCancelable(true);
                     seatChangeDialog.setPositiveButton("Change Seat", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -365,6 +405,26 @@ public class EditReservationActivity extends Activity implements Animation.Anima
 
     }
 
+    public boolean isUserTimeAvailable(int date, int start_time, int end_time) {
+        MySQLiteHelper manager = new MySQLiteHelper(EditReservationActivity.this);
+        List<Reservation> currentReservations = manager.getUserReservations(att_uid);
+        if (currentReservations == null || currentReservations.size() == 0) {
+            return true;
+        } else {
+            for (Reservation r : currentReservations) {
+                if (r.getDate() == date) {
+                    if (r.getStartTime() >= start_time && r.getStartTime() < end_time) {
+                        return false;
+                    } else if (r.getEndTime() > start_time && r.getEndTime() <= end_time) {
+                        return false;
+                    } else if (r.getStartTime() <= start_time && r.getEndTime() >= end_time) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     @Override
     public void onAnimationStart(Animation animation) {
@@ -434,7 +494,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         else{
             otherReservationsLayout.setVisibility(View.VISIBLE);
             noReservationTextView.setVisibility(View.GONE);
-            reservationText.setText("Reservations for " + seat + " by collegues");
+            reservationText.setText("Other Reservations for " + seat );
         }
     }
 

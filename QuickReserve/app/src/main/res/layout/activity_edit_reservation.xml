@@ -101,7 +101,7 @@
                     android:id="@+id/editReservationEndButton"
                     android:padding="5dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_select_start"
+                    android:src="@drawable/ic_select_end"
                     android:background="@drawable/icon_button"
                     android:layout_below="@+id/editReservationStartButton"
                     android:layout_alignParentLeft="true"
@@ -179,10 +179,9 @@
                         android:layout_height="0dp"
                         android:text="Reservations for A1"
                         android:id="@+id/editReservationTimeTextView"
-                        android:padding="2dp"
+                        android:padding="3dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_weight="1"
-                        android:gravity="center" />
+                        android:layout_weight="1" />
 
                     <ListView
                         style="@style/MyListView"

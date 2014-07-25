@@ -11,6 +11,7 @@ import java.util.List;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
@@ -25,6 +26,18 @@ public class CustomTimePickerDialog extends TimePickerDialog {
         super(context, callBack, hourOfDay, minute / TIME_PICKER_INTERVAL,
                 is24HourView);
         this.callback = callBack;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(DateTimeActivity.getTimePickerFlag() == 1)
+        {
+            setTitle("Set Start Time");
+        }
+        else
+            setTitle("Set End Time");
     }
 
     @Override
