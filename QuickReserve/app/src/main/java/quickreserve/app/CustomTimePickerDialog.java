@@ -1,8 +1,7 @@
 package quickreserve.app;
 
 /**
- * Created by at892q on 7/15/2014.
- * http://stackoverflow.com/questions/20214547
+ * Class for the custom timepicker dialog
  */
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,6 +31,7 @@ public class CustomTimePickerDialog extends TimePickerDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // set the title based on which button is calling
         if(DateTimeActivity.getTimePickerFlag() == 1)
         {
             setTitle("Set Start Time");
@@ -41,6 +41,7 @@ public class CustomTimePickerDialog extends TimePickerDialog {
     }
 
     @Override
+    // on click listener
     public void onClick(DialogInterface dialog, int which) {
         if (callback != null && timePicker != null) {
             timePicker.clearFocus();
@@ -57,6 +58,11 @@ public class CustomTimePickerDialog extends TimePickerDialog {
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         try {
+
+            /*
+            * logic for 15 minute increments on the time picker dialog
+            * */
+
             Class<?> classForid = Class.forName("com.android.internal.R$id");
             Field timePickerField = classForid.getField("timePicker");
             this.timePicker = (TimePicker) findViewById(timePickerField

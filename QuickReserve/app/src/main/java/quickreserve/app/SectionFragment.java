@@ -1,5 +1,28 @@
 package quickreserve.app;
 
+/*
+* Fragment which shows the map and list of available seats.
+*
+* /*
+                                                            /0000\
+                                                           /000000)
+                                                          (000000/
+                                                          |00000/
+                                             _______      |00000|
+                                           /000  o000000/ /000000\
+                                          000000  0000 //00000000\
+                                          \0000000  000||000000000|
+                                    /000000 \000000  00||000000000|
+                                   0000000o  0oooooo 00/0000000000|
+                               /0000 \0000000o 0oooo) //0000000000|
+                   --ooo_____ |00000  \0000000) //00000--000000000|
+                  (0000000000\ \\\00000  0ooo/ //00000000000000000/
+                  \00000000000 \\\00ooo) /|||||/00000000000000000/
+                        --ooooo_ \\---00000000000000000000000000/
+                                   \\00000000000000000000000000/
+                                     \\0000000000000000000000/
+                                         -ooooooooooooooooo-
+*/
 
 
 import android.app.AlertDialog;
@@ -77,8 +100,6 @@ public class SectionFragment extends Fragment {
 
         final int newStartTime = start_time;
         final int newEndTime = end_time;
-
-
 
 
         if(flag == 2)

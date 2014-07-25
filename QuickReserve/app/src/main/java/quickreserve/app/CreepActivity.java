@@ -80,6 +80,10 @@ public class CreepActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+                /*
+                * Input validation
+                * */
+
                 if(attUIDSelected.getText().toString().isEmpty())
                 {
                     Toast.makeText(getApplication(),"Please enter valid ATTUID",Toast.LENGTH_SHORT).show();
@@ -161,13 +165,41 @@ public class CreepActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public void updateList(){
+
+
+    /*
+    *
+    *
+                      Worked hard on this function  but it works
+
+                                                /0000\
+                                               /000000)
+                                              (000000/
+                                              |00000/
+                                 _______      |00000|
+                               /000  o000000/ /000000\
+                              000000  0000 //00000000\
+                              \0000000  000||000000000|
+                        /000000 \000000  00||000000000|
+                       0000000o  0oooooo 00/0000000000|
+                   /0000 \0000000o 0oooo) //0000000000|
+       --ooo_____ |00000  \0000000) //00000--000000000|
+      (0000000000\ \\\00000  0ooo/ //00000000000000000/
+      \00000000000 \\\00ooo) /|||||/00000000000000000/
+            --ooooo_ \\---00000000000000000000000000/
+                       \\00000000000000000000000000/
+                         \\0000000000000000000000/
+                             -ooooooooooooooooo-
+    *
+    * Function to display the list of reservations for the searched ID
+    *
+    * */
+     public void updateList(){
         final String ID = attUIDSelected.getText().toString();
         reservationList = reservationManager.getUserReservations(ID);
         ArrayList<Reservation> reservationListByToday = new ArrayList<Reservation>();
 
-        Log.e("size test" , "size = " + reservationList.size());
-        if (reservationList != null || reservationList.size() > 0)
+        if (reservationList != null)
         {
             for (Reservation r: reservationList){
                 if(r.getDate() == date){

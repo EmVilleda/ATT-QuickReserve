@@ -1,14 +1,12 @@
 package quickreserve.app;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
-import android.widget.TimePicker;
+/*
+*   Class which renders time properly in all the textview, boxes etc
+* */
 
-import java.sql.Time;
-import java.util.Arrays;
+import android.util.Log;
+
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by at892q on 6/18/2014.

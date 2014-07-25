@@ -1,6 +1,9 @@
 package quickreserve.app;
 
-import android.app.ActionBar;
+/*
+* Class for the edit reservation screen. Lets you edit your reservation
+* */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -31,13 +33,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.qozix.animation.easing.Linear;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -151,7 +149,10 @@ public class EditReservationActivity extends Activity implements Animation.Anima
         fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
         fadeIn.setAnimationListener(this);
 
-
+        /*
+        * Calendar view code copy pasted from date time activity. YAY!!
+        *
+        * */
         calendarButton = (ImageButton) findViewById(R.id.editReservationDateButton);
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,8 +161,6 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                 {
                     fadeIn.setDuration(600);
 
-                    //mCalendarView.setVisibility(View.VISIBLE);
-                    //mChoiceLayout.setVisibility(View.GONE);
                     calendarView.setAnimation(fadeIn);
                     calendarView.startAnimation(fadeIn);
                 }
@@ -172,6 +171,7 @@ public class EditReservationActivity extends Activity implements Animation.Anima
 
         });
 
+        //onclicklistener for calendar view
         View.OnClickListener dateChangeListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -286,6 +286,9 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                 final int newDate = TimeParser.parseDate(dateSelected.getText().toString());
                 final int newStartTime = TimeParser.parseTime(startTimeSelected.getText().toString());
                 final int newEndTime = TimeParser.parseTime(endTimeSelected.getText().toString());
+
+
+                //input validation
                 if (newEndTime <= newStartTime){
 
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
@@ -326,7 +329,10 @@ public class EditReservationActivity extends Activity implements Animation.Anima
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
                                 dialog.cancel();
-                                finish();
+                                Intent intent2 = new Intent(EditReservationActivity.this, MyReservationActivity.class);
+                                intent2.putExtra("att_uid", att_uid);
+                                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                EditReservationActivity.this.startActivity(intent2);
                             }
                         });
                         confirmationDialog.show();

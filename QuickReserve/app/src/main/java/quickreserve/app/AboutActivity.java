@@ -3,7 +3,28 @@ package quickreserve.app;
 /*
 *   This class is used to render the About Page Activity. This activity provides some information
 *   about the QuickReserve app and Team2020
-* */
+*
+
+                                                                            /0000\
+                                                                           /000000)
+                                                                          (000000/
+       WE ARE AWESOME!!!                                                  |00000/
+                                                             _______      |00000|
+                                                           /000  o000000/ /000000\
+                                                          000000  0000 //00000000\
+                                                          \0000000  000||000000000|
+                                                    /000000 \000000  00||000000000|
+                                                   0000000o  0oooooo 00/0000000000|
+                                               /0000 \0000000o 0oooo) //0000000000|
+                                   --ooo_____ |00000  \0000000) //00000--000000000|
+                                  (0000000000\ \\\00000  0ooo/ //00000000000000000/
+                                  \00000000000 \\\00ooo) /|||||/00000000000000000/
+                                        --ooooo_ \\---00000000000000000000000000/
+                                                   \\00000000000000000000000000/
+                                                     \\0000000000000000000000/
+                                                         -ooooooooooooooooo-
+*/
+
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -11,11 +32,9 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Html;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;

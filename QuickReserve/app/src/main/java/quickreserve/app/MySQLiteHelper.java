@@ -26,8 +26,30 @@ import java.util.List;
  * Created by Charlie Albright (ATT_UID: ca8681)
  * 06/12/2014
  * App: QuickReserve
-*/
 
+
+    A WILD X-WING APPEARED
+               __
+    .-.__      \ .-.  ___  __|_|     
+'--.-.-(   \/\;;\_\.-._______.-.___---( )
+    (-)___     \ \ .-\ \;;\(   \       \ \
+      \   '---._\_((Q)) \;;\\ .-\     __(-)
+       \         __'-' / .--.((Q))---'    \
+        \  ___.-:    \|  |   \'-'_         \
+        .0'      \ .-.\   \   \ \ '--.__    \
+        |_\__.----((Q))\   \__|--\_      \   0
+        (-)        '-'  \_  :  \-' '--.___\   \
+          \               \  \  \       \(-)
+           \               \  \  \         \
+            \               \  \  \         \
+             0               \  \  \         \
+              \               \  \__|         0
+                               \_:.  \         \
+                                 \ \  \
+                                  \ \  \
+                                   \_\_|
+
+*/
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
@@ -66,6 +88,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     private Context context;
 
+    //Constructor
     public MySQLiteHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,6 +114,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
+    //Populates the DB with pre-assigned data on the app's first run
     public void firstRun()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -99,6 +123,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         populateWorkspaceTypes(db);
     }
 
+    //Deletes all data from the database
     public boolean clearDatabase()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -114,6 +139,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //clears and repopulates the data in the DB
     public void repopulateData(SQLiteDatabase db)
     {
         db.execSQL("DROP TABLE IF EXISTS users");
@@ -129,6 +155,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         populateWorkspaceTypes(db);
     }
 
+    //Populates the User table with users from file
     private void populateUsers(SQLiteDatabase db)
     {
         String userCSV = "UserData.csv";
@@ -164,6 +191,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     }
 
+    //Populates the Workspace table with workspaces from file
     private void populateWorkspaces(SQLiteDatabase db)
     {
         String workspaceCSV = "WorkspaceData.csv";
@@ -202,6 +230,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
+    //Populates the WorkspaceType table with workspace types from file
     private void populateWorkspaceTypes(SQLiteDatabase db)
     {
         String workspaceTypeCSV = "WorkspaceTypeData.csv";
@@ -237,6 +266,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     //User functions
+
+    //inserts a new user into the database
     public boolean addUser(User user)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -256,6 +287,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //gets a user from the database based off of their att_uid, or returns null if not found
     public User getUser(String att_uid)
     {
         User user = null;
@@ -289,6 +321,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return user;
     }
 
+    //returns all the users that exist in the DB
     public List<User> getAllUsers()
     {
         List<User> users = new LinkedList<User>();
@@ -315,6 +348,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return users;
     }
 
+    //deletes the user passed into the function from the database
     public boolean deleteUser(User user)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -331,6 +365,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     //Reservation functions
 
+    //adds a new reservation into the DB
     public int addReservation(Reservation reservation)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -374,6 +409,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return 2;
     }
 
+    //gets a reservation from the DB by its unique ID
     public Reservation getReservation(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -410,6 +446,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return reservation;
     }
 
+    //gets all reservations that exist in the DB
     public List<Reservation> getAllReservations()
     {
         List<Reservation> reservations = new LinkedList<Reservation>();
@@ -438,6 +475,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return reservations;
     }
 
+    //gets a specific user's reservations, not including reservations where the date and time has already passed
     public List<Reservation> getUserReservations(String att_uid)
     {
         Calendar c = Calendar.getInstance();
@@ -489,6 +527,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return userReservations;
     }
 
+    //checks if a workspace is reserved or not during a specified day
     public boolean isWorkspaceReserved(String workspaceName, int day, int month, int year)
     {
         int date = (year*10000)+(month*100)+day;
@@ -514,6 +553,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
+    //edits an existing reservation with the provided new information, and also check to make sure that the edit does not conflict with an existing reservation
     public boolean editReservation(int rowID, String att_uid, String workspaceName, int date, int startTime, int endTime)
     {
         String idStr = String.valueOf(rowID);
@@ -563,6 +603,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //deletes a reservation from the DB
     public boolean deleteReservation(int id)
     {
         String idStr = String.valueOf(id);
@@ -580,6 +621,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 
     //Workspace functions
+
+    //adds a new workspace to the DB
     public boolean addWorkspace(Workspace workspace)
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -601,6 +644,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    //gets a workspace from the DB by its unique workspace name
     public Workspace getWorkspace(String workspaceName)
     {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -636,6 +680,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspace;
     }
 
+    //gets all workspaces that exist in the DB
     public List<Workspace> getAllWorkspaces()
     {
         List<Workspace> workspaces = new LinkedList<Workspace>();
@@ -665,6 +710,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
+    //gets all workspaces in the DB that are a part of a specific floor sector
     public List<Workspace> getAllWorkspaces(int sector)
     {
         List<Workspace> workspaces = new LinkedList<Workspace>();
@@ -701,6 +747,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
+    //gets a list of workspaces that are NOT booked during the given date and time
     public List<Workspace> getOpenWorkspaces(int date, int startTime, int endTime)
     {
         List<Workspace> workspaces = new LinkedList<Workspace>();
@@ -738,6 +785,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
+    //same as getOpenWorkspaces, but includes logic for an extra workspace to be added
     public List<Workspace> getOpenWorkspacesIncludeExtra(int date, int startTime, int endTime, String workspaceName)
     {
         List<Workspace> workspaces = new LinkedList<Workspace>();
@@ -775,6 +823,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return workspaces;
     }
 
+    //gets a list of workspaces for a sector, indicating whether or not they are reserved with a boolean
     public List<Workspace> getMasterWorkspacesList(int date, int startTime, int endTime, int sector)
     {
         List<Workspace> allWorkspaces = getAllWorkspaces(sector);
@@ -813,6 +862,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return allWorkspaces;
     }
 
+    //gets a list of workspaces, indicating whether or not they are reserved with a boolean
     public List<Workspace> getMasterWorkspacesList(int date, int startTime, int endTime)
     {
         List<Workspace> allWorkspaces = getAllWorkspaces();

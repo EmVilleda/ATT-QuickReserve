@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Container activity/class for the map activity
+* */
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Class for favorite seat activity. Lets you choose favrite seats
+* */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;

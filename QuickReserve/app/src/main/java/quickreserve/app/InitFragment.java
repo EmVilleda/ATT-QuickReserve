@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Initial fragment for the MapActivity screen
+* */
+
 import android.animation.Animator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +24,6 @@ public class InitFragment extends Fragment {
     private Button mButton3;
     private Button mButton4;
     private Toast toast;
-    //private FragmentManager fragmentManager;
 
     private ImageView mSectionImage;
     private View mInflatedView;

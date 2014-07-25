@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+
+/*
+*   Activity which shows the view
+* */
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;

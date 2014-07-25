@@ -74,11 +74,11 @@ public class QRResultActivity extends Activity {
         previousDateButton.setClickable(false);
         previousDateButton.setBackgroundColor(getResources().getColor(R.color.gray));
 
+        //getting data from QR scan and checking if it a valid seat code
         Intent intent = getIntent();
         seat = intent.getStringExtra("value");
         codeFormat = intent.getStringExtra("format");
         att_uid = intent.getStringExtra("att_uid");
-
         boolean validSeat = checkValidSeat();
         if(validSeat) {
             seatTextView.setText(seat);
@@ -167,6 +167,7 @@ public class QRResultActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    //sets the date whenever the next or previous buttons are clicked
     private void setDates()
     {
         Calendar c = Calendar.getInstance();
@@ -182,6 +183,7 @@ public class QRResultActivity extends Activity {
 
     }
 
+    //populates the date view with a readable date format
     private void populateDateView()
     {
         String stringWeekday = "";
@@ -215,6 +217,7 @@ public class QRResultActivity extends Activity {
         dateTextView.setText(stringWeekday + ", " + months[index] + "/" + days[index]);
     }
 
+    //checks the recieved QR code and checks if that is a valid seat in the database
     private boolean checkValidSeat()
     {
         Workspace workspace = mySQLiteHelper.getWorkspace(seat);
@@ -224,6 +227,7 @@ public class QRResultActivity extends Activity {
             return true;
     }
 
+    //checks if a seat is available for the full day 
     private void checkSeatStatus()
     {
         boolean booked = mySQLiteHelper.isWorkspaceReserved(seat, days[index], months[index], years[index]);
@@ -242,6 +246,7 @@ public class QRResultActivity extends Activity {
         }
     }
 
+    //called when next date button is clicked, updates UI
     public void onNextDateButtonClicked(View view)
     {
         previousDateButton.setClickable(true);
@@ -256,6 +261,7 @@ public class QRResultActivity extends Activity {
         populateDateView();
     }
 
+    //called when previous date button is clicked, updates UI
     public void onPreviousDateButtonClicked(View view)
     {
         nextDateButton.setClickable(true);
@@ -270,6 +276,7 @@ public class QRResultActivity extends Activity {
         populateDateView();
     }
 
+    //called when scan new seat button is clicked, creates a new QRScannerActivity
     public void onScanNewSeatButtonClicked(View view)
     {
         Intent intent = new Intent(this, QRScannerActivity.class);
@@ -279,6 +286,7 @@ public class QRResultActivity extends Activity {
         finish();
     }
 
+    //Attempts to make a reservation based on the parameters entered. opens a dialog if there is a conflict, or if there is not a conflict, a dialog to confirm is opened
     public void onReserveClicked(View view)
     {
         Reservation reservation = new Reservation();

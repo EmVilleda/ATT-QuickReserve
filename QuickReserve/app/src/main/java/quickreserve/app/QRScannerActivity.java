@@ -40,6 +40,8 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
         mScannerView.stopCamera();           // Stop camera on pause
     }
 
+
+    //this function is called when a QRCode is captured and starts the QRResult Activity
     @Override
     public void handleResult(Result rawResult) {
         // Do something with the result here

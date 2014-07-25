@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+* This class is for the date and time activity. The User can choose date and time from this screen
+* */
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -83,9 +87,12 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         att_uid = getIntent().getStringExtra("att_uid");
         Log.e("test", "testing uid - " + att_uid);
         mDateButton = (ImageButton) findViewById(R.id.dateButton);
+
+        //overlay buttons for the textboxes to make them clickable
         mDateOverlayButton = (Button) findViewById(R.id.dateOverlayButton);
         mStartTimeOverlayButton = (Button) findViewById(R.id.startTimeOverlayButton);
         mEndTimeOverlayButton = (Button) findViewById(R.id.endTimeOverlayButton);
+
         mStartTimeButton = (ImageButton) findViewById(R.id.startTimeButton);
         mEndTimeButton = (ImageButton) findViewById(R.id.endTimeButton);
         mQuickReserveButton = (Button) findViewById(R.id.quickReserveButton);
@@ -95,6 +102,8 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         mSelectedEndTime = (EditText) findViewById(R.id.selectedEndTime);
         mChoiceLayout = (RelativeLayout) findViewById(R.id.choiceLayout);
         mCalendarView = (CalendarView) findViewById(R.id.calendarView);
+
+        //calendar objects for all the date and time computation/ logic
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         hour_start = calendar.get(Calendar.HOUR_OF_DAY);
@@ -123,10 +132,8 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
                 mDateOverlayButton.setVisibility(View.VISIBLE);
                 if (mCalendarView.getVisibility() != View.VISIBLE) {
+                    //fade animation
                     fadeIn.setDuration(600);
-
-                    //mCalendarView.setVisibility(View.VISIBLE);
-                    //mChoiceLayout.setVisibility(View.GONE);
                     mCalendarView.setVisibility(View.INVISIBLE);
                     mCalendarView.setAnimation(fadeIn);
                     mCalendarView.startAnimation(fadeIn);
@@ -141,10 +148,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             public void onClick(View view) {
 
                 mDateOverlayButton.setVisibility(View.VISIBLE);
-                //fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_in);
 
                 Log.e("test", "overlayclicked");
                 if (mCalendarView.getVisibility() != View.VISIBLE) {
+                    //fade animation
                     fadeIn.setDuration(600);
                     mCalendarView.setAnimation(fadeIn);
                     mCalendarView.setVisibility(View.INVISIBLE);
@@ -238,9 +245,13 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             public void onClick(View view) {
 
                 Calendar c = Calendar.getInstance();
+
+                // logic for converting dates into an int
                 int current_time = (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE));
                 int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
+
+                // input validation for time
                 if (start_time >= end_time) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                     alertDialog.setTitle("Reservation error");
@@ -282,7 +293,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
                 }
 
+                // If input is right then chang
                 else {
+
+
                     Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                     intent.putExtra("start_time", start_time);
                     intent.putExtra("end_time", end_time);
@@ -295,24 +309,15 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
             }
         });
 
+
         mQuickReserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // logic to convert date/time to ints
                 Calendar c = Calendar.getInstance();
                 int current_time = (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE));
                 int start_time = hour_start * 100 + min_start;
                 int end_time = hour_end * 100 + min_end;
-
-                Log.e("final test", "current hour = " + c.get(Calendar.HOUR_OF_DAY));
-                Log.e("final test", "current minute = " + c.get(Calendar.MINUTE));
-                Log.e("final test", "current time = " + (c.get(Calendar.HOUR_OF_DAY) * 100  + c.get(Calendar.MINUTE)));
-                Log.e("final test", "start time = " + start_time);
-                Log.e("final test", "end time = " + end_time);
-                Log.e("final test", "day selected = " + day_selected + " month selected = " + month_selected
-                                    + "year selected = " + year_selected);
-                Log.e("final test", "cal day = " + c.get(Calendar.DAY_OF_MONTH) + " cal month = " + c.get(Calendar.MONTH)
-                                    + "cal year = " + c.get(Calendar.YEAR));
-
 
                 if (start_time >= end_time) {
 
@@ -522,14 +527,12 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     }
 
 
-
-//EditReservationActivity
-
-
+    /*
+    * Logic for calendar view animation
+    * */
     @Override
     public void onAnimationStart(Animation animation) {
 
-        Log.e("test", "animation should start");
         if(mCalendarView.getVisibility() == View.VISIBLE)
             mCalendarView.setVisibility(View.GONE);
         else
@@ -540,7 +543,6 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
     @Override
     public void onAnimationEnd(Animation animation) {
         //mChoiceLayout.setVisibility(View.GONE);
-        Log.e("test", "should be done showing ");
     }
 
     @Override
@@ -594,6 +596,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         return super.onOptionsItemSelected(item);
     }
 
+
+    /*
+    * TimePicker fragment inner class for custom time picker
+    * */
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
@@ -637,6 +643,10 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
         }
     }
 
+
+    /*
+    * function to handle back navigation for different use cases
+    * */
     @Override
     public void onBackPressed() {
 
@@ -692,6 +702,7 @@ public class DateTimeActivity extends Activity implements Animation.AnimationLis
 
     }
 
+    //getter for time picker flag logic
     public static int getTimePickerFlag() {
         return timePickerFlag;
     }

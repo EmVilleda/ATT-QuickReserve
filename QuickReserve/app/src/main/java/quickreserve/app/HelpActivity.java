@@ -1,5 +1,11 @@
 package quickreserve.app;
 
+
+/*
+*   Help activity class. Something like an FAQ section
+*
+* */
+
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;

@@ -1,5 +1,31 @@
 package quickreserve.app;
 
+/*
+*   Class for the Drawer item click listener.
+*
+*  Signature move for awesome code
+*
+                                                        /0000\
+                                                       /000000)
+                                                      (000000/
+                                                      |00000/
+                                         _______      |00000|
+                                       /000  o000000/ /000000\
+                                      000000  0000 //00000000\
+                                      \0000000  000||000000000|
+                                /000000 \000000  00||000000000|
+                               0000000o  0oooooo 00/0000000000|
+                           /0000 \0000000o 0oooo) //0000000000|
+               --ooo_____ |00000  \0000000) //00000--000000000|
+              (0000000000\ \\\00000  0ooo/ //00000000000000000/
+              \00000000000 \\\00ooo) /|||||/00000000000000000/
+                    --ooooo_ \\---00000000000000000000000000/
+                               \\00000000000000000000000000/
+                                 \\0000000000000000000000/
+                                     -ooooooooooooooooo-
+*/
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -44,6 +70,10 @@ public class DrawerItemClickListener extends Activity implements android.widget.
                // , Toast.LENGTH_SHORT).show();
         final int pos = position;
         mDrawerLayout.closeDrawers();
+
+        /*
+        * Great code for smooth transitions when drawer opens and closes
+        * */
         mDrawerLayout.postDelayed(new Runnable() {
             @Override
 

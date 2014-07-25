@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Activity to show desk details and give the user an option to edit/delete their reservation
+* */
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;

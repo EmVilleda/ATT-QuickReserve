@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Adapter for list on edit reservation screen
+* */
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;

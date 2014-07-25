@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+* Custom view was adding pan and zoom capabilities to the imageview
+* */
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;

@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+*   Fragment to show section map
+* */
+
 import android.animation.Animator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,9 +69,36 @@ public class ViewMapInitFragment extends Fragment {
                 sectionFragment.setSelectedSection("A");
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
+
+
+
                 transaction.setCustomAnimations(R.anim.zoom_in_a, R.anim.fade_out);
                 transaction.replace(R.id.container, sectionFragment);
                 transaction.addToBackStack(null);
+
+                /*
+
+                            YAY for awesome animations
+
+                                                                /0000\
+                                                               /000000)
+                                                              (000000/
+                                                              |00000/
+                                                 _______      |00000|
+                                               /000  o000000/ /000000\
+                                              000000  0000 //00000000\
+                                              \0000000  000||000000000|
+                                        /000000 \000000  00||000000000|
+                                       0000000o  0oooooo 00/0000000000|
+                                   /0000 \0000000o 0oooo) //0000000000|
+                       --ooo_____ |00000  \0000000) //00000--000000000|
+                      (0000000000\ \\\00000  0ooo/ //00000000000000000/
+                      \00000000000 \\\00ooo) /|||||/00000000000000000/
+                            --ooooo_ \\---00000000000000000000000000/
+                                       \\00000000000000000000000000/
+                                         \\0000000000000000000000/
+                                             -ooooooooooooooooo-
+                */
 
                 // Commit the transaction
                 transaction.commit();
@@ -103,7 +134,6 @@ public class ViewMapInitFragment extends Fragment {
             public void onClick(View view) {
 
                 Log.v("dev_init", "showing SW toast");
-                //zoomImageFromThumb(mButton3, R.drawable.part3);
 
                 ViewMapSectionFragment sectionFragment = new ViewMapSectionFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

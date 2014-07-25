@@ -1,5 +1,9 @@
 package quickreserve.app;
 
+/*
+* Lets you select favourite seat from activity
+* */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
