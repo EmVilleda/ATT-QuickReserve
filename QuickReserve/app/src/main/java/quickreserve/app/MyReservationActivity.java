@@ -176,7 +176,6 @@ public class MyReservationActivity extends ActionBarActivity {
         else {
             noReservations.setVisibility(View.VISIBLE);
             reservationListView.setVisibility(View.GONE);
-            Toast.makeText(this, "No Reservations.", Toast.LENGTH_SHORT).show();
         }
 
     }
